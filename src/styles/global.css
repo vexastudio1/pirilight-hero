@@ -1797,3 +1797,30 @@ height: 48px;
   object-fit: contain;
   flex-shrink: 0;
 }
+
+.site-header__link {
+  position: relative;
+  overflow: visible;
+}
+
+.site-header__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 2px;
+  background: linear-gradient(90deg, #8fe0ff, #4f8ffb);
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.site-header__link:hover::after,
+.site-header__link:focus-visible::after,
+.site-header__link--active::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
