@@ -4,7 +4,6 @@ import { SERVICES } from '../../data/services';
 export default function ServicesSection() {
   return (
     <section className="section section--services" id="servicos">
-      <div className="section__glow" aria-hidden="true" />
       <div className="container">
         <Reveal as="p" className="eyebrow">
           O que fazemos

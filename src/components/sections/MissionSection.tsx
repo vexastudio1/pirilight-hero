@@ -5,7 +5,6 @@ import { Reveal } from '../ui/Reveal';
 export default function MissionSection() {
   return (
     <section className="section section--mission">
-      <div className="section__glow" aria-hidden="true" />
       <div className="container container--narrow">
         <Reveal as="p" className="eyebrow">
           A nossa missão

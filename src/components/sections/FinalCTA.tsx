@@ -3,7 +3,6 @@ import { Reveal } from '../ui/Reveal';
 export default function FinalCTA() {
   return (
     <section className="section section--final" id="contacto">
-      <div className="section__glow section__glow--final" aria-hidden="true" />
       <div className="final-particles" aria-hidden="true">
         {Array.from({ length: 8 }, (_, i) => (
           <span key={i} className={`final-particle final-particle--${i}`} />

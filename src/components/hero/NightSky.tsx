@@ -64,18 +64,24 @@ function makeStar(rand: () => number, isEasterEgg = false): Star {
 
   const sizeRoll = Math.pow(rand(), 3);
   const radius = 0.35 + sizeRoll * 1.1;
-  const bloom = !isEasterEgg && rand() > 0.992;
+  // Slightly more generous than before (0.992 -> 0.986) so a few more stars
+  // get the soft-glowing "bloom" treatment — still rare, just not vanishingly
+  // so, per "allow only a small number of stars to occasionally become
+  // noticeably brighter."
+  const bloom = !isEasterEgg && rand() > 0.986;
   const finalRadius = bloom ? radius + 1.6 : radius;
 
   // Heavily skewed toward dim: most stars stay faint, a handful read clearly,
-  // and only the rare "bloom" star gets a real, soft-glowing presence.
+  // and only the rare "bloom" star gets a real, soft-glowing presence. The
+  // floor is nudged up slightly (0.08 -> 0.1) so even the dimmest stars read
+  // as faintly present rather than disappearing against the sky.
   const brightnessRoll = Math.pow(rand(), 2.4);
 
   return {
     xFrac,
     yFrac,
     radius: finalRadius,
-    peakAlpha: bloom ? 0.85 + rand() * 0.1 : 0.08 + brightnessRoll * 0.5,
+    peakAlpha: bloom ? 0.85 + rand() * 0.1 : 0.1 + brightnessRoll * 0.55,
     minAlpha: bloom ? 0.12 : Math.pow(rand(), 3) * 0.05,
     period: 5 + rand() * 16,
     phase: rand() * 24,
@@ -84,10 +90,13 @@ function makeStar(rand: () => number, isEasterEgg = false): Star {
   };
 }
 
+// Moderate increase over the previous counts (roughly +35-45%) for a fuller
+// sky without tipping into a dense galaxy — still scaled down on narrow
+// viewports so weaker/smaller devices paint fewer sprites per frame.
 function starCountsForWidth(width: number) {
-  if (width < 600) return { background: 160, middle: 90, foreground: 40 };
-  if (width < 1024) return { background: 300, middle: 160, foreground: 80 };
-  return { background: 460, middle: 240, foreground: 120 };
+  if (width < 600) return { background: 220, middle: 120, foreground: 55 };
+  if (width < 1024) return { background: 400, middle: 210, foreground: 105 };
+  return { background: 620, middle: 320, foreground: 160 };
 }
 
 // Smooth 0 -> 1 -> 0 hump occupying the first `pulseWidth` fraction of the
@@ -98,6 +107,14 @@ function twinkle(star: Star, t: number) {
   const local = cycle / star.pulseWidth;
   const hump = 0.5 - 0.5 * Math.cos(local * Math.PI * 2);
   return star.minAlpha + (star.peakAlpha - star.minAlpha) * hump;
+}
+
+// Under prefers-reduced-motion the sky should still show its natural range
+// of star brightness (some dim, some clearly lit) without any pulsing —
+// a fixed alpha partway between each star's own min/max, so the field still
+// reads as varied rather than flattening every star to the same brightness.
+function staticAlpha(star: Star) {
+  return star.minAlpha + (star.peakAlpha - star.minAlpha) * 0.55;
 }
 
 // The five hidden stars share one clock instead of independent twinkle
@@ -204,14 +221,32 @@ export default function NightSky() {
     let raf = 0;
     let start = performance.now();
 
+    // Base night-sky tones, and how far each one is allowed to lift toward
+    // as the whole page scrolls (see SKY_BASE_TOP/MID/BOTTOM below) — kept
+    // small and still very dark, so the sky reads as "darkness slowly being
+    // illuminated," never as a plain blue background. Top lifts the most
+    // (that's where the atmospheric blobs sit), bottom barely moves so the
+    // vignette depth is preserved even at the brightest point of the page.
+    const SKY_TOP = { from: [7, 12, 24], to: [17, 27, 50] };
+    const SKY_MID = { from: [3, 6, 15], to: [10, 16, 34] };
+    const SKY_BOTTOM = { from: [1, 3, 10], to: [5, 9, 24] };
+
+    function lerpChannel(from: number[], to: number[], t: number) {
+      const r = Math.round(from[0] + (to[0] - from[0]) * t);
+      const g = Math.round(from[1] + (to[1] - from[1]) * t);
+      const b = Math.round(from[2] + (to[2] - from[2]) * t);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
     function drawSky() {
       if (!ctx) return;
       const w = canvas!.width;
       const h = canvas!.height;
+      const t = scrollState.pageT;
       const gradient = ctx.createLinearGradient(0, 0, 0, h);
-      gradient.addColorStop(0, '#070c18');
-      gradient.addColorStop(0.55, '#03060f');
-      gradient.addColorStop(1, '#01030a');
+      gradient.addColorStop(0, lerpChannel(SKY_TOP.from, SKY_TOP.to, t));
+      gradient.addColorStop(0.55, lerpChannel(SKY_MID.from, SKY_MID.to, t));
+      gradient.addColorStop(1, lerpChannel(SKY_BOTTOM.from, SKY_BOTTOM.to, t));
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, w, h);
     }
@@ -231,7 +266,8 @@ export default function NightSky() {
       if (scrollAlpha <= 0.001) return;
       const scrollOffsetPx = (driftVh / 100) * py;
       for (const star of layer.stars) {
-        const alpha = Math.min(1, twinkle(star, t) * scrollAlpha * brightness);
+        const base = reducedMotion ? staticAlpha(star) : twinkle(star, t);
+        const alpha = Math.min(1, base * scrollAlpha * brightness);
         if (alpha <= 0.01) continue;
         const x = (((star.xFrac * width - layer.offsetX) % width) + width) % width;
         const sprite = sprites[star.spriteBucket];
@@ -245,7 +281,7 @@ export default function NightSky() {
       if (!ctx) return;
       const py = height * dpr;
       easterEgg.forEach((star, i) => {
-        const alpha = easterEggAlpha(i, t, star);
+        const alpha = reducedMotion ? staticAlpha(star) : easterEggAlpha(i, t, star);
         if (alpha <= 0.01) return;
         const sprite = sprites[star.spriteBucket];
         const size = sprite.width;

@@ -3,7 +3,6 @@ import { Reveal } from '../ui/Reveal';
 export default function AboutSection() {
   return (
     <section className="section section--about" id="sobre">
-      <div className="section__glow" aria-hidden="true" />
       <div className="container about-grid">
         <div className="about-grid__text">
           <Reveal as="p" className="eyebrow">

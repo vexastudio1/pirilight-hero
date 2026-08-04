@@ -26,17 +26,20 @@ export function useScrollDrift(regionRef: RefObject<HTMLElement>) {
     const region = regionRef.current;
     if (!region) return;
 
-    if (reducedMotionQuery()) {
+    const reducedMotion = reducedMotionQuery();
+    if (reducedMotion) {
       scrollState.raw = 0;
       scrollState.masterT = 0;
       region.style.setProperty('--scroll-drift-t', '0');
-      return;
     }
 
     let raf = 0;
 
     function tick() {
-      if (region) {
+      // The hero's own short "night lifted away" drift — skipped entirely
+      // under reduced motion (see above), since it's a driven parallax/scale
+      // animation, not just a response to scroll position.
+      if (region && !reducedMotion) {
         const rect = region.getBoundingClientRect();
         const driftPx = Math.max(1, rect.height - window.innerHeight);
         const raw = Math.min(1, Math.max(0, -rect.top / driftPx));
@@ -45,6 +48,22 @@ export function useScrollDrift(regionRef: RefObject<HTMLElement>) {
         scrollState.masterT = masterT;
         region.style.setProperty('--scroll-drift-t', masterT.toFixed(4));
       }
+
+      // Whole-page scroll progress (0 at top, 1 at bottom) — the single
+      // source of truth for the global "darkness slowly lit" system
+      // (GlobalLightField's blobs in global.css + NightSky's own base sky
+      // tint). Deliberately kept OUTSIDE the reduced-motion branch above:
+      // this is a direct, discrete function of the user's own scroll
+      // position rather than an autoplaying animation, so the page still
+      // brightens as they scroll even with drift/twinkle/parallax disabled.
+      // Reuses this same rAF tick rather than a second loop or a `scroll`
+      // event listener.
+      const doc = document.documentElement;
+      const scrollable = Math.max(1, doc.scrollHeight - window.innerHeight);
+      const pageT = Math.min(1, Math.max(0, window.scrollY / scrollable));
+      scrollState.pageT = pageT;
+      doc.style.setProperty('--page-light-t', pageT.toFixed(4));
+
       raf = requestAnimationFrame(tick);
     }
     raf = requestAnimationFrame(tick);

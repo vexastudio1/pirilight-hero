@@ -1,5 +1,6 @@
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import GlobalLightField from './components/layout/GlobalLightField';
 import Hero from './components/hero/Hero';
 import ProblemSection from './components/sections/ProblemSection';
 import MissionSection from './components/sections/MissionSection';
@@ -23,6 +24,7 @@ export default function App() {
             no visible seam anywhere, regardless of how precisely each
             section's own height happens to land. */}
         <div className="content-flow">
+          <GlobalLightField />
           <ProblemSection />
           <MissionSection />
           <ServicesSection />

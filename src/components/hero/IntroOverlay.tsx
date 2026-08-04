@@ -87,7 +87,9 @@ export function LogoRevealLayer() {
   const lightGlowRef = useRef<HTMLDivElement>(null);
   const ambientGlowRef = useRef<HTMLDivElement>(null);
   const statementRef = useRef<HTMLDivElement>(null);
+  const pulseRef = useRef<HTMLDivElement>(null);
   const sweepPlayed = useRef(false);
+  const pulsePlayed = useRef(false);
   const lastResetSignal = useRef(0);
 
   useEffect(() => {
@@ -121,8 +123,10 @@ export function LogoRevealLayer() {
     if (resetSignal !== lastResetSignal.current) {
       lastResetSignal.current = resetSignal;
       sweepPlayed.current = false;
+      pulsePlayed.current = false;
       if (sharpRef.current) sharpRef.current.style.transition = '';
       if (statementRef.current) statementRef.current.style.transition = '';
+      if (pulseRef.current) pulseRef.current.classList.remove('logo-reveal-pulse--playing');
     }
 
     const reveal = getRevealProgress(elapsed);
@@ -144,6 +148,17 @@ export function LogoRevealLayer() {
       // Strongest early (leading the crisp reveal), fading to 0 exactly as
       // the reveal completes, so the settled logo stays crisp and readable.
       bloomRef.current.style.opacity = reveal > 0.01 ? String(Math.max(0, 0.65 * (1 - reveal))) : '0';
+    }
+
+    // A brief, stronger blue-white bloom pulse right as the reveal
+    // completes — a one-shot CSS keyframe (see `.logo-reveal-pulse` in
+    // global.css) so its 0.3s ease-in/ease-out timing lives in one place
+    // instead of being hand-rolled per frame here. `mix-blend-mode: screen`
+    // means it can only ever add light, never cover or darken the crisp
+    // logo underneath, so it can't read as a harsh flash or hurt legibility.
+    if (pulseRef.current && reveal >= 0.995 && !pulsePlayed.current) {
+      pulsePlayed.current = true;
+      pulseRef.current.classList.add('logo-reveal-pulse--playing');
     }
 
     if (sweepRef.current && reveal > 0.08 && reveal < 0.95 && !sweepPlayed.current) {
@@ -191,6 +206,7 @@ export function LogoRevealLayer() {
         <div ref={lightGlowRef} className="logo-glow-light" aria-hidden="true" />
         <img ref={bloomRef} className="logo-layer logo-layer--bloom" src={LOGO_SRC} alt="" aria-hidden="true" />
         <img ref={sharpRef} className="logo-layer logo-layer--sharp" src={LOGO_SRC} alt="" aria-hidden="true" />
+        <div ref={pulseRef} className="logo-reveal-pulse" aria-hidden="true" />
         <div ref={sweepRef} className="logo-sweep" aria-hidden="true" />
       </div>
       {/* A separate scroll-drift wrapper (not the intro's own settle-in

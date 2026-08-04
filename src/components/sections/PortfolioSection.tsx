@@ -4,7 +4,6 @@ import { PORTFOLIO_PROJECTS } from '../../data/portfolio';
 export default function PortfolioSection() {
   return (
     <section className="section section--portfolio" id="projetos">
-      <div className="section__glow" aria-hidden="true" />
       <div className="container">
         <Reveal as="p" className="eyebrow">
           Projetos
