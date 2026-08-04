@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useIntroFrame } from '../../hooks/useIntroFrame';
 import { introState } from '../../lib/introState';
-import { getBeamOpacity, getLivingFlicker, getRevealProgress } from '../../lib/introTimeline';
+import { getAbdomenCharge, getBeamOpacity, getLivingFlicker, getRevealProgress } from '../../lib/introTimeline';
 import { LOGO_BANDS } from '../../lib/logoLayout';
 
 const LOGO_SRC = '/brand/pirilight-logo.png';
@@ -28,6 +28,7 @@ function maskGradient(pct: number, feather: number) {
 // YFrac) rather than any fixed point — see PiriModel for how that's computed.
 export function BeamLayer() {
   const anchorRef = useRef<HTMLDivElement>(null);
+  const gatherRef = useRef<HTMLDivElement>(null);
   const coneRef = useRef<HTMLDivElement>(null);
   const coneOuterRef = useRef<HTMLDivElement>(null);
   const centerGlowRef = useRef<HTMLDivElement>(null);
@@ -43,27 +44,55 @@ export function BeamLayer() {
       anchorRef.current.style.top = `${introState.abdomenYFrac * 100}%`;
     }
 
+    const charge = getAbdomenCharge(elapsed);
     const beamOpacity = getBeamOpacity(elapsed);
+
+    // Pre-glow / "energy gathering": peaks exactly as charge finishes
+    // (charge reaches 1 right at chargeEnd, the same instant beamOpacity
+    // starts its own rise from 0), then hands off smoothly to the cone
+    // layers opening below — one continuous relationship, not a second
+    // timeline. By the time the cone layers are fully open (beamOpacity=1)
+    // this has receded to 0.
+    const gatherT = charge * Math.max(0, Math.min(1, 1 - beamOpacity));
+
+    // Layered opening/close, staggered more strongly than a single shared
+    // curve would give: Core (brightest, nearest the abdomen) opens first
+    // and closes last; Atmosphere (widest, dimmest) opens last and closes
+    // first — both derived from the SAME beamOpacity curve via a power
+    // curve rather than a second clock, so it still reads as one gathering
+    // motion, not three independently switching layers.
+    const coreLayerT = Math.pow(beamOpacity, 0.55); // opens first, closes last
+    const innerLayerT = beamOpacity; // baseline
+    const atmosphereLayerT = Math.pow(beamOpacity, 2); // opens last, closes first
+
     // "Living light": small, slow, multi-frequency wobble — never static,
     // never a visible flicker.
     const flicker = beamOpacity > 0.01 ? 1 + getLivingFlicker(elapsed, 0) * 0.05 : 1;
     const flickerB = beamOpacity > 0.01 ? 1 + getLivingFlicker(elapsed, 2.4) * 0.06 : 1;
     const flickerC = beamOpacity > 0.01 ? 1 + getLivingFlicker(elapsed, 4.8) * 0.07 : 1;
 
-    if (coneRef.current) coneRef.current.style.opacity = String(beamOpacity * 0.9 * flicker);
-    if (coneOuterRef.current) coneOuterRef.current.style.opacity = String(beamOpacity * 0.6 * flickerC);
-    if (centerGlowRef.current) centerGlowRef.current.style.opacity = String(beamOpacity * 0.85 * flickerB);
-    if (coreRef.current) coreRef.current.style.opacity = String(beamOpacity * flickerB);
-    if (particlesRef.current) particlesRef.current.style.opacity = String(beamOpacity * 0.8 * flicker);
-    if (washRef.current) washRef.current.style.opacity = String(beamOpacity * 0.16 * flickerB);
+    if (gatherRef.current) gatherRef.current.style.opacity = String(gatherT * 0.9);
+
+    // Layer 1 — Core: narrow, near-white, strongest directly below the
+    // abdomen. Kept close to full strength (soft but clearly defined).
+    if (centerGlowRef.current) centerGlowRef.current.style.opacity = String(coreLayerT * 0.85 * flickerB);
+    if (coreRef.current) coreRef.current.style.opacity = String(coreLayerT * flickerB);
+    // Layer 2 — Inner light: pale blue, wider, softer, supports the core
+    // rather than competing with it.
+    if (coneRef.current) coneRef.current.style.opacity = String(innerLayerT * 0.58 * flicker);
+    if (particlesRef.current) particlesRef.current.style.opacity = String(innerLayerT * 0.65 * flicker);
+    // Layer 3 — Atmosphere: widest, lowest opacity, soft edges, restrained.
+    if (coneOuterRef.current) coneOuterRef.current.style.opacity = String(atmosphereLayerT * 0.34 * flickerC);
+    if (washRef.current) washRef.current.style.opacity = String(atmosphereLayerT * 0.13 * flickerB);
   });
 
   return (
     <div className="intro-beam-layer" aria-hidden="true">
       <div ref={anchorRef} className="beam-anchor">
-        <div ref={washRef} className="beam-wash" />
         <div ref={coneOuterRef} className="beam-cone-outer" />
         <div ref={coneRef} className="beam-cone" />
+        <div ref={washRef} className="beam-wash" />
+        <div ref={gatherRef} className="beam-gather" />
         <div ref={centerGlowRef} className="beam-center-glow" />
         <div ref={coreRef} className="beam-core" />
         <div ref={particlesRef} className="beam-particles">

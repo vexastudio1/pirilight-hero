@@ -2299,7 +2299,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "ambientparticles.tsx"
     },
     {
@@ -2310,7 +2310,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_particle",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "particle"
     },
     {
@@ -2321,7 +2321,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_makeparticle",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "makeparticle()"
     },
     {
@@ -2332,7 +2332,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_buildsprite",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "buildsprite()"
     },
     {
@@ -2343,7 +2343,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_ambientparticles",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "ambientparticles()"
     },
     {
@@ -2354,7 +2354,7 @@
       "_origin": "ast",
       "id": "src_components_hero_hero",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "hero.tsx"
     },
     {
@@ -2365,7 +2365,7 @@
       "_origin": "ast",
       "id": "src_components_hero_hero_pirimodel",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "pirimodel"
     },
     {
@@ -2376,7 +2376,7 @@
       "_origin": "ast",
       "id": "src_components_hero_hero_hero",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "hero()"
     },
     {
@@ -2387,7 +2387,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "introoverlay.tsx"
     },
     {
@@ -2398,7 +2398,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_reducedmotionquery",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "reducedmotionquery()"
     },
     {
@@ -2409,7 +2409,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_maskgradient",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "maskgradient()"
     },
     {
@@ -2420,18 +2420,18 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_beamlayer",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "beamlayer()"
     },
     {
       "label": "LogoRevealLayer()",
       "file_type": "code",
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L112",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_logoreveallayer",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "logoreveallayer()"
     },
     {
@@ -2441,7 +2441,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_hero_nightsky",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "nightsky.tsx"
     },
@@ -2452,7 +2452,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_starlayer",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "starlayer"
     },
@@ -2463,7 +2463,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_star",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "star"
     },
@@ -2474,7 +2474,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_sprite_sizes",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "sprite_sizes"
     },
@@ -2485,7 +2485,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_center_ellipse",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "center_ellipse"
     },
@@ -2496,7 +2496,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_mulberry32",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "mulberry32()"
     },
@@ -2507,7 +2507,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_incenterellipse",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "incenterellipse()"
     },
@@ -2518,7 +2518,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_pickspritebucket",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "pickspritebucket()"
     },
@@ -2529,7 +2529,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_makestar",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "makestar()"
     },
@@ -2540,7 +2540,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_starcountsforwidth",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "starcountsforwidth()"
     },
@@ -2551,7 +2551,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_twinkle",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "twinkle()"
     },
@@ -2562,7 +2562,7 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_staticalpha",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "staticalpha()"
     },
@@ -2573,7 +2573,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_eastereggalpha",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "eastereggalpha()"
     },
@@ -2584,7 +2584,7 @@
       "source_location": "L132",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_buildsprites",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "buildsprites()"
     },
@@ -2595,7 +2595,7 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_nightsky",
-      "community": 3,
+      "community": 2,
       "community_name": "NightSky.tsx",
       "norm_label": "nightsky()"
     },
@@ -3300,7 +3300,7 @@
       "_origin": "ast",
       "id": "src_hooks_useintroframe",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "useintroframe.ts"
     },
     {
@@ -3311,7 +3311,7 @@
       "_origin": "ast",
       "id": "src_hooks_useintroframe_useintroframe",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "useintroframe()"
     },
     {
@@ -3344,7 +3344,7 @@
       "_origin": "ast",
       "id": "src_hooks_usescrolldrift",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "usescrolldrift.ts"
     },
     {
@@ -3355,7 +3355,7 @@
       "_origin": "ast",
       "id": "src_hooks_usescrolldrift_reducedmotionquery",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "reducedmotionquery()"
     },
     {
@@ -3366,7 +3366,7 @@
       "_origin": "ast",
       "id": "src_hooks_usescrolldrift_usescrolldrift",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "usescrolldrift()"
     },
     {
@@ -3377,7 +3377,7 @@
       "_origin": "ast",
       "id": "src_lib_introstate",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "introstate.ts"
     },
     {
@@ -3388,7 +3388,7 @@
       "_origin": "ast",
       "id": "src_lib_introstate_introstate",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "introstate"
     },
     {
@@ -3586,7 +3586,7 @@
       "_origin": "ast",
       "id": "src_lib_introtimeline_getbeamopacity",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "getbeamopacity()"
     },
     {
@@ -3596,8 +3596,8 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getrevealprogress",
-      "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community": 0,
+      "community_name": "PiriModel.tsx",
       "norm_label": "getrevealprogress()"
     },
     {
@@ -3608,7 +3608,7 @@
       "_origin": "ast",
       "id": "src_lib_introtimeline_getlivingflicker",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "getlivingflicker()"
     },
     {
@@ -3850,7 +3850,7 @@
       "_origin": "ast",
       "id": "src_lib_scrollstate",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "scrollstate.ts"
     },
     {
@@ -3861,7 +3861,7 @@
       "_origin": "ast",
       "id": "src_lib_scrollstate_scrolldriftstate",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "scrolldriftstate"
     },
     {
@@ -3872,7 +3872,7 @@
       "_origin": "ast",
       "id": "src_lib_scrollstate_scrollstate",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "scrollstate"
     },
     {
@@ -4015,7 +4015,7 @@
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_getambientscrollfactor",
       "community": 2,
-      "community_name": "IntroOverlay.tsx",
+      "community_name": "NightSky.tsx",
       "norm_label": "getambientscrollfactor()"
     },
     {
@@ -9724,7 +9724,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L112",
+      "source_location": "L99",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay",
@@ -9822,18 +9822,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay",
-      "target": "src_lib_introtimeline_getabdomencharge",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_introoverlay",
       "target": "src_lib_introtimeline_getbeamopacity",
       "confidence_score": 1.0
     },
@@ -9890,7 +9878,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L40",
+      "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_beamlayer",
@@ -9902,7 +9890,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L125",
+      "source_location": "L112",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_logoreveallayer",
@@ -9914,7 +9902,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L165",
+      "source_location": "L152",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_logoreveallayer",
@@ -9927,7 +9915,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L39",
+      "source_location": "L38",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_beamlayer",
@@ -9939,19 +9927,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_introoverlay_beamlayer",
-      "target": "src_lib_introtimeline_getabdomencharge"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L48",
+      "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_beamlayer",
@@ -9963,7 +9939,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L70",
+      "source_location": "L59",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_beamlayer",
@@ -9975,7 +9951,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L149",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_logoreveallayer",
@@ -9987,7 +9963,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L215",
+      "source_location": "L202",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_logoreveallayer",
@@ -9999,7 +9975,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/IntroOverlay.tsx",
-      "source_location": "L161",
+      "source_location": "L148",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_introoverlay_logoreveallayer",

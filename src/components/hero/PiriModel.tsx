@@ -7,7 +7,9 @@ import { introState } from '../../lib/introState';
 import {
   TIMELINE,
   easeOutCubic,
+  getAbdomenBreath,
   getAbdomenCharge,
+  getAtmosphereBreath,
   getEntranceProgress,
   getExitBodyOpacity,
   getExitProgress,
@@ -28,6 +30,17 @@ const WING_TWIST_AXIS = new THREE.Vector3(1, 0, 0);
 const WING_FLAP_SPEED = 10;
 const WING_FLAP_AMPLITUDE = 0.62;
 const WING_TWIST_AMPLITUDE = 0.09;
+// Adds a second harmonic to the flap's base sine so the down-stroke and
+// up-stroke aren't mirror images of each other (real wingbeats aren't
+// symmetric either) — same "no two motions share a shape" spirit as the
+// eased flight curves below, applied to the wing itself. Kept modest so the
+// beat still reads as the same flap, just less metronomic.
+const WING_ASYMMETRY = 0.15;
+// A small squash on the wing's own chord (local Y) at the down-stroke peak,
+// proportional to how strong that stroke currently is (so it fades out with
+// wingIntensity exactly like the flap angle does) — a subtle stand-in for
+// membrane compression, not a cartoon squash-and-stretch.
+const WING_SQUASH_AMOUNT = 0.08;
 
 // Wing-root pivot, in each wing mesh's own local (pre-scale) space — measured
 // by sampling the mesh vertices closest to the body on each wing. Used to
@@ -149,10 +162,13 @@ function getGlowTexture() {
   const ctx = canvas.getContext('2d')!;
   const r = size / 2;
   const gradient = ctx.createRadialGradient(r, r, 0, r, r, r);
+  // Slightly stronger mid/outer stops than before (a touch more visible
+  // blue-white without changing the sprite's own scale) — still capped well
+  // short of a bloom: the outer stop still reaches fully transparent.
   gradient.addColorStop(0, 'rgba(255,255,255,1)');
-  gradient.addColorStop(0.3, 'rgba(210,238,255,0.85)');
-  gradient.addColorStop(0.65, 'rgba(120,190,255,0.28)');
-  gradient.addColorStop(1, 'rgba(90,170,255,0)');
+  gradient.addColorStop(0.3, 'rgba(215,240,255,0.9)');
+  gradient.addColorStop(0.65, 'rgba(130,198,255,0.34)');
+  gradient.addColorStop(1, 'rgba(95,175,255,0)');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, size, size);
   glowTextureCache = new THREE.CanvasTexture(canvas);
@@ -163,6 +179,34 @@ const TRAIL_POOL_SIZE = 9;
 const TRAIL_EMIT_INTERVAL = 0.16;
 const TRAIL_FADE_DURATION = 0.9;
 const TRAIL_DRIFT_SPEED = 0.05;
+// Fraction of TRAIL_FADE_DURATION spent rising in rather than appearing at
+// full brightness the instant a point is emitted — avoids a one-frame
+// "pop," same fast-rise-then-longer-tail character as the rest of the fade.
+const TRAIL_RISE_FRAC = 0.08;
+
+// A larger, dimmer sprite around the same abdomen anchor as the core glow —
+// never an independent light: same position, same charge/bodyOpacity gate,
+// only its own (phase-lagged, see getAtmosphereBreath) breath and a lower
+// opacity ceiling distinguish it, so it reads as the core's own halo rather
+// than a second floating orb.
+const ATMOSPHERE_SCALE_BASE = 0.5;
+const ATMOSPHERE_SCALE_CHARGE = 0.35;
+// Slightly stronger than before (0.22) so the halo reads a touch more
+// visibly blue-white without growing its size or turning into its own
+// bloom — intensity, not scale.
+const ATMOSPHERE_PEAK_OPACITY = 0.27;
+
+// After the beam has already fully fired (holdEnd), the tail keeps a small
+// restrained glow instead of hard-cutting to 0 — "after the beam fades, the
+// tail should keep a calm subtle breath" / "Piri remains alive." This never
+// touches anything BEFORE holdEnd (entrance/orbit/approach/hover/charge/
+// reveal/hold are all untouched, so the light still can't appear earlier
+// than the existing storyboard already allows) — it only softens what
+// happens to a charge value that was already fully cycled through 0->1->0.
+// The ramp-in starts exactly at holdEnd, the same instant getAbdomenCharge's
+// own fall curve already reaches exactly 0, so there is no jump at the seam.
+const ABDOMEN_AMBIENT_FLOOR = 0.12;
+const ABDOMEN_AMBIENT_FLOOR_RAMP = 1.5; // seconds after holdEnd for the floor to fade in
 
 export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number }) {
   const { scene } = useGLTF(MODEL_URL);
@@ -177,12 +221,15 @@ export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number })
   const wingRight = useRef<THREE.Object3D | null>(null);
   const restLeft = useRef(new THREE.Quaternion());
   const restRight = useRef(new THREE.Quaternion());
+  const restScaleLeft = useRef(new THREE.Vector3(1, 1, 1));
+  const restScaleRight = useRef(new THREE.Vector3(1, 1, 1));
   const wingDelta = useRef(new THREE.Quaternion());
   const wingSpeedSeed = useRef(Math.random() * 100);
 
   const bodyMaterial = useRef<THREE.MeshStandardMaterial | null>(null);
   const chestMaterial = useRef<THREE.MeshBasicMaterial | null>(null);
   const abdomenGlow = useRef<THREE.Sprite>(null);
+  const atmosphereGlow = useRef<THREE.Sprite>(null);
 
   const trailGroup = useRef<THREE.Group>(null);
   const trailSprites = useRef<THREE.Sprite[]>([]);
@@ -210,8 +257,14 @@ export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number })
     wingLeft.current = rigWingHinge(rawLeft ?? null, WING_ROOT_LOCAL.Wing_Left);
     wingRight.current = rigWingHinge(rawRight ?? null, WING_ROOT_LOCAL.Wing_Right);
 
-    if (wingLeft.current) restLeft.current.copy(wingLeft.current.quaternion);
-    if (wingRight.current) restRight.current.copy(wingRight.current.quaternion);
+    if (wingLeft.current) {
+      restLeft.current.copy(wingLeft.current.quaternion);
+      restScaleLeft.current.copy(wingLeft.current.scale);
+    }
+    if (wingRight.current) {
+      restRight.current.copy(wingRight.current.quaternion);
+      restScaleRight.current.copy(wingRight.current.scale);
+    }
 
     scene.traverse((obj) => {
       const mesh = obj as THREE.Mesh;
@@ -403,19 +456,37 @@ export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number })
 
     const speedDrift = 1 + Math.sin(e * 0.31 + wingSpeedSeed.current) * 0.06;
     const flapSpeed = WING_FLAP_SPEED * speedDrift * (0.3 + 0.7 * wingIntensity);
-    const flapAngle = Math.sin(e * flapSpeed) * WING_FLAP_AMPLITUDE * wingIntensity;
-    const twistAngle = Math.cos(e * flapSpeed) * WING_TWIST_AMPLITUDE * wingIntensity;
+    const flapPhase = e * flapSpeed;
+    // A touch of the second harmonic makes the down-stroke reach a slightly
+    // stronger peak than the up-stroke recovers to — asymmetric, not a
+    // mirrored sine — then renormalized so the stronger peak still lands at
+    // the same WING_FLAP_AMPLITUDE as before.
+    const flapWave =
+      (Math.sin(flapPhase) + WING_ASYMMETRY * Math.sin(flapPhase * 2 - Math.PI / 2)) / (1 + WING_ASYMMETRY);
+    const flapAngle = flapWave * WING_FLAP_AMPLITUDE * wingIntensity;
+    const twistAngle = Math.cos(flapPhase) * WING_TWIST_AMPLITUDE * wingIntensity;
 
-    const applyWingFlap = (wing: THREE.Object3D | null, rest: THREE.Quaternion, sign: number) => {
+    const applyWingFlap = (
+      wing: THREE.Object3D | null,
+      rest: THREE.Quaternion,
+      restScale: THREE.Vector3,
+      sign: number,
+    ) => {
       if (!wing) return;
-      flapQuat.setFromAxisAngle(WING_FLAP_AXIS, flapAngle * sign);
+      const signedFlap = flapAngle * sign;
+      flapQuat.setFromAxisAngle(WING_FLAP_AXIS, signedFlap);
       twistQuat.setFromAxisAngle(WING_TWIST_AXIS, twistAngle * sign);
       wingDelta.current.copy(flapQuat).multiply(twistQuat);
       wing.quaternion.copy(rest).multiply(wingDelta.current);
+      // Squash scales with the stroke's own current strength (already
+      // carries wingIntensity via flapAngle), so it fades out with the flap
+      // itself instead of staying full-size during the residual flutter.
+      const squash = 1 - Math.max(0, signedFlap / WING_FLAP_AMPLITUDE) * WING_SQUASH_AMOUNT;
+      wing.scale.set(restScale.x, restScale.y * squash, restScale.z);
     };
 
-    applyWingFlap(wingLeft.current, restLeft.current, WING_FLAP_SIGN.Wing_Left);
-    applyWingFlap(wingRight.current, restRight.current, WING_FLAP_SIGN.Wing_Right);
+    applyWingFlap(wingLeft.current, restLeft.current, restScaleLeft.current, WING_FLAP_SIGN.Wing_Left);
+    applyWingFlap(wingRight.current, restRight.current, restScaleRight.current, WING_FLAP_SIGN.Wing_Right);
 
     // Body fade: fully opaque through the whole sequence except the final
     // 20% of the exit, when it eases out as it clears the top of the view.
@@ -428,13 +499,41 @@ export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number })
     }
     if (chestMaterial.current) chestMaterial.current.opacity = bodyOpacity;
 
-    // Abdomen glow: the only light source, driven purely by charge/beam.
+    // Abdomen glow: the only light source, driven by charge/beam as before —
+    // `breath` is a subtle multiplier on top, never a source of its own, so
+    // the glow still can't appear before getAbdomenCharge already allows it
+    // (charge 0 * anything = 0). It only keeps an already-lit tail from
+    // sitting perfectly flat, the way a real bioluminescent light doesn't.
+    // `energy` reuses the already-computed wingIntensity (no new clock) so
+    // the breath widens a little during active flight and calms during
+    // hover, per "slightly more energetic during acceleration, calmer
+    // during hover."
     const charge = getAbdomenCharge(e);
+    const energy = wingIntensity;
+    const breath = getAbdomenBreath(e, energy);
+    const ambientFloor =
+      e >= TIMELINE.holdEnd
+        ? ABDOMEN_AMBIENT_FLOOR * easeOutCubic((e - TIMELINE.holdEnd) / ABDOMEN_AMBIENT_FLOOR_RAMP)
+        : 0;
+    const glowLevel = Math.max(charge, ambientFloor);
     if (abdomenGlow.current) {
       const mat = abdomenGlow.current.material as THREE.SpriteMaterial;
-      mat.opacity = charge * bodyOpacity;
+      mat.opacity = glowLevel * bodyOpacity * breath;
       const scale = 0.22 + charge * 0.5;
       abdomenGlow.current.scale.setScalar(scale);
+    }
+    // Atmosphere: a larger, dimmer halo around the exact same anchor, gated
+    // by the same charge/bodyOpacity as the core — it can only ever be
+    // visible when the core already is, so it reads as the core's own
+    // support, not an independent light. Its breath is phase-lagged behind
+    // the core's (see ATMOSPHERE_BREATH_LAG) for the same reason the
+    // reference's halo trails its core.
+    if (atmosphereGlow.current) {
+      const atmosphereBreath = getAtmosphereBreath(e, energy);
+      const mat = atmosphereGlow.current.material as THREE.SpriteMaterial;
+      mat.opacity = glowLevel * bodyOpacity * atmosphereBreath * ATMOSPHERE_PEAK_OPACITY;
+      const scale = ATMOSPHERE_SCALE_BASE + charge * ATMOSPHERE_SCALE_CHARGE;
+      atmosphereGlow.current.scale.setScalar(scale);
     }
 
     // Project the abdomen's real world position to the screen every frame
@@ -471,7 +570,14 @@ export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number })
         sprite.visible = false;
         continue;
       }
-      const fade = 1 - easeOutCubic(age / TRAIL_FADE_DURATION);
+      // Quick rise (avoids an instant "pop" the frame a point is emitted),
+      // then the same front-loaded decay as before over the remaining
+      // duration — same overall TRAIL_FADE_DURATION either way.
+      const p = age / TRAIL_FADE_DURATION;
+      const fade =
+        p < TRAIL_RISE_FRAC
+          ? easeOutCubic(p / TRAIL_RISE_FRAC)
+          : 1 - easeOutCubic((p - TRAIL_RISE_FRAC) / (1 - TRAIL_RISE_FRAC));
       const mat = sprite.material as THREE.SpriteMaterial;
       mat.opacity = fade * 0.55;
       sprite.scale.setScalar(0.1 + fade * 0.06);
@@ -495,6 +601,18 @@ export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number })
             />
           </mesh>
           <group ref={abdomenAnchor} position={ABDOMEN_LOCAL}>
+            {/* Rendered first so it sits behind the core glow — the halo
+                supporting the light, not a second light beside it. */}
+            <sprite ref={atmosphereGlow} scale={[ATMOSPHERE_SCALE_BASE, ATMOSPHERE_SCALE_BASE, ATMOSPHERE_SCALE_BASE]}>
+              <spriteMaterial
+                map={glowTexture}
+                transparent
+                opacity={0}
+                depthWrite={false}
+                toneMapped={false}
+                blending={THREE.AdditiveBlending}
+              />
+            </sprite>
             <sprite ref={abdomenGlow} scale={[0.22, 0.22, 0.22]}>
               <spriteMaterial
                 map={glowTexture}

@@ -251,100 +251,141 @@ body {
   height: 0;
 }
 
+/* A tight halo immediately around the tail itself — NOT the downward flare
+   (that's `.beam-cone-outer` below). Kept small and centred exactly on the
+   anchor so it reads as "light clinging to the source," not a glow that
+   dominates the scene. */
 .beam-wash {
   position: absolute;
   left: 0;
   top: 0;
-  width: clamp(220px, 65vw, 640px);
-  height: clamp(220px, 65vw, 640px);
+  width: clamp(90px, 20vw, 190px);
+  height: clamp(90px, 20vw, 190px);
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(90, 180, 255, 0.55) 0%, rgba(60, 140, 230, 0.16) 38%, transparent 70%);
-  filter: blur(40px);
+  background: radial-gradient(circle, rgba(150, 205, 255, 0.32) 0%, rgba(95, 170, 240, 0.1) 45%, transparent 74%);
+  filter: blur(24px);
+  opacity: 0;
+  animation: beam-atmosphere-drift 9s ease-in-out infinite;
+}
+
+@keyframes beam-atmosphere-drift {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* A brief pre-glow/"energy gathering" pulse at the abdomen, distinct from
+   the tail's own always-on glow (that lives in PiriModel.tsx) — its opacity
+   is driven separately in IntroOverlay.tsx (peaks as charge completes, then
+   hands off to the cone layers opening), not by beamOpacity directly. */
+.beam-gather {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(64px, 15vw, 130px);
+  height: clamp(64px, 15vw, 130px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.62) 0%, rgba(180, 220, 255, 0.28) 38%, transparent 72%);
+  filter: blur(7px);
   opacity: 0;
 }
 
-/* The beam's width AND height both track the logo's own responsive width
-   (the shared `--logo-width` custom property) — width sized to its widest
-   stop (the "studio" flare at the bottom, with every other stop above
-   expressed as a clip-path percentage of that box, so the beam always
-   frames the actual logo content — narrow at the abdomen, just containing
-   the icon, comfortably around the wordmark, a touch wider near "STUDIO");
-   height as a fixed multiple, so the beam's reach scales with the same
-   logo-width curve instead of a separate viewport-height formula — one
-   continuous relationship at every size, not a mobile/desktop switch.
-   Widths were measured directly from the logo asset
-   (scripts/measure-band-widths.mjs): icon ~31.5% of logo width, wordmark
-   ~48.8%, studio+lines ~48.6% (widened here to read as "slightly wider"
-   per the brief). The multi-point polygon (rather than a single triangle)
-   is what keeps it from reading as a flat CSS shape. */
-.beam-cone,
+/* The beam's own reach still tracks the logo's responsive width (the shared
+   `--logo-width` custom property) so it scales continuously with the same
+   curve as everything else in the hero — but the multipliers below are
+   deliberately much smaller than the logo's own reveal-mask coverage
+   (icon ~31.5% of logo width, wordmark ~48.8%): the VISIBLE atmospheric
+   light is allowed to stay narrower than the mask that actually reveals the
+   logo, per the brief — "the visible beam may be narrower than the
+   invisible mask." Widths were measured directly from the logo asset
+   (scripts/measure-band-widths.mjs). */
+
+/* Layer 2 — Inner light: pale blue, wider than the core, softer, supports
+   it rather than competing with it. Two blended gradients (a downward taper
+   plus a soft radial concentrated near the abdomen) instead of a single
+   flat linear wall, and a much narrower/less symmetric clip-path than
+   before — still the only layer with a hard-edged shape at all, since the
+   other two are pure gradients. Points are NOT mirror-symmetric. */
+.beam-cone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--logo-width) * 0.36);
+  height: calc(var(--logo-width) * 1.15);
+  transform: translate(-50%, 0);
+  clip-path: polygon(
+    54% 0%,
+    76.5% 34%,
+    85.2% 60.5%,
+    91.6% 82%,
+    89% 100%,
+    11% 100%,
+    8.7% 81%,
+    15.4% 59%,
+    24.6% 33.5%,
+    46.5% 0%
+  );
+  background: linear-gradient(
+      to bottom,
+      rgba(210, 233, 255, 0.4) 0%,
+      rgba(165, 215, 255, 0.2) 26%,
+      rgba(110, 185, 250, 0.08) 60%,
+      rgba(80, 160, 240, 0) 100%
+    ),
+    radial-gradient(ellipse 58% 26% at 50% 4%, rgba(230, 245, 255, 0.26) 0%, transparent 70%);
+  filter: blur(15px);
+  opacity: 0;
+}
+
+/* Layer 3 — Atmosphere: widest, lowest opacity, no hard shape at all —
+   three small overlapping radial blobs (tight near the abdomen, larger and
+   dimmer further down) rather than one big oval or any clip-path, so the
+   taper itself is organic instead of a mathematically perfect cone, and
+   the edges dissolve rather than end at a boundary. */
 .beam-cone-outer {
   position: absolute;
   left: 0;
   top: 0;
-  width: calc(var(--logo-width) * 0.7);
-  height: calc(var(--logo-width) * 1.5);
+  width: calc(var(--logo-width) * 0.58);
+  height: calc(var(--logo-width) * 1.3);
   transform: translate(-50%, 0);
-  clip-path: polygon(
-    52.85% 0%,
-    80.2% 38%,
-    90.2% 68%,
-    100% 88%,
-    100% 100%,
-    0% 100%,
-    0% 88%,
-    9.8% 68%,
-    19.8% 38%,
-    47.15% 0%
-  );
+  background: radial-gradient(ellipse 26% 16% at 50% 5%, rgba(160, 210, 255, 0.2) 0%, transparent 76%),
+    radial-gradient(ellipse 40% 24% at 50% 42%, rgba(135, 195, 250, 0.14) 0%, transparent 76%),
+    radial-gradient(ellipse 54% 30% at 50% 80%, rgba(115, 180, 245, 0.1) 0%, transparent 78%);
+  filter: blur(30px);
   opacity: 0;
 }
 
-.beam-cone {
-  background: linear-gradient(
-    to bottom,
-    rgba(225, 244, 255, 0.75) 0%,
-    rgba(180, 225, 255, 0.4) 22%,
-    rgba(120, 195, 255, 0.16) 55%,
-    rgba(80, 160, 240, 0) 100%
-  );
-  filter: blur(13px);
-}
-
-.beam-cone-outer {
-  transform: translate(-50%, 0) scale(1.3);
-  background: linear-gradient(
-    to bottom,
-    rgba(170, 220, 255, 0.4) 0%,
-    rgba(120, 195, 255, 0.14) 45%,
-    rgba(90, 170, 245, 0) 100%
-  );
-  filter: blur(34px);
-}
-
-/* A slim, brighter core running down the middle of the cone — without it,
-   the beam is uniformly bright across its full width at any given height,
-   which reads as flat/geometric. This narrow taper keeps the centre
-   visibly hotter than the outer edges, like a real light source. */
+/* Layer 1 — Core: an extremely narrow thread of near-white light, brighter
+   and shorter than before, staying narrower than the logo icon for most of
+   its length. */
 .beam-center-glow {
   position: absolute;
   left: 0;
   top: 0;
-  width: calc(var(--logo-width) * 0.7 * 0.34);
-  height: calc(var(--logo-width) * 1.5);
+  width: calc(var(--logo-width) * 0.12);
+  height: calc(var(--logo-width) * 0.9);
   transform: translate(-50%, 0);
-  clip-path: polygon(28% 0%, 72% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(39% 0%, 61% 0%, 74% 100%, 26% 100%);
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(215, 238, 255, 0.28) 40%,
-    rgba(180, 220, 255, 0) 82%
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(225, 242, 255, 0.32) 36%,
+    rgba(190, 224, 255, 0) 80%
   );
-  filter: blur(11px);
+  filter: blur(7px);
   opacity: 0;
 }
 
+/* The visual "gather" dissolve point: a soft halo (via box-shadow, not
+   another blurred element) around the small bright point at the abdomen so
+   the spot where the cone layers converge reads as light, not a vertex. */
 .beam-core {
   position: absolute;
   left: 0;
@@ -353,17 +394,38 @@ body {
   height: 14px;
   transform: translate(-50%, 0);
   border-radius: 50%;
-  background: radial-gradient(circle, #ffffff 0%, #d3f0ff 35%, #8fe0ff 60%, rgba(80, 180, 255, 0) 78%);
+  background: radial-gradient(circle, #ffffff 0%, #d8f2ff 35%, #94e2ff 60%, rgba(80, 180, 255, 0) 78%);
+  box-shadow: 0 0 16px 5px rgba(255, 255, 255, 0.5), 0 0 34px 13px rgba(160, 210, 255, 0.26);
   filter: blur(1px);
   opacity: 0;
+}
+
+/* Mobile: same beam, same alignment with the logo (--logo-width itself is
+   untouched, so nothing here shrinks the logo or enlarges Piri) — only the
+   most expensive part (large blurred surfaces) gets lighter, per "reduce
+   heavy haze / reduce expensive blur" on small screens. */
+@media (max-width: 640px) {
+  .beam-wash {
+    width: clamp(70px, 26vw, 130px);
+    height: clamp(70px, 26vw, 130px);
+    filter: blur(16px);
+  }
+
+  .beam-cone-outer {
+    filter: blur(20px);
+  }
+
+  .beam-cone {
+    filter: blur(9px);
+  }
 }
 
 .beam-particles {
   position: absolute;
   left: 0;
   top: 0;
-  width: calc(var(--logo-width) * 0.7);
-  height: calc(var(--logo-width) * 1.5);
+  width: calc(var(--logo-width) * 0.36);
+  height: calc(var(--logo-width) * 1.15);
   transform: translate(-50%, 0);
   opacity: 0;
 }
@@ -455,7 +517,7 @@ body {
   inset: 0;
   background: linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.55) 50%, transparent 58%);
   -webkit-mask-image: url('/brand/pirilight-logo.png');
-  mask-image: url('/brand/pirilight-logo.png');
+mask-image: url('/brand/pirilight-logo.png');
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
@@ -570,7 +632,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .beam-particle {
+  .beam-particle,
+  .beam-wash {
     animation: none;
   }
 }
@@ -1728,8 +1791,8 @@ body {
 }
 
 .site-header__brand-icon {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+height: 48px;
   margin-right: 8px;
   object-fit: contain;
   flex-shrink: 0;

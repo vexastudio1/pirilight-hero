@@ -80,8 +80,8 @@
     "semantic_hash": "a7278fbf88d74387ed1f0a0e78124c1a"
   },
   "src/components/hero/IntroOverlay.tsx": {
-    "mtime": 1785869714.775947,
-    "ast_hash": "1b5572706f1334ecbb038d846bf7f957",
+    "mtime": 1785868347.1082447,
+    "ast_hash": "159ed4398c9b3910dfdf3776c5d9c3a2",
     "semantic_hash": ""
   },
   "src/components/hero/NightSky.tsx": {

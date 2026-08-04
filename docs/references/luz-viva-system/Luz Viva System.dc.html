@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--gain:1;--pace:1}
+html{background:#060c18}
+body{margin:0;min-height:100%;background:#060c18;font-family:Manrope,Helvetica Neue,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#a8cef7;text-decoration:none}a:hover{color:#e9f4ff}
+@keyframes lcBreath{0%{transform:translate(-50%,-50%) scale(.86);opacity:.5}13%{transform:translate(-50%,-50%) scale(1.18);opacity:1}31%{transform:translate(-50%,-50%) scale(1.02);opacity:.86}57%{transform:translate(-50%,-50%) scale(1.07);opacity:.94}100%{transform:translate(-50%,-50%) scale(.86);opacity:.5}}
+@keyframes lcHalo{0%{transform:translate(-50%,-50%) scale(.92);opacity:.28}22%{transform:translate(-50%,-50%) scale(1.22);opacity:.88}49%{transform:translate(-50%,-50%) scale(1.04);opacity:.48}100%{transform:translate(-50%,-50%) scale(.92);opacity:.28}}
+@keyframes lcAtmo{0%{transform:translate(-50%,-50%) scale(.95);opacity:.34}20%{transform:translate(-50%,-50%) scale(1.14);opacity:.9}48%{transform:translate(-50%,-50%) scale(1.02);opacity:.5}100%{transform:translate(-50%,-50%) scale(.95);opacity:.34}}
+@keyframes flutter{0%{transform:rotate(-16deg) scaleY(1)}50%{transform:rotate(-30deg) scaleY(.62)}100%{transform:rotate(-16deg) scaleY(1)}}
+@keyframes flutterB{0%{transform:rotate(16deg) scaleY(1)}50%{transform:rotate(30deg) scaleY(.62)}100%{transform:rotate(16deg) scaleY(1)}}
+@keyframes bob{0%{transform:translate(0,0) rotate(-1.5deg)}34%{transform:translate(3px,-6px) rotate(1deg)}68%{transform:translate(-2px,4px) rotate(-.5deg)}100%{transform:translate(0,0) rotate(-1.5deg)}}
+@keyframes heroPath{0%{transform:translate(-560px,-70px)}9%{transform:translate(-330px,10px)}18%{transform:translate(-150px,-46px)}27%{transform:translate(-30px,6px)}34%,100%{transform:translate(0,0)}}
+@keyframes gather{0%,28%{opacity:0;transform:translate(-50%,-50%) scale(.5)}36%{opacity:.9;transform:translate(-50%,-50%) scale(1.5)}46%{opacity:.3;transform:translate(-50%,-50%) scale(1.1)}60%,100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}
+@keyframes beamGrow{0%,33%{opacity:0;transform:scale(.24,0)}42%{opacity:.85;transform:scale(.42,.62)}56%{opacity:.72;transform:scale(1,1)}74%{opacity:.5;transform:scale(1,1)}88%,100%{opacity:0;transform:scale(1,1)}}
+@keyframes markReveal{0%,44%{opacity:0;filter:blur(7px);letter-spacing:.46em}60%{opacity:1;filter:blur(0);letter-spacing:.3em}100%{opacity:.9;filter:blur(0);letter-spacing:.3em}}
+@keyframes subReveal{0%,58%{opacity:0}72%{opacity:.62}100%{opacity:.55}}
+@keyframes trail{0%{opacity:0}6%{opacity:.55}30%{opacity:.12}100%{opacity:0}}
+@keyframes flyAcross{0%{transform:translate(-300px,40px)}24%{transform:translate(-120px,-30px)}52%{transform:translate(40px,26px)}78%{transform:translate(180px,-22px)}100%{transform:translate(-300px,40px)}}
+@keyframes revealSurface{0%,8%{opacity:.06;filter:blur(3px)}27%{opacity:.95;filter:blur(0)}72%{opacity:.52}100%{opacity:.16;filter:blur(1.3px)}}
+@keyframes revealEdge{0%,8%{opacity:0}26%{opacity:1}62%{opacity:.4}100%{opacity:.1}}
+@keyframes caustic{0%{transform:translate(-4%,0) rotate(0deg) scale(1.1)}50%{transform:translate(4%,-3%) rotate(6deg) scale(1.22)}100%{transform:translate(-4%,0) rotate(0deg) scale(1.1)}}
+@keyframes sheen{0%{transform:translateX(-130%) skewX(-14deg);opacity:0}22%{opacity:.6}70%{opacity:.22}100%{transform:translateX(150%) skewX(-14deg);opacity:0}}
+@keyframes kiss{0%{opacity:.18}30%{opacity:.76}64%{opacity:.36}100%{opacity:.18}}
+@keyframes veil{0%{transform:translateY(102%);opacity:0}14%{opacity:.9}58%{opacity:.5}100%{transform:translateY(-102%);opacity:0}}
+@keyframes settle{0%{opacity:.5}50%{opacity:.8}100%{opacity:.5}}
+@keyframes moteGlow{0%{opacity:.18}38%{opacity:.62}72%{opacity:.3}100%{opacity:.18}}
+@keyframes dustFloat{0%{transform:translate(0,0)}34%{transform:translate(-13px,-19px)}67%{transform:translate(9px,-31px)}100%{transform:translate(0,0)}}
+</style></helmet>
+
+<div style="max-width:1560px;min-width:1300px;margin:0 auto;padding:72px 56px 96px">
+
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:60px;padding-bottom:34px;border-bottom:1px solid rgba(140,190,240,.14)">
+<div>
+<div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.2em;color:rgba(168,206,247,.5);text-transform:uppercase;margin-bottom:18px">PiriLight Studio · lighting &amp; motion specification · v1.0</div>
+<h1 style="margin:0 0 14px;font:300 54px/1.04 Cormorant Garamond,Georgia,serif;color:#f4f9ff;letter-spacing:-.01em">Luz Viva</h1>
+<p style="margin:0;max-width:660px;font:300 15.5px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.66)">PiriLight's living light system. One source, three layers, six applications. Everything on this page is the light behaving as it must ship.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;font:400 10.5px/1.6 IBM Plex Mono,monospace;color:rgba(190,218,246,.5);min-width:290px">
+<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(140,190,240,.1);padding-bottom:6px"><span>CORE</span><span style="color:#f7fbff">#F7FBFF</span></div>
+<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(140,190,240,.1);padding-bottom:6px"><span>INNER GLOW</span><span style="color:#a8cef7">#A8CEF7</span></div>
+<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(140,190,240,.1);padding-bottom:6px"><span>ATMOSPHERE</span><span style="color:#4e8ecb">#4E8ECB</span></div>
+<div style="display:flex;justify-content:space-between"><span>NIGHT</span><span style="color:#7ea6d0">#060C18</span></div>
+</div>
+</div>
+
+<!-- 01 -->
+<div style="padding:56px 0 0">
+<div style="display:flex;gap:56px;align-items:flex-start">
+<div style="width:300px;flex:none"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.2em;color:rgba(168,206,247,.45);text-transform:uppercase">01 — the principle</div></div>
+<div style="flex:1;max-width:900px">
+<h2 style="margin:0 0 18px;font:300 34px/1.2 Cormorant Garamond,Georgia,serif;color:#f2f8ff">Piri makes the light. The light is never separate from Piri.</h2>
+<p style="margin:0 0 14px;font:300 15px/1.75 Manrope,sans-serif;color:rgba(206,228,250,.64);text-wrap:pretty">The branded light always has a body. It lives in Piri's abdomen — the brightest point of the firefly — and everything else in the system is a consequence of it: air lit by the tail, surfaces touched by the tail, residue left behind the tail. There is no orb, no star, no spotlight, no light without a source.</p>
+<p style="margin:0;font:300 15px/1.75 Manrope,sans-serif;color:rgba(206,228,250,.64)">Small glowing points are permitted <em style="font-style:italic;color:rgba(232,244,255,.84)">only</em> as environment: distant stars, atmospheric motes, flight residue, reflections. They are never the branded light and never compete with Piri.</p>
+</div>
+</div>
+</div>
+
+<!-- 02 -->
+<div style="padding:64px 0 0">
+<div style="display:flex;gap:56px;align-items:flex-start">
+<div style="width:300px;flex:none"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.2em;color:rgba(168,206,247,.45);text-transform:uppercase">02 — the three layers</div>
+<p style="margin:16px 0 0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.5)">One system, three behaviours: the core breathes, the light reveals the air, surfaces respond to contact.</p></div>
+<div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(140,190,240,.12);border:1px solid rgba(140,190,240,.12);border-radius:10px;overflow:hidden">
+
+<div style="background:#080f1e">
+<div style="position:relative;height:210px;background:radial-gradient(120% 100% at 50% 46%,#0b1526 0%,#050a15 74%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:50%;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.26) 0%,rgba(44,84,132,.1) 40%,rgba(8,16,30,0) 72%);filter:blur(14px);animation:lcAtmo calc(5.6s * var(--pace)) cubic-bezier(.18,.9,.3,1) infinite;opacity:var(--gain)"></div>
+  <div style="position:absolute;left:50%;top:50%;width:104px;height:104px;border-radius:50%;background:radial-gradient(circle,rgba(168,206,247,.5) 0%,rgba(120,174,224,.16) 44%,rgba(30,60,96,0) 74%);filter:blur(6px);animation:lcHalo calc(5.6s * var(--pace)) cubic-bezier(.16,.86,.28,1) infinite"></div>
+  <div style="position:absolute;left:50%;top:50%;width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,rgba(252,254,255,1) 0%,rgba(226,241,255,.8) 28%,rgba(168,206,247,.26) 58%,rgba(90,140,190,0) 80%);filter:blur(1.6px);animation:lcBreath calc(5.6s * var(--pace)) cubic-bezier(.14,.9,.24,1) infinite"></div>
+  <div style="position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 16px 5px rgba(247,251,255,1),0 0 44px 14px rgba(168,206,247,.48),0 0 100px 32px rgba(78,142,203,.24)"></div>
+</div>
+<div style="padding:22px 24px 26px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px"><span style="font:400 16px/1.3 Manrope,sans-serif;color:#eef6ff">Living core</span><span style="font:400 22px/1 Cormorant Garamond,serif;color:rgba(226,241,255,.6)">70%</span></div>
+  <p style="margin:0;font:300 12.8px/1.65 Manrope,sans-serif;color:rgba(206,228,250,.54)">The blue-white light inside Piri's tail. Breathes continuously — 0.18s intake, 4.2s release — and owns the animation clock. Nothing else may share its phase.</p>
+</div>
+</div>
+
+<div style="background:#080f1e">
+<div style="position:relative;height:210px;background:#050a15;overflow:hidden">
+  <div style="position:absolute;inset:-18%;background:radial-gradient(40% 34% at 26% 30%,rgba(78,142,203,.3) 0%,rgba(8,16,30,0) 100%),radial-gradient(46% 36% at 74% 64%,rgba(56,106,158,.28) 0%,rgba(8,16,30,0) 100%);filter:blur(12px);animation:lcAtmo calc(11s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+  <div style="position:absolute;inset:0;-webkit-mask-image:radial-gradient(52% 52% at 34% 36%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.4) 52%,transparent 84%);mask-image:radial-gradient(52% 52% at 34% 36%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.4) 52%,transparent 84%);animation:dustFloat calc(38s * var(--pace)) ease-in-out infinite">
+    <div style="position:absolute;left:22%;top:24%;width:1.5px;height:1.5px;border-radius:50%;background:#eaf4ff;animation:moteGlow calc(10s * var(--pace)) ease-in-out infinite"></div>
+    <div style="position:absolute;left:38%;top:33%;width:1px;height:1px;border-radius:50%;background:#dfeeff;animation:moteGlow calc(13s * var(--pace)) ease-in-out infinite 2.3s"></div>
+    <div style="position:absolute;left:29%;top:47%;width:2px;height:2px;border-radius:50%;background:#f4faff;filter:blur(1.1px);animation:moteGlow calc(8.5s * var(--pace)) ease-in-out infinite 4.4s"></div>
+    <div style="position:absolute;left:46%;top:20%;width:1px;height:1px;border-radius:50%;background:#e6f1ff;animation:moteGlow calc(15s * var(--pace)) ease-in-out infinite 1.2s"></div>
+    <div style="position:absolute;left:17%;top:41%;width:1px;height:1px;border-radius:50%;background:#d6e9ff;animation:moteGlow calc(17s * var(--pace)) ease-in-out infinite 6.2s"></div>
+    <div style="position:absolute;left:52%;top:52%;width:1.5px;height:1.5px;border-radius:50%;background:#eaf4ff;filter:blur(.6px);animation:moteGlow calc(12s * var(--pace)) ease-in-out infinite 3.5s"></div>
+  </div>
+  <div style="position:absolute;left:26%;top:30%;width:7px;height:7px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 13px 4px rgba(247,251,255,.95),0 0 40px 13px rgba(168,206,247,.34)"></div>
+</div>
+<div style="padding:22px 24px 26px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px"><span style="font:400 16px/1.3 Manrope,sans-serif;color:#eef6ff">Atmosphere</span><span style="font:400 22px/1 Cormorant Garamond,serif;color:rgba(226,241,255,.6)">25%</span></div>
+  <p style="margin:0;font:300 12.8px/1.65 Manrope,sans-serif;color:rgba(206,228,250,.54)">Blue haze and lit air created by the core. Only where there is space — above 400px. Motes are scattered, never tiled, and lit only inside the falloff. Reduced or dropped on small screens.</p>
+</div>
+</div>
+
+<div style="background:#080f1e">
+<div style="position:relative;height:210px;background:radial-gradient(120% 100% at 50% 40%,#0b1526 0%,#050a15 74%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:190px;height:98px;border-radius:9px;background:radial-gradient(120% 90% at 50% -14%,rgba(180,214,247,.28) 0%,rgba(122,168,214,.13) 34%,rgba(40,74,112,.08) 70%,rgba(12,22,38,.03) 100%);border:1px solid rgba(208,232,252,.22);overflow:hidden">
+    <div style="position:absolute;inset:-30%;background:repeating-conic-gradient(from 8deg at 38% 62%,rgba(196,226,250,.08) 0deg 11deg,rgba(196,226,250,0) 11deg 42deg);filter:blur(10px);animation:caustic calc(18s * var(--pace)) ease-in-out infinite"></div>
+  </div>
+  <div style="position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:190px;height:98px;border-radius:9px;box-shadow:inset 0 1px 0 rgba(250,253,255,.7),inset 0 20px 40px -24px rgba(206,232,252,.5),0 28px 66px -22px rgba(96,150,206,.55);animation:kiss calc(7s * var(--pace)) ease-in-out infinite"></div>
+  <div style="position:absolute;left:50%;top:16%;width:7px;height:7px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 14px 4px rgba(247,251,255,1),0 0 40px 13px rgba(168,206,247,.4)"></div>
+</div>
+<div style="padding:22px 24px 26px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px"><span style="font:400 16px/1.3 Manrope,sans-serif;color:#eef6ff">Surface response</span><span style="font:400 22px/1 Cormorant Garamond,serif;color:rgba(226,241,255,.6)">5%</span></div>
+  <p style="margin:0;font:300 12.8px/1.65 Manrope,sans-serif;color:rgba(206,228,250,.54)">Edge light, reflected spill and slow caustic drift where the tail's light meets matter — cards, buttons, glass, type, section edges. Max 8% caustic opacity, one surface at a time.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 03 -->
+<div style="padding:64px 0 0">
+<div style="display:flex;gap:56px;align-items:flex-start">
+<div style="width:300px;flex:none"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.2em;color:rgba(168,206,247,.45);text-transform:uppercase">03 — source &amp; origin</div>
+<p style="margin:16px 0 0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.5)">The abdomen is the emitter. Every beam, halo and reflection is measured from that one point, and it travels with Piri.</p></div>
+<div style="flex:1;border:1px solid rgba(140,190,240,.12);border-radius:10px;overflow:hidden">
+<div style="position:relative;height:400px;background:radial-gradient(120% 110% at 62% 40%,#0b1526 0%,#050a15 76%)">
+  <div style="position:absolute;left:44%;top:44%;width:0;height:0">
+    <div style="position:absolute;animation:bob calc(9s * var(--pace)) ease-in-out infinite">
+      <div style="position:absolute;left:-56px;top:-26px;width:112px;height:52px">
+        <div style="position:absolute;left:56px;top:8px;width:52px;height:20px;border-radius:50% 50% 50% 50%;background:rgba(196,226,250,.09);border:1px solid rgba(200,228,252,.16);filter:blur(.6px);transform-origin:0 100%;animation:flutter calc(2.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:56px;top:22px;width:46px;height:17px;border-radius:50%;background:rgba(196,226,250,.06);border:1px solid rgba(200,228,252,.11);filter:blur(.6px);transform-origin:0 0;animation:flutterB calc(2.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:92px;top:16px;width:15px;height:14px;border-radius:50%;background:#0a1322;box-shadow:inset -1px -1px 0 rgba(168,206,247,.3)"></div>
+        <div style="position:absolute;left:100px;top:8px;width:14px;height:1px;background:linear-gradient(90deg,rgba(168,206,247,.5),rgba(168,206,247,0));transform:rotate(-28deg);transform-origin:0 50%"></div>
+        <div style="position:absolute;left:100px;top:12px;width:14px;height:1px;background:linear-gradient(90deg,rgba(168,206,247,.4),rgba(168,206,247,0));transform:rotate(-8deg);transform-origin:0 50%"></div>
+        <div style="position:absolute;left:56px;top:13px;width:42px;height:20px;border-radius:12px;background:linear-gradient(160deg,#101c30,#070d18);box-shadow:inset 0 1px 0 rgba(168,206,247,.22)"></div>
+        <div style="position:absolute;left:26px;top:14px;width:36px;height:19px;border-radius:11px 8px 8px 11px;background:linear-gradient(150deg,rgba(226,241,255,.9),rgba(168,206,247,.5));box-shadow:0 0 18px 6px rgba(168,206,247,.4)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.26) 0%,rgba(44,84,132,.08) 42%,rgba(8,16,30,0) 72%);filter:blur(12px);animation:lcAtmo calc(5.6s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:76px;height:76px;border-radius:50%;background:radial-gradient(circle,rgba(168,206,247,.5) 0%,rgba(120,174,224,.15) 44%,rgba(30,60,96,0) 74%);filter:blur(5px);animation:lcHalo calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle,rgba(252,254,255,1) 0%,rgba(226,241,255,.78) 30%,rgba(168,206,247,.24) 62%,rgba(90,140,190,0) 82%);filter:blur(1.2px);animation:lcBreath calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:7px;height:7px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 14px 4px rgba(247,251,255,1),0 0 40px 13px rgba(168,206,247,.44),0 0 92px 30px rgba(78,142,203,.2)"></div>
+      </div>
+      <div style="position:absolute;left:-34px;top:-2.5px;width:1px;height:1px">
+        <div style="position:absolute;left:-90px;top:0;width:180px;height:200px;transform-origin:50% 0;background:linear-gradient(180deg,rgba(214,236,255,.16) 0%,rgba(120,174,224,.06) 46%,rgba(20,38,64,0) 100%);clip-path:polygon(45% 0,55% 0,88% 100%,12% 100%);filter:blur(14px);opacity:var(--gain)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:44%;top:44%;width:190px;height:1px;background:linear-gradient(90deg,rgba(168,206,247,.5),rgba(168,206,247,0));transform:translateX(-34px)"></div>
+  <div style="position:absolute;left:44%;top:44%;transform:translate(160px,-30px);font:400 9.5px/1.7 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(226,241,255,.72);text-transform:uppercase">emitter origin<br><span style="color:rgba(190,218,246,.44);text-transform:none;letter-spacing:.06em">abdomen centre — all light is measured from here</span></div>
+  <div style="position:absolute;left:44%;top:44%;transform:translate(-34px,80px);width:1px;height:44px;background:linear-gradient(180deg,rgba(168,206,247,.4),rgba(168,206,247,0))"></div>
+  <div style="position:absolute;left:44%;top:44%;transform:translate(-24px,116px);font:400 9.5px/1.7 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(226,241,255,.72);text-transform:uppercase">beam axis<br><span style="color:rgba(190,218,246,.44);text-transform:none;letter-spacing:.06em">grows downward from the tail,<br>never from the sky</span></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 22px;display:flex;gap:40px;font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.4);text-transform:uppercase">
+    <span>tail is the brightest point of the body</span><span>halo + atmosphere are children of the tail transform</span><span>body stays dark with a thin rim light only</span>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 04 -->
+<div style="padding:64px 0 0">
+<div style="display:flex;gap:56px;align-items:flex-start">
+<div style="width:300px;flex:none"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.2em;color:rgba(168,206,247,.45);text-transform:uppercase">04 — website applications</div>
+<p style="margin:16px 0 0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.5)">Six places the system appears on pirilight.studio. Nothing else needs branded light.</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:1px;background:rgba(140,190,240,.12);border:1px solid rgba(140,190,240,.12);border-radius:10px;overflow:hidden">
+
+<div style="position:relative;height:620px;background:radial-gradient(130% 96% at 50% 8%,#0b1526 0%,#050a15 70%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:20%;width:0;height:0;animation:heroPath calc(16s * var(--pace)) cubic-bezier(.34,0,.28,1) infinite">
+    <div style="position:absolute;animation:bob calc(7s * var(--pace)) ease-in-out infinite">
+      <div style="position:absolute;left:-34px;top:-1.5px;width:1px;height:1px;transform-origin:50% 0;animation:beamGrow calc(16s * var(--pace)) cubic-bezier(.22,.72,.2,1) infinite;opacity:var(--gain)">
+        <div style="position:absolute;left:-260px;top:0;width:520px;height:420px;background:linear-gradient(180deg,rgba(180,216,250,.13) 0%,rgba(104,156,208,.05) 44%,rgba(20,38,64,0) 100%);clip-path:polygon(47% 0,53% 0,100% 100%,0 100%);filter:blur(34px)"></div>
+        <div style="position:absolute;left:-150px;top:0;width:300px;height:400px;background:linear-gradient(180deg,rgba(226,241,255,.2) 0%,rgba(130,182,230,.07) 48%,rgba(20,38,64,0) 100%);clip-path:polygon(48% 0,52% 0,86% 100%,14% 100%);filter:blur(16px)"></div>
+      </div>
+      <div style="position:absolute;left:-34px;top:-2px;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,rgba(247,251,255,.6) 0%,rgba(168,206,247,.24) 34%,rgba(78,142,203,0) 72%);filter:blur(6px);animation:gather calc(16s * var(--pace)) ease-in-out infinite"></div>
+      <div style="position:absolute;left:-56px;top:-26px;width:112px;height:52px">
+        <div style="position:absolute;left:56px;top:8px;width:52px;height:20px;border-radius:50%;background:rgba(196,226,250,.09);border:1px solid rgba(200,228,252,.16);filter:blur(.6px);transform-origin:0 100%;animation:flutter calc(.3s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:56px;top:22px;width:46px;height:17px;border-radius:50%;background:rgba(196,226,250,.06);border:1px solid rgba(200,228,252,.11);filter:blur(.6px);transform-origin:0 0;animation:flutterB calc(.3s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:92px;top:16px;width:15px;height:14px;border-radius:50%;background:#0a1322;box-shadow:inset -1px -1px 0 rgba(168,206,247,.3)"></div>
+        <div style="position:absolute;left:100px;top:8px;width:14px;height:1px;background:linear-gradient(90deg,rgba(168,206,247,.5),rgba(168,206,247,0));transform:rotate(-28deg);transform-origin:0 50%"></div>
+        <div style="position:absolute;left:100px;top:12px;width:14px;height:1px;background:linear-gradient(90deg,rgba(168,206,247,.4),rgba(168,206,247,0));transform:rotate(-8deg);transform-origin:0 50%"></div>
+        <div style="position:absolute;left:56px;top:13px;width:42px;height:20px;border-radius:12px;background:linear-gradient(160deg,#101c30,#070d18);box-shadow:inset 0 1px 0 rgba(168,206,247,.22)"></div>
+        <div style="position:absolute;left:26px;top:14px;width:36px;height:19px;border-radius:11px 8px 8px 11px;background:linear-gradient(150deg,rgba(226,241,255,.9),rgba(168,206,247,.5));box-shadow:0 0 18px 6px rgba(168,206,247,.4)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.26) 0%,rgba(44,84,132,.08) 42%,rgba(8,16,30,0) 72%);filter:blur(13px);animation:lcAtmo calc(5.6s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,rgba(168,206,247,.5) 0%,rgba(120,174,224,.15) 44%,rgba(30,60,96,0) 74%);filter:blur(5px);animation:lcHalo calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,rgba(252,254,255,1) 0%,rgba(226,241,255,.8) 30%,rgba(168,206,247,.26) 62%,rgba(90,140,190,0) 82%);filter:blur(1.2px);animation:lcBreath calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:8px;height:8px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 15px 5px rgba(247,251,255,1),0 0 42px 14px rgba(168,206,247,.46),0 0 96px 32px rgba(78,142,203,.22)"></div>
+        <div style="position:absolute;left:-52px;top:16px;width:74px;height:14px;border-radius:50%;background:linear-gradient(90deg,rgba(168,206,247,0),rgba(196,226,250,.2) 64%,rgba(247,251,255,.42));filter:blur(6px);animation:trail calc(5.6s * var(--pace)) ease-out infinite"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;inset:0;-webkit-mask-image:radial-gradient(26% 58% at 50% 22%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.42) 46%,transparent 84%);mask-image:radial-gradient(26% 58% at 50% 22%,rgba(0,0,0,.95) 0%,rgba(0,0,0,.42) 46%,transparent 84%);animation:dustFloat calc(46s * var(--pace)) ease-in-out infinite">
+    <div style="position:absolute;left:47%;top:30%;width:1.5px;height:1.5px;border-radius:50%;background:#eaf4ff;animation:moteGlow calc(11s * var(--pace)) ease-in-out infinite"></div>
+    <div style="position:absolute;left:53%;top:37%;width:1px;height:1px;border-radius:50%;background:#dfeeff;animation:moteGlow calc(14s * var(--pace)) ease-in-out infinite 2.2s"></div>
+    <div style="position:absolute;left:44%;top:44%;width:2px;height:2px;border-radius:50%;background:#f4faff;filter:blur(1.1px);animation:moteGlow calc(9s * var(--pace)) ease-in-out infinite 4.6s"></div>
+    <div style="position:absolute;left:57%;top:50%;width:1px;height:1px;border-radius:50%;background:#e6f1ff;animation:moteGlow calc(16s * var(--pace)) ease-in-out infinite 1.4s"></div>
+    <div style="position:absolute;left:41%;top:56%;width:1.5px;height:1.5px;border-radius:50%;background:#d6e9ff;filter:blur(.7px);animation:moteGlow calc(12.5s * var(--pace)) ease-in-out infinite 6.1s"></div>
+    <div style="position:absolute;left:60%;top:62%;width:1px;height:1px;border-radius:50%;background:#eaf4ff;animation:moteGlow calc(15s * var(--pace)) ease-in-out infinite 3.3s"></div>
+    <div style="position:absolute;left:50%;top:68%;width:2.5px;height:2.5px;border-radius:50%;background:#f4faff;filter:blur(1.6px);animation:moteGlow calc(10.5s * var(--pace)) ease-in-out infinite 7.8s"></div>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:56%;display:flex;flex-direction:column;align-items:center;gap:20px">
+    <div style="font:400 44px/1 Manrope,sans-serif;letter-spacing:.3em;color:#f9fcff;text-shadow:0 0 32px rgba(168,206,247,.5),0 0 96px rgba(78,142,203,.34);animation:markReveal calc(16s * var(--pace)) cubic-bezier(.22,.72,.2,1) infinite">PIRILIGHT</div>
+    <div style="width:300px;height:1px;background:linear-gradient(90deg,rgba(168,206,247,0),rgba(168,206,247,.5),rgba(168,206,247,0));animation:markReveal calc(16s * var(--pace)) cubic-bezier(.22,.72,.2,1) infinite"></div>
+    <div style="font:300 15px/1.6 Manrope,sans-serif;color:rgba(206,228,250,.55);animation:subReveal calc(16s * var(--pace)) ease-in-out infinite">Não criamos apenas websites. Iluminamos negócios.</div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-end;font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.42);text-transform:uppercase">
+    <span>a · hero reveal · 16s loop<br><span style="color:rgba(190,218,246,.28)">enter 0–4.5s → settle 5.4s → gather 5.8s → beam grows from tail 5.3–9s → mark lands 9.6s → beam fades 14s → tail stays alive</span></span>
+    <span style="text-align:right;color:rgba(190,218,246,.28)">beam is a child of the tail transform<br>origin never leaves the abdomen</span>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(140,190,240,.12)">
+
+<div style="position:relative;height:380px;background:radial-gradient(120% 100% at 50% 46%,#0b1526 0%,#050a15 74%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:48%;width:0;height:0;animation:flyAcross calc(14s * var(--pace)) cubic-bezier(.42,0,.34,1) infinite">
+    <div style="position:absolute;animation:bob calc(6s * var(--pace)) ease-in-out infinite">
+      <div style="position:absolute;left:-44px;top:-20px;width:88px;height:41px;transform:scale(.8);transform-origin:50% 50%">
+        <div style="position:absolute;left:56px;top:8px;width:52px;height:20px;border-radius:50%;background:rgba(196,226,250,.09);border:1px solid rgba(200,228,252,.16);transform-origin:0 100%;animation:flutter calc(.3s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:56px;top:22px;width:46px;height:17px;border-radius:50%;background:rgba(196,226,250,.06);border:1px solid rgba(200,228,252,.11);transform-origin:0 0;animation:flutterB calc(.3s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:92px;top:16px;width:15px;height:14px;border-radius:50%;background:#0a1322;box-shadow:inset -1px -1px 0 rgba(168,206,247,.3)"></div>
+        <div style="position:absolute;left:56px;top:13px;width:42px;height:20px;border-radius:12px;background:linear-gradient(160deg,#101c30,#070d18);box-shadow:inset 0 1px 0 rgba(168,206,247,.22)"></div>
+        <div style="position:absolute;left:26px;top:14px;width:36px;height:19px;border-radius:11px 8px 8px 11px;background:linear-gradient(150deg,rgba(226,241,255,.9),rgba(168,206,247,.5));box-shadow:0 0 18px 6px rgba(168,206,247,.4)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.24) 0%,rgba(44,84,132,.08) 42%,rgba(8,16,30,0) 72%);filter:blur(13px);animation:lcAtmo calc(5.6s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:76px;height:76px;border-radius:50%;background:radial-gradient(circle,rgba(168,206,247,.48) 0%,rgba(120,174,224,.14) 44%,rgba(30,60,96,0) 74%);filter:blur(5px);animation:lcHalo calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,rgba(252,254,255,1) 0%,rgba(226,241,255,.78) 30%,rgba(168,206,247,.24) 62%,rgba(90,140,190,0) 82%);filter:blur(1.2px);animation:lcBreath calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:7px;height:7px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 14px 4px rgba(247,251,255,1),0 0 40px 13px rgba(168,206,247,.44)"></div>
+        <div style="position:absolute;left:-56px;top:16px;width:76px;height:14px;border-radius:50%;background:linear-gradient(90deg,rgba(168,206,247,0),rgba(196,226,250,.2) 64%,rgba(247,251,255,.4));filter:blur(6px);animation:trail calc(5.6s * var(--pace)) ease-out infinite"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.42);text-transform:uppercase">b · piri crossing a section<br><span style="color:rgba(190,218,246,.28)">wings flutter 0.3s, breath unchanged, residue fades within one breath</span></div>
+</div>
+
+<div style="position:relative;height:380px;background:radial-gradient(120% 100% at 50% 38%,#0b1526 0%,#050a15 74%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:280px;height:176px;border-radius:10px;background:radial-gradient(120% 90% at 50% -12%,rgba(180,214,247,.28) 0%,rgba(122,168,214,.13) 34%,rgba(40,74,112,.08) 68%,rgba(12,22,38,.03) 100%);border:1px solid rgba(208,232,252,.22);overflow:hidden;animation:revealSurface calc(8s * var(--pace)) ease-in-out infinite">
+    <div style="position:absolute;inset:-30%;background:repeating-conic-gradient(from 8deg at 38% 62%,rgba(196,226,250,.08) 0deg 11deg,rgba(196,226,250,0) 11deg 42deg);filter:blur(10px);animation:caustic calc(18s * var(--pace)) ease-in-out infinite"></div>
+    <div style="position:absolute;left:20px;bottom:18px;font:400 9.5px/1.7 IBM Plex Mono,monospace;letter-spacing:.14em;color:rgba(226,241,255,.5);text-transform:uppercase">website institucional<br><span style="font:400 15px/1.4 Manrope,sans-serif;letter-spacing:0;color:#eef6ff;text-transform:none">Autoformigal</span></div>
+  </div>
+  <div style="position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:280px;height:176px;border-radius:10px;box-shadow:inset 0 1px 0 rgba(250,253,255,.7),inset 0 24px 46px -26px rgba(206,232,252,.5),0 34px 80px -22px rgba(96,150,206,.6);animation:revealEdge calc(8s * var(--pace)) ease-in-out infinite"></div>
+  <div style="position:absolute;left:50%;top:13%;width:0;height:0">
+    <div style="position:absolute;animation:bob calc(8s * var(--pace)) ease-in-out infinite">
+      <div style="position:absolute;left:-32px;top:-15px;width:66px;height:31px;transform:scale(.6);transform-origin:50% 50%">
+        <div style="position:absolute;left:56px;top:8px;width:52px;height:20px;border-radius:50%;background:rgba(196,226,250,.09);border:1px solid rgba(200,228,252,.16);transform-origin:0 100%;animation:flutter calc(2.4s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:92px;top:16px;width:15px;height:14px;border-radius:50%;background:#0a1322"></div>
+        <div style="position:absolute;left:56px;top:13px;width:42px;height:20px;border-radius:12px;background:linear-gradient(160deg,#101c30,#070d18);box-shadow:inset 0 1px 0 rgba(168,206,247,.22)"></div>
+        <div style="position:absolute;left:26px;top:14px;width:36px;height:19px;border-radius:11px 8px 8px 11px;background:linear-gradient(150deg,rgba(226,241,255,.9),rgba(168,206,247,.5));box-shadow:0 0 18px 6px rgba(168,206,247,.4)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.24) 0%,rgba(44,84,132,.08) 42%,rgba(8,16,30,0) 72%);filter:blur(13px);animation:lcAtmo calc(5.6s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,rgba(168,206,247,.5) 0%,rgba(120,174,224,.15) 44%,rgba(30,60,96,0) 74%);filter:blur(5px);animation:lcHalo calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:9px;height:9px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 16px 5px rgba(247,251,255,1),0 0 46px 15px rgba(168,206,247,.46)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.42);text-transform:uppercase">c · project card reveal<br><span style="color:rgba(190,218,246,.28)">edge light → surface spill → caustic at 8%. piri stays visible above the card</span></div>
+</div>
+
+<div style="position:relative;height:380px;background:radial-gradient(120% 100% at 50% 46%,#0b1526 0%,#050a15 74%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:240px;height:56px;border-radius:28px;background:linear-gradient(170deg,rgba(122,168,214,.2),rgba(40,74,112,.1));border:1px solid rgba(208,232,252,.24);overflow:hidden;display:flex;align-items:center;justify-content:center">
+    <div style="position:absolute;top:0;bottom:0;width:50%;background:linear-gradient(90deg,rgba(243,250,255,0),rgba(232,245,255,.34) 48%,rgba(243,250,255,0));filter:blur(5px);animation:sheen calc(6s * var(--pace)) cubic-bezier(.3,.7,.2,1) infinite"></div>
+    <span style="position:relative;font:400 13.5px/1 Manrope,sans-serif;letter-spacing:.02em;color:#f7fbff">Começar projeto</span>
+  </div>
+  <div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:240px;height:56px;border-radius:28px;box-shadow:0 0 0 1px rgba(222,241,255,.26),0 18px 48px -14px rgba(132,186,236,.72);animation:kiss calc(6s * var(--pace)) ease-in-out infinite"></div>
+  <div style="position:absolute;left:50%;top:44%;width:290px;height:124px;border-radius:50%;background:radial-gradient(circle,rgba(132,186,236,.26) 0%,rgba(30,58,90,0) 70%);filter:blur(14px);transform:translate(-50%,-50%);animation:lcAtmo calc(6s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+  <div style="position:absolute;left:50%;top:70%;transform:translate(-50%,-50%);max-width:250px;text-align:center;font:300 12.5px/1.6 Manrope,sans-serif;color:rgba(206,228,250,.46)">Hover = the tail leans closer. Contact glow +40%, one sheen crossing once. Never a colour change.</div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.42);text-transform:uppercase">d · button hover<br><span style="color:rgba(190,218,246,.28)">surface response only — no beam, no particles</span></div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(140,190,240,.12)">
+<div style="position:relative;min-height:340px;background:linear-gradient(180deg,#0a1220,#050a15);overflow:hidden">
+  <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(120,174,224,.18) 0%,rgba(56,106,158,.08) 40%,rgba(8,16,30,0) 100%);filter:blur(18px);animation:veil calc(10s * var(--pace)) cubic-bezier(.36,.72,.24,1) infinite;opacity:var(--gain)"></div>
+  <div style="position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,rgba(168,206,247,0),rgba(232,245,255,.5),rgba(168,206,247,0));filter:blur(2px);animation:veil calc(10s * var(--pace)) cubic-bezier(.36,.72,.24,1) infinite"></div>
+  <div style="position:absolute;left:0;right:0;top:26%;text-align:center;font:300 24px/1.4 Cormorant Garamond,Georgia,serif;color:rgba(226,241,255,.34)">the room changes,<br>Piri's breath does not</div>
+  <div style="position:absolute;left:50%;top:56%;width:0;height:0">
+    <div style="position:absolute;animation:bob calc(9s * var(--pace)) ease-in-out infinite">
+      <div style="position:absolute;left:-26px;top:-12px;width:52px;height:25px;transform:scale(.5);transform-origin:50% 50%">
+        <div style="position:absolute;left:92px;top:16px;width:15px;height:14px;border-radius:50%;background:#0a1322"></div>
+        <div style="position:absolute;left:56px;top:13px;width:42px;height:20px;border-radius:12px;background:linear-gradient(160deg,#101c30,#070d18)"></div>
+        <div style="position:absolute;left:26px;top:14px;width:36px;height:19px;border-radius:11px 8px 8px 11px;background:linear-gradient(150deg,rgba(226,241,255,.85),rgba(168,206,247,.45));box-shadow:0 0 16px 6px rgba(168,206,247,.34)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.2) 0%,rgba(8,16,30,0) 70%);filter:blur(12px);animation:lcAtmo calc(5.6s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:9px;height:9px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 16px 5px rgba(247,251,255,.95),0 0 44px 15px rgba(168,206,247,.36)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.42);text-transform:uppercase">e · section transition<br><span style="color:rgba(190,218,246,.28)">a haze veil passes through the section on scroll. the core keeps its own clock</span></div>
+</div>
+<div style="position:relative;min-height:340px;background:radial-gradient(120% 110% at 50% 52%,#0a1220,#04070f);overflow:hidden">
+  <div style="position:absolute;left:50%;top:48%;width:0;height:0">
+    <div style="position:absolute;animation:bob calc(13s * var(--pace)) ease-in-out infinite">
+      <div style="position:absolute;left:-34px;top:-16px;width:68px;height:33px;transform:scale(.65);transform-origin:50% 50%">
+        <div style="position:absolute;left:56px;top:8px;width:52px;height:20px;border-radius:50%;background:rgba(196,226,250,.06);border:1px solid rgba(200,228,252,.1);transform-origin:0 100%"></div>
+        <div style="position:absolute;left:92px;top:16px;width:15px;height:14px;border-radius:50%;background:#0a1322"></div>
+        <div style="position:absolute;left:56px;top:13px;width:42px;height:20px;border-radius:12px;background:linear-gradient(160deg,#101c30,#070d18)"></div>
+        <div style="position:absolute;left:26px;top:14px;width:36px;height:19px;border-radius:11px 8px 8px 11px;background:linear-gradient(150deg,rgba(226,241,255,.7),rgba(168,206,247,.34))"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.13) 0%,rgba(8,16,30,0) 70%);filter:blur(12px);animation:settle calc(13s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:7px;height:7px;border-radius:50%;background:rgba(250,253,255,.9);transform:translate(-50%,-50%);box-shadow:0 0 12px 4px rgba(226,241,255,.5),0 0 32px 11px rgba(132,186,236,.2);animation:settle calc(13s * var(--pace)) ease-in-out infinite"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:26%;right:32%;top:66%;height:1px;background:linear-gradient(90deg,rgba(168,206,247,0),rgba(168,206,247,.14),rgba(168,206,247,0));filter:blur(1px)"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.42);text-transform:uppercase">f · settled state<br><span style="color:rgba(190,218,246,.28)">wings still, breath at 30% amplitude and 13s, faint trace of the flight path</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 05 -->
+<div style="padding:64px 0 0">
+<div style="display:flex;gap:56px;align-items:flex-start">
+<div style="width:300px;flex:none"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.2em;color:rgba(168,206,247,.45);text-transform:uppercase">05 — behaviour rules</div></div>
+<div style="flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(140,190,240,.12);border:1px solid rgba(140,190,240,.12);border-radius:10px;overflow:hidden">
+<div style="background:#080f1e;padding:24px 26px"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:rgba(168,206,247,.42);text-transform:uppercase;margin-bottom:10px">Timing</div><p style="margin:0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.56)">Breath 5.6s: 0.18s intake, 4.2s release, never symmetrical. Halo lags the core by 380ms. Hero sequence 16s total. Reveal 8s. Hover response 220ms in, 600ms out. No two branded animations share a duration.</p></div>
+<div style="background:#080f1e;padding:24px 26px"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:rgba(168,206,247,.42);text-transform:uppercase;margin-bottom:10px">Intensity</div><p style="margin:0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.56)">Dynamic range 0.26 → 1.0 across one breath; the calm trough is what makes the peak land. Core is pure white at peak and under 12px. All blue lives in the falloff. Never raise bloom to fake power — raise contrast.</p></div>
+<div style="background:#080f1e;padding:24px 26px"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:rgba(168,206,247,.42);text-transform:uppercase;margin-bottom:10px">Scale &amp; responsiveness</div><p style="margin:0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.56)">Atmosphere only above 400px. Under 768px: drop motes, halve haze opacity, shorten the hero to enter → beam → mark (8s). Piri never smaller than 40px wide — below that the tail stops reading as a body.</p></div>
+<div style="background:#080f1e;padding:24px 26px"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:rgba(168,206,247,.42);text-transform:uppercase;margin-bottom:10px">Reduced motion</div><p style="margin:0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.56)">With <span style="font-family:IBM Plex Mono,monospace;font-size:12px;color:rgba(226,241,255,.8)">prefers-reduced-motion</span>: no flight, no beam growth, no veil. Keep one 8s breath at half amplitude and the static reveal end-state. The light stays alive; it stops travelling.</p></div>
+<div style="background:#080f1e;padding:24px 26px"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:rgba(168,206,247,.42);text-transform:uppercase;margin-bottom:10px">Performance</div><p style="margin:0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.56)">Animate only opacity and transform. Max 3 blurred layers per light, one light per viewport. Motes are static elements with opacity animation — never a particle loop. Pause everything off-screen.</p></div>
+<div style="background:#080f1e;padding:24px 26px"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:rgba(168,206,247,.42);text-transform:uppercase;margin-bottom:10px">Hierarchy</div><p style="margin:0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.56)">One branded light on screen at a time, and it belongs to Piri. Atmosphere and surface response are consequences, never independent effects. If an element needs attention without Piri, use type and spacing — not another light.</p></div>
+</div>
+</div>
+</div>
+
+<!-- 06 -->
+<div style="padding:64px 0 0">
+<div style="display:flex;gap:56px;align-items:flex-start">
+<div style="width:300px;flex:none"><div style="font:400 10px/1 IBM Plex Mono,monospace;letter-spacing:.2em;color:rgba(168,206,247,.45);text-transform:uppercase">06 — do / don't</div>
+<p style="margin:16px 0 0;font:300 13px/1.7 Manrope,sans-serif;color:rgba(206,228,250,.5)">The single failure mode: light without a body.</p></div>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+<div style="border:1px solid rgba(168,206,247,.3);border-radius:10px;overflow:hidden">
+<div style="position:relative;height:300px;background:radial-gradient(120% 100% at 50% 34%,#0b1526 0%,#050a15 74%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:34%;width:0;height:0">
+    <div style="position:absolute;animation:bob calc(8s * var(--pace)) ease-in-out infinite">
+      <div style="position:absolute;left:-40px;top:-19px;width:82px;height:39px;transform:scale(.75);transform-origin:50% 50%">
+        <div style="position:absolute;left:56px;top:8px;width:52px;height:20px;border-radius:50%;background:rgba(196,226,250,.09);border:1px solid rgba(200,228,252,.16);transform-origin:0 100%;animation:flutter calc(2.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:56px;top:22px;width:46px;height:17px;border-radius:50%;background:rgba(196,226,250,.06);border:1px solid rgba(200,228,252,.11);transform-origin:0 0;animation:flutterB calc(2.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:92px;top:16px;width:15px;height:14px;border-radius:50%;background:#0a1322;box-shadow:inset -1px -1px 0 rgba(168,206,247,.3)"></div>
+        <div style="position:absolute;left:56px;top:13px;width:42px;height:20px;border-radius:12px;background:linear-gradient(160deg,#101c30,#070d18);box-shadow:inset 0 1px 0 rgba(168,206,247,.22)"></div>
+        <div style="position:absolute;left:26px;top:14px;width:36px;height:19px;border-radius:11px 8px 8px 11px;background:linear-gradient(150deg,rgba(226,241,255,.9),rgba(168,206,247,.5));box-shadow:0 0 18px 6px rgba(168,206,247,.4)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.26) 0%,rgba(8,16,30,0) 72%);filter:blur(13px);animation:lcAtmo calc(5.6s * var(--pace)) ease-in-out infinite;opacity:var(--gain)"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(168,206,247,.5) 0%,rgba(30,60,96,0) 74%);filter:blur(5px);animation:lcHalo calc(5.6s * var(--pace)) ease-in-out infinite"></div>
+        <div style="position:absolute;left:22px;top:23.5px;width:8px;height:8px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 15px 5px rgba(247,251,255,1),0 0 44px 14px rgba(168,206,247,.46)"></div>
+        <div style="position:absolute;left:-90px;top:23.5px;width:180px;height:180px;background:linear-gradient(180deg,rgba(214,236,255,.14),rgba(20,38,64,0));clip-path:polygon(46% 0,54% 0,86% 100%,14% 100%);filter:blur(14px);transform:translateX(22px)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:66%;text-align:center;font:400 26px/1 Manrope,sans-serif;letter-spacing:.3em;color:rgba(249,252,255,.9);text-shadow:0 0 28px rgba(168,206,247,.4)">PIRILIGHT</div>
+</div>
+<div style="padding:20px 22px;background:#080f1e">
+  <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><span style="font:500 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:#a8cef7;text-transform:uppercase">Do</span><span style="font:400 15px/1.3 Manrope,sans-serif;color:#eef6ff">Beam grows from the tail</span></div>
+  <p style="margin:0;font:300 12.8px/1.65 Manrope,sans-serif;color:rgba(206,228,250,.54)">Firefly visible, body dark, tail brightest, beam anchored to the abdomen and aimed at the mark. The light has an author.</p>
+</div>
+</div>
+
+<div style="border:1px solid rgba(190,120,120,.24);border-radius:10px;overflow:hidden">
+<div style="position:relative;height:300px;background:radial-gradient(120% 100% at 50% 34%,#0b1526 0%,#050a15 74%);overflow:hidden">
+  <div style="position:absolute;left:50%;top:30%;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(78,142,203,.24) 0%,rgba(8,16,30,0) 72%);filter:blur(13px);transform:translate(-50%,-50%)"></div>
+  <div style="position:absolute;left:50%;top:30%;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(252,254,255,.9) 0%,rgba(168,206,247,.4) 34%,rgba(30,60,96,0) 76%);filter:blur(3px);transform:translate(-50%,-50%)"></div>
+  <div style="position:absolute;left:50%;top:30%;width:10px;height:10px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 0 18px 6px rgba(247,251,255,1),0 0 52px 18px rgba(168,206,247,.5)"></div>
+  <div style="position:absolute;left:50%;top:0;width:240px;height:230px;transform:translateX(-50%);background:linear-gradient(180deg,rgba(214,236,255,.16),rgba(20,38,64,0));clip-path:polygon(44% 0,56% 0,90% 100%,10% 100%);filter:blur(16px)"></div>
+  <div style="position:absolute;left:22%;top:16%;width:4px;height:4px;border-radius:50%;background:#eaf4ff;box-shadow:0 0 12px 4px rgba(168,206,247,.5)"></div>
+  <div style="position:absolute;left:74%;top:24%;width:5px;height:5px;border-radius:50%;background:#eaf4ff;box-shadow:0 0 14px 5px rgba(168,206,247,.45)"></div>
+  <div style="position:absolute;left:64%;top:56%;width:4px;height:4px;border-radius:50%;background:#eaf4ff;box-shadow:0 0 12px 4px rgba(168,206,247,.4)"></div>
+  <div style="position:absolute;left:0;right:0;top:66%;text-align:center;font:400 26px/1 Manrope,sans-serif;letter-spacing:.3em;color:rgba(249,252,255,.9);text-shadow:0 0 28px rgba(168,206,247,.4)">PIRILIGHT</div>
+  <div style="position:absolute;left:50%;top:30%;width:132px;height:132px;border-radius:50%;border:1px solid rgba(214,138,138,.5);transform:translate(-50%,-50%)"></div>
+  <div style="position:absolute;left:50%;top:30%;transform:translate(-134px,-6px);font:400 9.5px/1.6 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(226,168,168,.9);text-transform:uppercase;text-align:right;width:78px">no body</div>
+</div>
+<div style="padding:20px 22px;background:#080f1e">
+  <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><span style="font:500 10px/1 IBM Plex Mono,monospace;letter-spacing:.16em;color:rgba(226,168,168,.9);text-transform:uppercase">Don't</span><span style="font:400 15px/1.3 Manrope,sans-serif;color:#eef6ff">Floating orb and rival lights</span></div>
+  <p style="margin:0;font:300 12.8px/1.65 Manrope,sans-serif;color:rgba(206,228,250,.54)">Anonymous glowing point, beam from an arbitrary place in the sky, and three bright dots competing with the source. This is a generic sci-fi effect, not PiriLight.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:64px;padding-top:26px;border-top:1px solid rgba(140,190,240,.14);display:flex;justify-content:space-between;gap:40px;font:400 10px/1.7 IBM Plex Mono,monospace;letter-spacing:.12em;color:rgba(190,218,246,.34);text-transform:uppercase">
+<span>Luz Viva · living core 70 · atmosphere 25 · surface response 5</span>
+<span>the light always has a body</span>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;intensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.4,&quot;max&quot;:1.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Light&quot;},&quot;tempo&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.5,&quot;max&quot;:2,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Light&quot;}}">
+class Component extends DCLogic {
+  apply() {
+    const r = document.documentElement.style;
+    r.setProperty('--gain', String(this.props.intensity ?? 1));
+    r.setProperty('--pace', String(1 / (this.props.tempo ?? 1)));
+  }
+  componentDidMount() { this.apply(); }
+  componentDidUpdate() { this.apply(); }
+  renderVals() { return {}; }
+}
+
+</script>
+</body>
+</html>
