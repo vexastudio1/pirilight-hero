@@ -1,0 +1,1619 @@
+:root {
+  color-scheme: dark;
+  /* Single source of truth for the hero's responsive sizing system.
+     `--logo-width` is a continuous fluid clamp — floor, then linear with
+     viewport width, then ceiling — mirroring getLogoWidthPx() in
+     src/lib/logoLayout.ts exactly (keep both in sync). There is no
+     mobile/desktop breakpoint switch: everything downstream (the stage box,
+     the beam's width and height, the brand statement's font size) is
+     expressed as a plain multiple of this one value, so the whole
+     composition scales together continuously at every viewport size instead
+     of jumping between hardcoded per-breakpoint numbers.
+     --tagline-scale is that "plain multiple" for the brand statement — see
+     `.brand-statement__line` below. */
+  --logo-width: clamp(220px, 30vw + 100px, 500px);
+  --tagline-scale: 0.06;
+
+  /* ---- Scroll-driven "night lifted away" transition ----------------------
+     `--hero-drift-vh` is the dedicated extra scroll distance the sticky hero
+     gets pinned for (see `.hero-transition-region` below); `.problem-section`
+     mirrors it with a matching negative top margin so it rises up over the
+     pinned hero as that distance is scrolled. `--subject-drift-distance` is
+     how far the logo/beam/3D-canvas group travels upward, at masterT = 1.
+     `--scroll-drift-t` is written every animation frame by useScrollDrift
+     (src/lib/useScrollDrift.ts) — 0 here is just its resting default before
+     JS attaches. Both distance values are set responsively below and zeroed
+     under prefers-reduced-motion, so the whole feature collapses to "no
+     extra scroll, no drift" purely through CSS, with no JS branching needed
+     for the structural part. */
+  --hero-drift-vh: 70vh;
+  --subject-drift-distance: 22vh;
+  --scroll-drift-t: 0;
+
+  /* ---- Shared page tokens (Header, Footer, and every section below the
+     hero) --------------------------------------------------------------- */
+  --container-max: 72rem;
+  --container-max-narrow: 46rem;
+  /* Default cool-blue tint for section glows/highlights; a few sections
+     (see .section--about) override this locally for a "warmer" feel. */
+  --section-glow-rgb: 90, 170, 255;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --hero-drift-vh: 40vh;
+    --subject-drift-distance: 15vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --hero-drift-vh: 0vh;
+    --subject-drift-distance: 0vh;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* No `height: 100%` here: it's unneeded (the hero sizes itself via `100vh`/
+   sticky, not a percentage of an ancestor) and actively harmful once the
+   page has real scrollable content below the hero — combined with
+   `overflow-x: hidden` it would force `overflow-y: auto` on this fixed-
+   height box (per spec, an explicit non-visible overflow-x forces the other
+   axis off `visible`), clipping the document to one viewport height instead
+   of letting it scroll normally. Letting html/body size to their natural
+   content height, as any ordinary scrolling page does, is correct now. */
+html,
+body,
+#root {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keeps anchor-jumped content from hiding under the fixed header. */
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: #05060a;
+  color: #f4f4f5;
+}
+
+/* Gives the sticky hero below a dedicated, tunable extra scroll distance
+   (`--hero-drift-vh`) purely for the "night lifted away" transition, on top
+   of the hero's own 100vh display height. Plain block, no positioning of its
+   own needed — `.hero`'s `position: sticky` does the pinning against this
+   element's own box as its scroll container/containing block. */
+.hero-transition-region {
+  position: relative;
+  height: calc(100vh + var(--hero-drift-vh));
+}
+
+.hero {
+  position: sticky;
+  top: 0;
+  /* `width: 100%` rather than `100vw` — `100vw` doesn't subtract the
+     vertical scrollbar's own width, which caused a harmless-looking but
+     real horizontal-overflow gap now that the page actually scrolls (it
+     never did before this section's content existed). */
+  width: 100%;
+  height: 100vh;
+  /* Still clips the subject-drift wrapper's own upward translate/scale so
+     that motion doesn't visibly spill past the hero's box edge. */
+  overflow: hidden;
+  /* No background of its own — `.hero__sky` (now a fixed, persistent layer,
+     see below) is the only sky the whole page ever shows, so the hero and
+     `.problem-section` genuinely share one continuous environment instead
+     of two similarly-colored-but-separate ones. */
+  background: transparent;
+}
+
+/* The persistent night environment for the whole page — deliberately NOT a
+   child of `.hero` (which is clipped/sticky and would carry it away once
+   the hero unpins). `position: fixed` covers the viewport regardless of
+   scroll position or which section is in view; mounted once in Hero.tsx and
+   never duplicated, so `.problem-section` and any future section simply sit
+   over the same canvas rather than getting their own. */
+.hero__sky {
+  position: fixed;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero__ambient {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The logo, beam and 3D canvas move and fade as one rigid "subject" group
+   once scrolling begins. A transform on this ancestor never touches the
+   layout math of its absolutely-positioned children (beam anchor %
+   position, intro-stage centering, r3f's own canvas rendering) — it's a
+   pure GPU-composited translate on top of whatever those children are
+   already doing. Opacity here multiplies with whatever opacity the intro
+   timeline has already applied to elements inside (masked/partial logo
+   reveal, beam fade, etc.), never replacing it — so scroll can only ever
+   reduce visibility below the intro's own current state, never add it. */
+.hero__subject-drift {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* Scale factor mirrors SUBJECT_MAX_SHRINK in scrollTimeline.ts (0.08) —
+     keep both in sync. Subtle: just enough to read as "receding" alongside
+     the upward drift and fade, not a dramatic zoom. */
+  transform: translateY(calc(var(--scroll-drift-t) * -1 * var(--subject-drift-distance)))
+    scale(calc(1 - var(--scroll-drift-t) * 0.08));
+  opacity: calc(1 - var(--scroll-drift-t));
+  will-change: transform, opacity;
+}
+
+/* The tagline lags shortly behind the logo instead of moving in exact
+   lockstep — `--tagline-t` only starts advancing once the logo's own drift
+   (`--scroll-drift-t`) is already 0.15 underway, then runs to completion
+   over the remaining range. Nests inside `.intro-logo-layer` (itself inside
+   `.hero__subject-drift`), so its fade/travel is layered on top of — not a
+   replacement for — the subject group's own. Positioned to match the same
+   full-hero box as `.intro-stage`/`.brand-statement`'s existing coordinate
+   space, so wrapping it here doesn't change what `.brand-statement`'s own
+   `top`/`left` percentages resolve against. */
+.hero__tagline-drift {
+  position: absolute;
+  inset: 0;
+  --tagline-t: max(0, calc((var(--scroll-drift-t) - 0.15) / 0.85));
+  transform: translateY(calc(var(--tagline-t) * -1 * var(--subject-drift-distance) * 0.7));
+  opacity: calc(1 - var(--tagline-t));
+  will-change: transform, opacity;
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hero__replay {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 5;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+  color: rgba(244, 244, 245, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.hero__replay:hover {
+  color: #f4f4f5;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---- Cinematic intro sequence -------------------------------------------
+   `.intro-stage` exactly mirrors the box the final logo occupies (centered,
+   sized to the shared `--logo-width` custom property defined above), so the
+   logo layers below stay aligned with the real logo at any viewport size.
+   The beam is different: its anchor tracks Piri's actual glowing abdomen,
+   projected to viewport-fraction coordinates every frame (see PiriModel +
+   IntroOverlay), so `.beam-anchor` is positioned directly in full-viewport
+   space rather than inside `.intro-stage`. */
+
+.intro-beam-layer,
+.intro-logo-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.intro-beam-layer {
+  z-index: 2;
+}
+
+.intro-logo-layer {
+  z-index: 4;
+}
+
+.intro-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--logo-width);
+  aspect-ratio: 1536 / 1024;
+  overflow: visible;
+}
+
+.beam-anchor {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.beam-wash {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(220px, 65vw, 640px);
+  height: clamp(220px, 65vw, 640px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(90, 180, 255, 0.55) 0%, rgba(60, 140, 230, 0.16) 38%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0;
+}
+
+/* The beam's width AND height both track the logo's own responsive width
+   (the shared `--logo-width` custom property) — width sized to its widest
+   stop (the "studio" flare at the bottom, with every other stop above
+   expressed as a clip-path percentage of that box, so the beam always
+   frames the actual logo content — narrow at the abdomen, just containing
+   the icon, comfortably around the wordmark, a touch wider near "STUDIO");
+   height as a fixed multiple, so the beam's reach scales with the same
+   logo-width curve instead of a separate viewport-height formula — one
+   continuous relationship at every size, not a mobile/desktop switch.
+   Widths were measured directly from the logo asset
+   (scripts/measure-band-widths.mjs): icon ~31.5% of logo width, wordmark
+   ~48.8%, studio+lines ~48.6% (widened here to read as "slightly wider"
+   per the brief). The multi-point polygon (rather than a single triangle)
+   is what keeps it from reading as a flat CSS shape. */
+.beam-cone,
+.beam-cone-outer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--logo-width) * 0.7);
+  height: calc(var(--logo-width) * 1.5);
+  transform: translate(-50%, 0);
+  clip-path: polygon(
+    52.85% 0%,
+    80.2% 38%,
+    90.2% 68%,
+    100% 88%,
+    100% 100%,
+    0% 100%,
+    0% 88%,
+    9.8% 68%,
+    19.8% 38%,
+    47.15% 0%
+  );
+  opacity: 0;
+}
+
+.beam-cone {
+  background: linear-gradient(
+    to bottom,
+    rgba(225, 244, 255, 0.75) 0%,
+    rgba(180, 225, 255, 0.4) 22%,
+    rgba(120, 195, 255, 0.16) 55%,
+    rgba(80, 160, 240, 0) 100%
+  );
+  filter: blur(13px);
+}
+
+.beam-cone-outer {
+  transform: translate(-50%, 0) scale(1.3);
+  background: linear-gradient(
+    to bottom,
+    rgba(170, 220, 255, 0.4) 0%,
+    rgba(120, 195, 255, 0.14) 45%,
+    rgba(90, 170, 245, 0) 100%
+  );
+  filter: blur(34px);
+}
+
+/* A slim, brighter core running down the middle of the cone — without it,
+   the beam is uniformly bright across its full width at any given height,
+   which reads as flat/geometric. This narrow taper keeps the centre
+   visibly hotter than the outer edges, like a real light source. */
+.beam-center-glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--logo-width) * 0.7 * 0.34);
+  height: calc(var(--logo-width) * 1.5);
+  transform: translate(-50%, 0);
+  clip-path: polygon(28% 0%, 72% 0%, 100% 100%, 0% 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(215, 238, 255, 0.28) 40%,
+    rgba(180, 220, 255, 0) 82%
+  );
+  filter: blur(11px);
+  opacity: 0;
+}
+
+.beam-core {
+  position: absolute;
+  left: 0;
+  top: -3px;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, 0);
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #d3f0ff 35%, #8fe0ff 60%, rgba(80, 180, 255, 0) 78%);
+  filter: blur(1px);
+  opacity: 0;
+}
+
+.beam-particles {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--logo-width) * 0.7);
+  height: calc(var(--logo-width) * 1.5);
+  transform: translate(-50%, 0);
+  opacity: 0;
+}
+
+.beam-particle {
+  position: absolute;
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 50%;
+  background: rgba(222, 241, 255, 0.75);
+  filter: blur(0.6px);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Each particle gets its own duration, drift keyframes and delay — delicate
+   and irregular rather than a uniform "glitter" loop where every point
+   moves identically. */
+.beam-particle--0 { left: 34%; top: 6%; animation: piri-particle-drift-a 6.5s; animation-delay: 0s; }
+.beam-particle--1 { left: 61%; top: 20%; animation: piri-particle-drift-b 7.8s; animation-delay: 1.1s; }
+.beam-particle--2 { left: 44%; top: 40%; animation: piri-particle-drift-c 5.9s; animation-delay: 2.3s; }
+.beam-particle--3 { left: 67%; top: 57%; animation: piri-particle-drift-a 7.1s; animation-delay: 0.4s; }
+.beam-particle--4 { left: 39%; top: 73%; animation: piri-particle-drift-b 6.2s; animation-delay: 3.1s; }
+.beam-particle--5 { left: 56%; top: 87%; animation: piri-particle-drift-c 8.4s; animation-delay: 1.7s; }
+
+@keyframes piri-particle-drift-a {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  20% { opacity: 0.55; }
+  55% { transform: translate(2px, 16px) scale(0.85); opacity: 0.4; }
+  85% { opacity: 0.18; }
+  100% { transform: translate(3px, 30px) scale(0.55); opacity: 0; }
+}
+
+@keyframes piri-particle-drift-b {
+  0% { transform: translate(0, 0) scale(0.9); opacity: 0; }
+  25% { opacity: 0.5; }
+  60% { transform: translate(-3px, 20px) scale(0.75); opacity: 0.32; }
+  88% { opacity: 0.14; }
+  100% { transform: translate(-4px, 34px) scale(0.5); opacity: 0; }
+}
+
+@keyframes piri-particle-drift-c {
+  0% { transform: translate(0, 0) scale(1.05); opacity: 0; }
+  18% { opacity: 0.45; }
+  50% { transform: translate(1px, 12px) scale(0.9); opacity: 0.35; }
+  82% { opacity: 0.16; }
+  100% { transform: translate(2px, 24px) scale(0.6); opacity: 0; }
+}
+
+.logo-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  /* Hidden by default so the full logo can never flash into view before the
+     intro's rAF loop takes over (e.g. a throttled/backgrounded tab, or the
+     brief gap before the first frame runs) — it only ever becomes visible
+     once JS explicitly drives its opacity/mask during the reveal. */
+  opacity: 0;
+}
+
+.logo-layer--bloom {
+  /* The leading edge of the reveal: soft and bright, standing in for "the
+     light itself" before the crisp layer catches up to the same point. */
+  filter: blur(10px) brightness(1.7) saturate(1.15);
+}
+
+/* A soft, restrained cool-white/blue wash behind the whole logo, so it
+   reads as "genuinely illuminated" rather than a sharp image simply placed
+   inside a lit cone. Deliberately subtle — capped opacity and a wide, soft
+   falloff — so it never turns into a glowing cloud or hurts legibility of
+   the crisp logo layer painted on top of it. */
+.logo-ambient-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 165%;
+  height: 165%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(150, 210, 255, 0.32) 0%, rgba(90, 170, 255, 0.14) 45%, transparent 72%);
+  filter: blur(22px);
+  opacity: 0;
+}
+
+.logo-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.55) 50%, transparent 58%);
+  -webkit-mask-image: url('/brand/pirilight-logo.png');
+  mask-image: url('/brand/pirilight-logo.png');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.logo-glow-light {
+  position: absolute;
+  left: 48%;
+  top: 60%;
+  width: 46%;
+  height: 16%;
+  transform: translate(-30%, -50%);
+  background: radial-gradient(ellipse, rgba(70, 170, 255, 0.55), transparent 70%);
+  filter: blur(14px);
+  opacity: 0;
+}
+
+/* Brand statement — sits below the logo's own rendered box. `.intro-stage`
+   is width `var(--logo-width)` with aspect-ratio 1536/1024 (=1.5), so half
+   its height is `var(--logo-width) / 3`; the logo image's own content
+   already stops a bit short of the box's bottom edge (STUDIO sits ~78%
+   down, with transparent padding below), so this gap only needs to add a
+   little further breathing room, not a full second logo-height of space. */
+.brand-statement {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + (var(--logo-width) / 3) + (var(--logo-width) * 0.035));
+  transform: translateX(-50%) translateY(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  max-width: 90vw;
+}
+
+/* Font size is a plain multiple of `--logo-width` (via --tagline-scale) —
+   not a separate mobile/desktop value — so the logo and the tagline always
+   scale together as one visual block: if the logo grows 20%, this grows
+   20% too, by construction. letter-spacing is in `em`, so it already scales
+   proportionally with font-size without needing its own breakpoint. */
+.brand-statement__line {
+  display: block;
+  white-space: nowrap;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.7;
+  font-size: calc(var(--logo-width) * var(--tagline-scale));
+}
+
+.brand-statement__line--primary {
+  color: rgba(238, 244, 252, 0.82);
+}
+
+.brand-statement__line--accent {
+  background: linear-gradient(90deg, #8fe0ff, #4f8ffb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Just enough glow to keep the gradient text legible against the dark
+     background — not a neon effect. */
+  filter: drop-shadow(0 0 6px rgba(90, 170, 255, 0.25));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam-particle {
+    animation: none;
+  }
+}
+
+/* ============================================================================
+   LIGHT PROGRESSION SYSTEM
+   ============================================================================
+   Central darkness -> light scale for every section after the hero. Each
+   `.section--*` modifier below sets these three custom properties (plus
+   optional glow position overrides); `.section` itself is the only place
+   that reads them — so tuning the whole page's progression later means
+   editing this one table of numbers, not hunting through nine files.
+
+     --section-light-level      0..1  overall heading/body text brightness
+     --section-glow-opacity     0..1  strength of the ambient radial glow
+     --section-border-opacity   0..1  strength of illuminated dividers/lines
+
+   The actual background wash strength (how visible the tonal overlay is
+   over the shared starfield) is NOT set per section anymore — see
+   `.content-flow` below for why, and for the single shared gradient that
+   replaces it. Values still climb from Problem (darkest) to Final CTA
+   (brightest); nothing here is precious, it's a tuning table. */
+.section--problem {
+  --section-light-level: 0.08;
+  --section-glow-opacity: 0;
+  --section-border-opacity: 0.06;
+}
+
+.section--mission {
+  --section-light-level: 0.24;
+  --section-glow-opacity: 0.22;
+  --section-border-opacity: 0.16;
+}
+
+.section--services {
+  --section-light-level: 0.36;
+  --section-glow-opacity: 0.26;
+  --section-border-opacity: 0.24;
+  --section-glow-top: 10%;
+  --section-glow-x: 40%;
+}
+
+.section--process {
+  --section-light-level: 0.48;
+  --section-glow-opacity: 0.3;
+  --section-border-opacity: 0.32;
+  --section-glow-top: 2%;
+  --section-glow-x: 60%;
+}
+
+.section--portfolio {
+  --section-light-level: 0.6;
+  --section-glow-opacity: 0.36;
+  --section-border-opacity: 0.38;
+  --section-glow-top: 12%;
+  --section-glow-x: 44%;
+}
+
+.section--about {
+  --section-light-level: 0.7;
+  --section-glow-opacity: 0.42;
+  --section-border-opacity: 0.44;
+  --section-glow-top: 4%;
+  --section-glow-x: 56%;
+  /* "A broader and warmer brand glow" — a touch less blue-saturated than
+     the default, leaning toward soft white, not literally warm/amber (stays
+     in the brand's blue family). */
+  --section-glow-rgb: 195, 210, 255;
+}
+
+.section--principles {
+  --section-light-level: 0.8;
+  --section-glow-opacity: 0.46;
+  --section-border-opacity: 0.5;
+  --section-glow-top: 8%;
+  --section-glow-x: 36%;
+}
+
+.section--final {
+  --section-light-level: 0.96;
+  --section-glow-opacity: 0.55;
+  --section-border-opacity: 0.62;
+  --section-glow-rgb: 130, 195, 255;
+}
+
+/* ============================================================================
+   SHARED SECTION PRIMITIVES
+   ============================================================================ */
+/* The single continuous background wash for the entire post-hero page.
+   Deliberately ONE gradient painted ONCE across every section, rather than
+   each `.section` painting its own independent gradient that has to happen
+   to match its neighbors' at the boundary: even mathematically identical
+   endpoint colors between two separately-rasterized adjacent elements can
+   show a faint seam (independent paint/compositing edges), so matching
+   endpoints isn't actually sufficient — only a single uninterrupted paint
+   guarantees zero seams. `position: relative` (with a z-index above the
+   fixed starfield's 0) is what makes this element's own background paint
+   over `.hero__sky` instead of underneath it; deliberately NOT
+   `overflow: hidden` here, so `.problem-section`'s negative top margin (see
+   below) can still pull it — and this wrapper along with it, via normal
+   margin collapsing — up under the still-sticky hero exactly as before.
+   Percentage stops don't need to line up pixel-for-pixel with each
+   section's actual content boundary: the illumination is meant to read as
+   one smooth atmospheric progression, not something keyed precisely to
+   where each heading starts. */
+.content-flow {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 19, 36, 0) 0%,
+    rgba(11, 19, 36, 0.1) 6%,
+    rgba(11, 19, 36, 0.22) 14%,
+    rgba(11, 19, 36, 0.34) 29%,
+    rgba(11, 19, 36, 0.46) 43%,
+    rgba(11, 19, 36, 0.58) 57%,
+    rgba(11, 19, 36, 0.68) 71%,
+    rgba(11, 19, 36, 0.76) 86%,
+    rgba(11, 19, 36, 0.88) 100%
+  );
+}
+
+.section {
+  position: relative;
+  z-index: 10;
+  padding: clamp(5rem, 6rem + 4vw, 9rem) 1.5rem;
+  overflow: hidden;
+}
+
+/* `--section-glow-top`/`--section-glow-x` vary per section (see the table
+   above) so the same soft circle doesn't land in the identical spot every
+   time — avoids an obvious repeating "stamped" pattern while staying subtle
+   and organic. Sections without their own dedicated override (Mission,
+   Final — see further down) fall back to these defaults. */
+.section__glow {
+  position: absolute;
+  left: var(--section-glow-x, 50%);
+  top: var(--section-glow-top, 6%);
+  width: min(70vw, 900px);
+  height: min(70vw, 900px);
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(var(--section-glow-rgb), var(--section-glow-opacity)) 0%, transparent 68%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.container--narrow {
+  max-width: var(--container-max-narrow);
+}
+
+.eyebrow {
+  display: block;
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(150, 190, 240, calc(0.55 + var(--section-light-level, 0.2) * 0.35));
+}
+
+.section__heading {
+  margin: 0 0 1.25rem;
+  max-width: 34rem;
+  font-size: clamp(1.9rem, 1.3rem + 2.6vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: rgba(244, 244, 245, calc(0.82 + var(--section-light-level, 0.2) * 0.16));
+}
+
+.section__body {
+  margin: 0 0 1rem;
+  max-width: 38rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+  line-height: 1.65;
+  color: rgba(200, 210, 226, calc(0.68 + var(--section-light-level, 0.2) * 0.2));
+}
+
+.section__supporting {
+  margin: 0;
+  max-width: 34rem;
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  line-height: 1.7;
+  color: rgba(180, 195, 220, calc(0.5 + var(--section-light-level, 0.2) * 0.2));
+}
+
+/* ---- Problem section — the one section with special positioning: it rises
+   up over the pinned hero via the same negative-margin overlap technique
+   the hero's own scroll transition relies on (see .hero-transition-region /
+   .hero above). Everything else (padding, background wash, z-index) comes
+   from `.section` + `.section--problem` above. */
+.problem-section {
+  margin-top: calc(-1 * var(--hero-drift-vh));
+  min-height: 80vh;
+}
+
+.problem-section__highlight {
+  color: rgba(190, 215, 255, 0.94);
+  /* The "subtle low-intensity blue glow" called for on this specific line —
+     deliberately restrained, just enough to read as lit rather than neon. */
+  text-shadow: 0 0 22px rgba(90, 170, 255, 0.28);
+}
+
+/* Empty today — reserved space for the future Piri crossing (see the
+   comment beside this class in ProblemSection.tsx). Zero visual footprint
+   until that animation exists. */
+.piri-transition-anchor {
+  position: relative;
+  height: 0;
+}
+
+/* ============================================================================
+   REVEAL-ON-SCROLL UTILITY (components/ui/Reveal.tsx)
+   ============================================================================
+   One shared "emerge from darkness" transition reused by every section
+   instead of each one rolling its own opacity/transform rules. Stagger is
+   just `--reveal-delay` set inline per instance. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* ============================================================================
+   HEADER / NAVIGATION
+   ============================================================================ */
+/* Fully hidden for the entire hero experience — no wordmark, links, CTA,
+   background, border or blur — so the first screen reads as pure cinematic
+   hero. `position: fixed` already means it never occupies layout space or
+   causes a gap either way. `visibility: hidden` (not just opacity) drops it
+   from the tab order and accessibility tree while hidden, on top of
+   `pointer-events: none`, so hidden nav items can't be clicked or focused;
+   the visibility transition is delayed on the way OUT (so the fade/slide can
+   play) but instant on the way IN, matching the same technique already used
+   by `.mobile-menu`/`.mobile-menu--open` below. */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  opacity: 0;
+  transform: translateY(-14px);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    backdrop-filter 0.5s ease,
+    visibility 0s linear 0.5s;
+}
+
+.site-header--visible {
+  background: rgba(6, 10, 20, 0.72);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    backdrop-filter 0.5s ease,
+    visibility 0s linear 0s;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1.1rem 1.5rem;
+}
+
+.site-header__brand {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #f4f4f5;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-header__brand span {
+  color: rgba(143, 224, 255, 0.9);
+}
+
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.site-header__link {
+  position: relative;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 245, 0.68);
+  text-decoration: none;
+  padding: 0.35rem 0;
+  transition: color 0.25s ease;
+}
+
+.site-header__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #8fe0ff, #4f8ffb);
+  transition: right 0.3s ease;
+}
+
+.site-header__link:hover,
+.site-header__link:focus-visible {
+  color: #f4f4f5;
+}
+
+.site-header__link:hover::after,
+.site-header__link:focus-visible::after,
+.site-header__link--active::after {
+  right: 0;
+}
+
+.site-header__link--active {
+  color: #f4f4f5;
+}
+
+.site-header__cta {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #04101f;
+  background: linear-gradient(90deg, #8fe0ff, #4f8ffb);
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.site-header__cta:hover,
+.site-header__cta:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(90, 170, 255, 0.35);
+}
+
+.site-header__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.site-header__toggle span {
+  display: block;
+  height: 1.5px;
+  background: #f4f4f5;
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.site-header__toggle--open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.site-header__toggle--open span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header__toggle--open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 8, 18, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.mobile-menu--open {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.mobile-menu__link {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #f4f4f5;
+  text-decoration: none;
+}
+
+.mobile-menu__link:hover,
+.mobile-menu__link:focus-visible {
+  color: rgba(143, 224, 255, 0.95);
+}
+
+.mobile-menu__cta {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #04101f;
+  background: linear-gradient(90deg, #8fe0ff, #4f8ffb);
+  padding: 0.75rem 1.75rem;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+@media (max-width: 860px) {
+  .site-header__nav,
+  .site-header__cta {
+    display: none;
+  }
+
+  .site-header__toggle {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-header__toggle span,
+  .mobile-menu {
+    transition: none;
+  }
+}
+
+/* ============================================================================
+   MISSION SECTION
+   ============================================================================ */
+.section--mission .section__glow {
+  top: 0;
+}
+
+/* ============================================================================
+   SERVICES SECTION
+   ============================================================================ */
+.piri-services-anchor {
+  height: 0;
+}
+
+.service-list {
+  list-style: none;
+  margin: 3rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-row {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+  transition: border-color 0.4s ease;
+}
+
+.service-row:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+}
+
+.service-row__index {
+  font-size: clamp(2.25rem, 1.8rem + 1.5vw, 3.25rem);
+  font-weight: 300;
+  color: rgba(143, 224, 255, 0.35);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.service-row__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.service-row__description {
+  margin: 0;
+  max-width: 34rem;
+  color: rgba(198, 210, 228, 0.72);
+  line-height: 1.65;
+}
+
+.service-row:hover,
+.service-row:focus-within {
+  border-color: rgba(143, 224, 255, 0.4);
+}
+
+.service-row:hover .service-row__index,
+.service-row:focus-within .service-row__index {
+  color: rgba(143, 224, 255, 0.9);
+  text-shadow: 0 0 18px rgba(90, 170, 255, 0.5);
+}
+
+/* Reserved for the future Piri/light-source hook (see piri-services-anchor
+   above): the same visual state a hover already produces, just triggered by
+   scroll position/Piri proximity instead of the pointer. */
+.service-row.is-lit .service-row__index {
+  color: rgba(143, 224, 255, 1);
+  text-shadow: 0 0 24px rgba(90, 170, 255, 0.7);
+}
+
+@media (max-width: 640px) {
+  .service-row {
+    grid-template-columns: 3.25rem 1fr;
+    gap: 1rem;
+  }
+
+  .service-row__index {
+    font-size: 1.9rem;
+  }
+}
+
+/* ============================================================================
+   PROCESS SECTION
+   ============================================================================ */
+.process-path {
+  list-style: none;
+  margin: 3.5rem auto 0;
+  padding: 0 0 0 2.5rem;
+  max-width: 42rem;
+  position: relative;
+}
+
+.process-path::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 1px;
+  background: rgba(255, 255, 255, var(--section-border-opacity));
+}
+
+.process-stage {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.process-stage:last-child {
+  padding-bottom: 0;
+}
+
+.process-stage__marker {
+  position: absolute;
+  left: -2.5rem;
+  top: 0.35rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(143, 224, 255, 0.25);
+  box-shadow: 0 0 0 4px rgba(90, 170, 255, 0.06);
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
+/* The path "progressively lights up" via each stage's own reveal state
+   (below) rather than a continuously-scrubbed scroll value — cheap, and
+   consistent with the reveal system every other section uses. */
+.process-stage.reveal--visible .process-stage__marker {
+  background: rgba(143, 224, 255, 0.95);
+  box-shadow: 0 0 0 6px rgba(90, 170, 255, 0.18), 0 0 18px rgba(90, 170, 255, 0.6);
+}
+
+.process-stage__index {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: rgba(143, 224, 255, 0.55);
+}
+
+.process-stage__title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.2rem, 1.05rem + 0.8vw, 1.5rem);
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.process-stage__description {
+  margin: 0;
+  max-width: 32rem;
+  color: rgba(198, 210, 228, 0.72);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .process-path {
+    padding-left: 2rem;
+  }
+
+  .process-stage__marker {
+    left: -2rem;
+  }
+}
+
+/* ============================================================================
+   PORTFOLIO SECTION
+   ============================================================================ */
+.piri-portfolio-anchor {
+  height: 0;
+}
+
+.portfolio-grid {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.portfolio-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+  background: rgba(10, 16, 30, 0.35);
+  transition: border-color 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.portfolio-card--featured {
+  grid-column: 1 / -1;
+}
+
+.portfolio-card--featured .portfolio-card__image {
+  aspect-ratio: 21 / 9;
+}
+
+.portfolio-card__image {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, rgba(20, 32, 54, 0.9), rgba(8, 13, 24, 0.95));
+  overflow: hidden;
+}
+
+.portfolio-card__image-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at 30% 30%, rgba(143, 224, 255, 0.22), transparent 60%);
+  opacity: 0.6;
+  transform: scale(1.05);
+  transition: opacity 0.6s ease, transform 0.8s ease;
+}
+
+.portfolio-card__body {
+  padding: 1.35rem 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.portfolio-card__category {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(143, 224, 255, 0.6);
+}
+
+.portfolio-card__name {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.portfolio-card__link {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 245, 0.75);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.portfolio-card__link span {
+  transition: transform 0.25s ease;
+}
+
+/* :focus-within (not just :hover) so tapping the link on touch devices
+   produces the same highlight state — the required touch-friendly
+   alternative, with no extra JS. */
+.portfolio-card:hover,
+.portfolio-card:focus-within {
+  border-color: rgba(143, 224, 255, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(4, 10, 22, 0.5);
+}
+
+.portfolio-card:hover .portfolio-card__image-glow,
+.portfolio-card:focus-within .portfolio-card__image-glow {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.portfolio-card:hover .portfolio-card__link,
+.portfolio-card:focus-within .portfolio-card__link {
+  color: #8fe0ff;
+}
+
+.portfolio-card:hover .portfolio-card__link span,
+.portfolio-card:focus-within .portfolio-card__link span {
+  transform: translateX(3px);
+}
+
+/* ============================================================================
+   ABOUT SECTION
+   ============================================================================ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.about-grid__visual {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  max-width: 26rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.piri-about-visual {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+  overflow: hidden;
+}
+
+.piri-about-visual__glow {
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(circle, rgba(var(--section-glow-rgb), var(--section-glow-opacity)) 0%, transparent 70%);
+  filter: blur(30px);
+}
+
+@media (max-width: 860px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-grid__visual {
+    order: -1;
+    max-width: 16rem;
+  }
+}
+
+/* ============================================================================
+   PRINCIPLES SECTION
+   ============================================================================ */
+.principle-list {
+  list-style: none;
+  margin: 3rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2.5rem;
+}
+
+.principle-item {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+}
+
+.principle-item__title {
+  margin: 0 0 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.principle-item__description {
+  margin: 0;
+  color: rgba(198, 210, 228, 0.72);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* ============================================================================
+   FINAL CTA
+   ============================================================================ */
+.section--final {
+  text-align: center;
+  padding-bottom: clamp(6rem, 8vw, 10rem);
+}
+
+.section__glow--final {
+  top: -10%;
+  width: min(90vw, 1100px);
+  height: min(90vw, 1100px);
+}
+
+.piri-final-anchor {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  width: 1px;
+  height: 1px;
+}
+
+.final-cta__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.final-cta__heading {
+  max-width: 32rem;
+}
+
+.final-cta__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.button--primary {
+  color: #04101f;
+  background: linear-gradient(90deg, #8fe0ff, #4f8ffb);
+}
+
+.button--primary:hover,
+.button--primary:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(90, 170, 255, 0.4);
+}
+
+.button--secondary {
+  color: #f4f4f5;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.button--secondary:hover,
+.button--secondary:focus-visible {
+  border-color: rgba(143, 224, 255, 0.5);
+  color: #8fe0ff;
+}
+
+.button:focus-visible {
+  outline: 2px solid #8fe0ff;
+  outline-offset: 3px;
+}
+
+.final-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.final-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(210, 230, 255, 0.6);
+  filter: blur(0.5px);
+  animation: piri-final-particle-drift 9s ease-in-out infinite;
+}
+
+.final-particle--0 { left: 12%; top: 20%; animation-duration: 8s; animation-delay: 0s; }
+.final-particle--1 { left: 28%; top: 65%; animation-duration: 10s; animation-delay: 1s; }
+.final-particle--2 { left: 44%; top: 15%; animation-duration: 7.5s; animation-delay: 2s; }
+.final-particle--3 { left: 58%; top: 70%; animation-duration: 9.5s; animation-delay: 0.5s; }
+.final-particle--4 { left: 70%; top: 30%; animation-duration: 8.5s; animation-delay: 1.5s; }
+.final-particle--5 { left: 82%; top: 55%; animation-duration: 11s; animation-delay: 2.5s; }
+.final-particle--6 { left: 20%; top: 80%; animation-duration: 9s; animation-delay: 3s; }
+.final-particle--7 { left: 90%; top: 20%; animation-duration: 8s; animation-delay: 1.8s; }
+
+@keyframes piri-final-particle-drift {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 0.7; }
+  50% { transform: translateY(-24px) scale(1.2); opacity: 0.9; }
+  80% { opacity: 0.3; }
+  100% { transform: translateY(-46px) scale(0.8); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .final-particle {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+.site-footer {
+  position: relative;
+  z-index: 10;
+  padding: 3.5rem 1.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 14, 26, 0.55);
+}
+
+.site-footer__inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: space-between;
+}
+
+.site-footer__brand {
+  max-width: 22rem;
+}
+
+.site-footer__logo {
+  margin: 0;
+  font-weight: 600;
+  color: #f4f4f5;
+}
+
+.site-footer__slogan {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  color: rgba(190, 205, 226, 0.65);
+}
+
+.site-footer__nav,
+.site-footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.site-footer__link {
+  font-size: 0.85rem;
+  color: rgba(210, 220, 236, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.site-footer__link:hover,
+.site-footer__link:focus-visible {
+  color: #8fe0ff;
+}
+
+.site-footer__bottom {
+  max-width: 80rem;
+  margin: 2.5rem auto 0;
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.75rem;
+  color: rgba(160, 175, 196, 0.55);
+}
+
+.site-footer__bottom p {
+  margin: 0;
+}
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: baseline;
+  text-decoration: none;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.site-header__brand-piri {
+  color: #ffffff;
+}
+
+.site-header__brand-light {
+  color: #168cff;
+}
+
+.site-header__brand-studio {
+  margin-left: 0.45rem;
+  color: #ffffff;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+}
+
+.site-header__brand-piri {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
+}
+
+.site-header__brand-light {
+  color: #168cff !important;
+  -webkit-text-fill-color: #168cff !important;
+  background: none !important;
+}
+
+.site-header__brand-studio {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
+
+  margin-left: 0.45rem;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+}
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-header__brand-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
