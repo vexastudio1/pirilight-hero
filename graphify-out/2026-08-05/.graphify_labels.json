@@ -1,7 +1,7 @@
 {
   "0": "PiriModel.tsx",
-  "1": "Header.tsx",
-  "2": "App.tsx",
+  "1": "App.tsx",
+  "2": "NightSky.tsx",
   "3": "vercel.json",
   "4": "devDependencies",
   "5": "package.json",
@@ -33,13 +33,5 @@
   "31": "graphify reference: GitHub clone and cross-repo merge",
   "32": "graphify reference: transcribe video and audio",
   "33": ".claude/CLAUDE.md",
-  "34": "extraction-spec.md",
-  "35": "logoLayout.ts",
-  "36": "NightSky.tsx",
-  "37": "Reveal.tsx",
-  "38": "router.tsx",
-  "39": "ProjectDetailPage.tsx",
-  "40": "PrinciplesSection.tsx",
-  "41": "ProcessSection.tsx",
-  "42": "ServicesSection.tsx"
+  "34": "extraction-spec.md"
 }

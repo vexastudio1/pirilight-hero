@@ -78,6 +78,25 @@ export function getSkyBrightnessFactor(masterT: number): number {
   return 1 + clamp01(masterT) * SKY_BRIGHTNESS_MAX_BOOST;
 }
 
+// ---- Stars becoming less dominant as the page's own ambient light grows ---
+//
+// `getSkyBrightnessFactor` above only covers the hero's own short exit
+// (masterT saturates the moment the user leaves the hero and never moves
+// again for the rest of the page). Nothing previously made the starfield
+// keep responding to scroll depth beyond that point, even though the
+// GlobalLightField blobs and NightSky's own sky-tint gradient (both driven
+// by `pageT`, the whole-document scroll fraction) keep brightening all the
+// way to the footer. This closes that gap: a second, independent multiplier
+// on the same `pageT` the rest of the "daylight" system already uses, so
+// stars quietly recede as that ambience grows — never to zero (this stays
+// "the same continuous starry background," just a quieter one), floored at
+// STAR_DAYLIGHT_FLOOR.
+const STAR_DAYLIGHT_FLOOR = 0.55;
+
+export function getStarDaylightDim(pageT: number): number {
+  return 1 - (1 - STAR_DAYLIGHT_FLOOR) * clamp01(pageT);
+}
+
 // ---- Tagline lag -------------------------------------------------------
 //
 // The brand statement should visibly follow the logo rather than move in

@@ -1,4 +1,5 @@
 import { Reveal } from '../ui/Reveal';
+import { Link } from '../../lib/router';
 
 export default function FinalCTA() {
   return (
@@ -24,9 +25,9 @@ export default function FinalCTA() {
           Vamos criar uma presença digital à altura do trabalho que já faz.
         </Reveal>
         <Reveal as="div" className="final-cta__actions" delay={0.24}>
-          <a href="mailto:ola@pirilight.pt" className="button button--primary">
+          <Link to="/comecar-projeto" className="button button--primary">
             Começar um projeto
-          </a>
+          </Link>
           <a href="mailto:ola@pirilight.pt" className="button button--secondary">
             Falar connosco
           </a>

@@ -1,4 +1,5 @@
 import { Reveal } from '../ui/Reveal';
+import PiriAboutMoment from './PiriAboutMoment';
 
 export default function AboutSection() {
   return (
@@ -26,14 +27,11 @@ export default function AboutSection() {
           </Reveal>
         </div>
 
-        {/* Future hook: reserved for a Piri illustration or a lightweight
-            3D/animated moment — currently just a softly glowing empty
-            frame so the layout and lighting are already correct once real
-            content lands here. */}
+        {/* Piri flies in from the right and settles front-facing in the
+            centre of this circle, then hovers indefinitely — see
+            PiriAboutMoment.tsx / PiriAboutScene.tsx. */}
         <Reveal as="div" className="about-grid__visual" delay={0.15}>
-          <div className="piri-about-visual" aria-hidden="true">
-            <span className="piri-about-visual__glow" />
-          </div>
+          <PiriAboutMoment />
         </Reveal>
       </div>
     </section>

@@ -65,8 +65,8 @@
     "semantic_hash": "e5684312e324f05361317c0fd2f7d30a"
   },
   "src/App.tsx": {
-    "mtime": 1785975037.2158291,
-    "ast_hash": "0ff49489bd2880d66505ed673bec0a8a",
+    "mtime": 1785968444.3381858,
+    "ast_hash": "a3fa3b739417d70111d51c55297c2c70",
     "semantic_hash": ""
   },
   "src/components/hero/AmbientParticles.tsx": {
@@ -85,13 +85,13 @@
     "semantic_hash": ""
   },
   "src/components/hero/NightSky.tsx": {
-    "mtime": 1785975066.9578626,
-    "ast_hash": "5c96d01ee088f6e5b8616262f523ad28",
+    "mtime": 1785837582.6309872,
+    "ast_hash": "0ab988bc8d5ad0119a9fe3f743f4e659",
     "semantic_hash": ""
   },
   "src/components/hero/PiriModel.tsx": {
-    "mtime": 1786012448.9873424,
-    "ast_hash": "35bee4e314558cfa8a2f909f882d6668",
+    "mtime": 1785868296.9019518,
+    "ast_hash": "397ed84cab63d51d7518eb5cb2ee1666",
     "semantic_hash": ""
   },
   "src/components/layout/Footer.tsx": {
@@ -100,13 +100,13 @@
     "semantic_hash": ""
   },
   "src/components/layout/Header.tsx": {
-    "mtime": 1785972699.6771648,
-    "ast_hash": "8d331e81daac3fb3b0b0685ffe6181c9",
+    "mtime": 1785968712.60218,
+    "ast_hash": "e7592b9499a1042a43166b5a1ff7e3ad",
     "semantic_hash": ""
   },
   "src/components/sections/AboutSection.tsx": {
-    "mtime": 1786011188.3004038,
-    "ast_hash": "3cfff729fc12dd5587e9ad44b4b75ff9",
+    "mtime": 1785837969.0441403,
+    "ast_hash": "dfc73c33eb7104d81fc6425897f4c124",
     "semantic_hash": ""
   },
   "src/components/sections/FinalCTA.tsx": {
@@ -205,8 +205,8 @@
     "semantic_hash": "71610c8cd69649e97d7170eb176ea810"
   },
   "src/lib/introTimeline.ts": {
-    "mtime": 1786014979.7796214,
-    "ast_hash": "7c0bebf471d6802776670a02a3b8020f",
+    "mtime": 1785868216.9686244,
+    "ast_hash": "cccca57549820514550d4ee6a1b48c80",
     "semantic_hash": ""
   },
   "src/lib/logoLayout.ts": {
@@ -220,9 +220,9 @@
     "semantic_hash": ""
   },
   "src/lib/scrollTimeline.ts": {
-    "mtime": 1785973510.3494825,
-    "ast_hash": "d8bac6e4e70c25a25f0fe2d4d3b2b94c",
-    "semantic_hash": ""
+    "mtime": 1785785893.6020522,
+    "ast_hash": "dc5a4fbd4f4062843954a0eb973927c1",
+    "semantic_hash": "dc5a4fbd4f4062843954a0eb973927c1"
   },
   "src/main.tsx": {
     "mtime": 1785675680.9774005,
@@ -432,56 +432,6 @@
   "src/pages/ProjectEnquiryPage.tsx": {
     "mtime": 1785968434.497691,
     "ast_hash": "79e7c56e0cd10f31674b1fa6fbb64d3a",
-    "semantic_hash": ""
-  },
-  "src/hooks/useMediaQuery.ts": {
-    "mtime": 1785969925.184006,
-    "ast_hash": "263138cf4b743bdbe62477d12578b4f8",
-    "semantic_hash": ""
-  },
-  "src/hooks/useMobileHeaderVisible.ts": {
-    "mtime": 1785972684.1741288,
-    "ast_hash": "d81d57cca774aa70e2421f6c452077a4",
-    "semantic_hash": ""
-  },
-  "src/components/hero/PiriFlybyScene.tsx": {
-    "mtime": 1786015047.019945,
-    "ast_hash": "fda3dbb7577c7b0280960699781cdcfc",
-    "semantic_hash": ""
-  },
-  "src/components/sections/PiriFlybyMoment.tsx": {
-    "mtime": 1786015019.518698,
-    "ast_hash": "3e7258bb23db4c86b6818d74fa0f2d44",
-    "semantic_hash": ""
-  },
-  "src/lib/flybyState.ts": {
-    "mtime": 1785974854.9986174,
-    "ast_hash": "25d1f764e0f45f148d0a2d726b11c7c2",
-    "semantic_hash": ""
-  },
-  "src/lib/flybyTimeline.ts": {
-    "mtime": 1786012514.6268842,
-    "ast_hash": "ad6fc1ee86c801694a0e6004f05d5919",
-    "semantic_hash": ""
-  },
-  "src/lib/flybySize.ts": {
-    "mtime": 1786015055.1633172,
-    "ast_hash": "fc2ff8837f3a975eaa2920ad4c47065c",
-    "semantic_hash": ""
-  },
-  "src/components/hero/PiriAboutScene.tsx": {
-    "mtime": 1786012733.132095,
-    "ast_hash": "eec6cfdb6496b540cd56624d96343186",
-    "semantic_hash": ""
-  },
-  "src/components/sections/PiriAboutMoment.tsx": {
-    "mtime": 1786013390.5136845,
-    "ast_hash": "10293f48c3a38d20cdea58ae49c20cd3",
-    "semantic_hash": ""
-  },
-  "src/lib/piriAboutTimeline.ts": {
-    "mtime": 1786011042.5656233,
-    "ast_hash": "bb08e927122a18d9bc82a42ae0e0ddda",
     "semantic_hash": ""
   }
 }

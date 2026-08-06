@@ -1,6 +1,11 @@
 import { NAV_LINKS } from '../../data/navigation';
+import { useRouter } from '../../lib/router';
 
 export default function Footer() {
+  // See Header.tsx for why section anchors need the "/" prefix off the home page.
+  const { pathname } = useRouter();
+  const homePrefix = pathname === '/' ? '' : '/';
+
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
@@ -11,7 +16,7 @@ export default function Footer() {
 
         <nav className="site-footer__nav" aria-label="Navegação do rodapé">
           {NAV_LINKS.map((link) => (
-            <a key={link.id} href={`#${link.id}`} className="site-footer__link">
+            <a key={link.id} href={`${homePrefix}#${link.id}`} className="site-footer__link">
               {link.label}
             </a>
           ))}

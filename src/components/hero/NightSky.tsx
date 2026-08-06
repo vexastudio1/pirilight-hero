@@ -1,6 +1,21 @@
 import { useEffect, useRef } from 'react';
+import { flybyState } from '../../lib/flybyState';
 import { scrollState } from '../../lib/scrollState';
-import { getSkyBrightnessFactor, getStarLayerScrollFactor, type StarLayerName } from '../../lib/scrollTimeline';
+import {
+  getSkyBrightnessFactor,
+  getStarDaylightDim,
+  getStarLayerScrollFactor,
+  type StarLayerName,
+} from '../../lib/scrollTimeline';
+
+// How close (in normalized viewport-fraction distance) a star needs to be
+// to Piri's current position, during the Mission -> Services flyby moment,
+// to visibly react — "nearby stars react slightly: tiny brightness
+// increase, subtle twinkle, then return to normal." Cheap: one extra
+// subtraction/compare/multiply per star per frame, gated behind
+// `flybyState.active` (false almost all the time — the moment plays once).
+const FLYBY_REACT_RADIUS = 0.15;
+const FLYBY_REACT_BOOST = 0.85;
 
 // A fully self-contained, canvas-based starfield. It knows nothing about Piri,
 // the logo, or the flight animation — it only paints a still, breathing night
@@ -222,14 +237,15 @@ export default function NightSky() {
     let start = performance.now();
 
     // Base night-sky tones, and how far each one is allowed to lift toward
-    // as the whole page scrolls (see SKY_BASE_TOP/MID/BOTTOM below) — kept
-    // small and still very dark, so the sky reads as "darkness slowly being
-    // illuminated," never as a plain blue background. Top lifts the most
-    // (that's where the atmospheric blobs sit), bottom barely moves so the
-    // vignette depth is preserved even at the brightest point of the page.
-    const SKY_TOP = { from: [7, 12, 24], to: [17, 27, 50] };
-    const SKY_MID = { from: [3, 6, 15], to: [10, 16, 34] };
-    const SKY_BOTTOM = { from: [1, 3, 10], to: [5, 9, 24] };
+    // as the whole page scrolls (see SKY_BASE_TOP/MID/BOTTOM below) — still
+    // clearly dark navy at the "to" end (nowhere near white/daytime), just a
+    // more noticeable lift than before so the illumination actually reads
+    // by the time the user reaches the footer. Top lifts the most (that's
+    // where the atmospheric blobs sit), bottom barely moves so the vignette
+    // depth is preserved even at the brightest point of the page.
+    const SKY_TOP = { from: [7, 12, 24], to: [34, 52, 88] };
+    const SKY_MID = { from: [3, 6, 15], to: [19, 29, 56] };
+    const SKY_BOTTOM = { from: [1, 3, 10], to: [10, 16, 38] };
 
     function lerpChannel(from: number[], to: number[], t: number) {
       const r = Math.round(from[0] + (to[0] - from[0]) * t);
@@ -262,7 +278,12 @@ export default function NightSky() {
       // progresses (see scrollTimeline.ts). Computed once per layer per
       // frame, not per star.
       const { alpha: scrollAlpha, driftVh } = getStarLayerScrollFactor(layerName, scrollState.masterT);
-      const brightness = getSkyBrightnessFactor(scrollState.masterT);
+      // getSkyBrightnessFactor is the hero's own short exit boost (saturates
+      // the moment the user leaves the hero); getStarDaylightDim is the
+      // separate, independent whole-page counterpart — stars quietly
+      // receding as the page's own ambient light (sky tint + GlobalLightField
+      // blobs, both pageT-driven) keeps growing all the way to the footer.
+      const brightness = getSkyBrightnessFactor(scrollState.masterT) * getStarDaylightDim(scrollState.pageT);
       if (scrollAlpha <= 0.001) return;
       const scrollOffsetPx = (driftVh / 100) * py;
       for (const star of layer.stars) {
@@ -272,7 +293,19 @@ export default function NightSky() {
         const x = (((star.xFrac * width - layer.offsetX) % width) + width) % width;
         const sprite = sprites[star.spriteBucket];
         const size = sprite.width;
-        ctx.globalAlpha = alpha;
+
+        let starAlpha = alpha;
+        if (flybyState.active) {
+          const dx = x / width - flybyState.xFrac;
+          const dy = star.yFrac - flybyState.yFrac;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < FLYBY_REACT_RADIUS) {
+            const proximity = 1 - dist / FLYBY_REACT_RADIUS;
+            starAlpha = Math.min(1, alpha * (1 + proximity * flybyState.intensity * FLYBY_REACT_BOOST));
+          }
+        }
+
+        ctx.globalAlpha = starAlpha;
         ctx.drawImage(sprite, x * dpr - size / 2, star.yFrac * py - scrollOffsetPx - size / 2, size, size);
       }
     }

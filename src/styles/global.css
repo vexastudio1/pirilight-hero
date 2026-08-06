@@ -728,17 +728,23 @@ mask-image: url('/brand/pirilight-logo.png');
 .content-flow {
   position: relative;
   z-index: 10;
+  /* Same stop positions as before (only the alpha ceiling at each one was
+     retuned) — eased down from a 0.88 ceiling to 0.6 so the brightened sky
+     and GlobalLightField's blobs (both retuned alongside this) can actually
+     read through by the bottom of the page instead of being smothered by
+     an increasingly opaque wash. Still the single continuous paint this
+     always was — no new stops, no new seams, just a gentler climb. */
   background: linear-gradient(
     to bottom,
     rgba(11, 19, 36, 0) 0%,
-    rgba(11, 19, 36, 0.1) 6%,
-    rgba(11, 19, 36, 0.22) 14%,
-    rgba(11, 19, 36, 0.34) 29%,
-    rgba(11, 19, 36, 0.46) 43%,
-    rgba(11, 19, 36, 0.58) 57%,
-    rgba(11, 19, 36, 0.68) 71%,
-    rgba(11, 19, 36, 0.76) 86%,
-    rgba(11, 19, 36, 0.88) 100%
+    rgba(11, 19, 36, 0.08) 6%,
+    rgba(11, 19, 36, 0.17) 14%,
+    rgba(11, 19, 36, 0.26) 29%,
+    rgba(11, 19, 36, 0.34) 43%,
+    rgba(11, 19, 36, 0.42) 57%,
+    rgba(11, 19, 36, 0.48) 71%,
+    rgba(11, 19, 36, 0.54) 86%,
+    rgba(11, 19, 36, 0.6) 100%
   );
 }
 
@@ -789,49 +795,55 @@ mask-image: url('/brand/pirilight-logo.png');
    scrolled past — the hero keeps its own separate, already-tuned lighting
    (scrollTimeline.ts) untouched. Positions are deliberately irregular: no
    two blobs share a size, opacity ceiling, or symmetric x-position. */
+/* Ceilings raised and thresholds moved earlier (same relative spacing/
+   ordering as before — blob a still wakes first, e still last and highest)
+   so the "gradually illuminating" feeling is actually felt across the
+   scroll instead of staying subtle to the point of going unnoticed. Purely
+   a retune of the same opacity formula each blob already had — no new
+   blobs, no new sizes beyond a modest bump, no new blur cost. */
 .global-light__blob--a {
   top: 18%;
   left: 32%;
-  width: 46vw;
-  height: 46vw;
+  width: 50vw;
+  height: 50vw;
   --blob-rgb: rgba(120, 170, 255, 0.5);
-  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.2) * 2.6), 0.16);
+  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.1) * 2.6), 0.3);
 }
 
 .global-light__blob--b {
   top: 38%;
   left: 74%;
-  width: 52vw;
-  height: 52vw;
+  width: 56vw;
+  height: 56vw;
   --blob-rgb: rgba(150, 200, 255, 0.5);
-  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.34) * 2.4), 0.2);
+  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.24) * 2.4), 0.36);
 }
 
 .global-light__blob--c {
   top: 58%;
   left: 20%;
-  width: 44vw;
-  height: 44vw;
+  width: 48vw;
+  height: 48vw;
   --blob-rgb: rgba(195, 215, 255, 0.5);
-  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.48) * 2.2), 0.22);
+  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.38) * 2.2), 0.42);
 }
 
 .global-light__blob--d {
   top: 76%;
   left: 62%;
-  width: 58vw;
-  height: 58vw;
+  width: 62vw;
+  height: 62vw;
   --blob-rgb: rgba(140, 195, 255, 0.5);
-  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.62) * 2.2), 0.26);
+  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.52) * 2.2), 0.5);
 }
 
 .global-light__blob--e {
   top: 92%;
   left: 42%;
-  width: 66vw;
-  height: 66vw;
+  width: 70vw;
+  height: 70vw;
   --blob-rgb: rgba(150, 205, 255, 0.55);
-  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.76) * 2), 0.32);
+  --blob-opacity: clamp(0, calc((var(--page-light-t, 0) - 0.66) * 2), 0.62);
 }
 
 @media (max-width: 640px) {
@@ -1100,29 +1112,73 @@ mask-image: url('/brand/pirilight-logo.png');
   box-shadow: 0 8px 24px rgba(90, 170, 255, 0.35);
 }
 
+/* 44×44px touch target (WCAG/Apple HIG minimum) even though the drawn
+   glyph itself stays slim/refined. Spans are absolutely positioned inside
+   this `position: relative` box (each pinned to the vertical center, then
+   offset by translateY) rather than laid out via flex `gap` — a fixed,
+   explicit position per line is harder to accidentally collapse than a
+   flex-computed one, and keeps the open-state X-morph's translateY math
+   (below) independent of any flex sizing. Explicit `z-index` so this can
+   never end up beneath another layer even if one is added to the header
+   later. */
 .site-header__toggle {
   display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 2.25rem;
-  height: 2.25rem;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
   padding: 0;
   background: transparent;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
+  z-index: 5;
+  transition: background-color 0.2s ease;
+}
+
+.site-header__toggle:hover {
+  background: rgba(22, 140, 255, 0.08);
+}
+
+.site-header__toggle:focus-visible {
+  outline: 2px solid #168cff;
+  outline-offset: 2px;
 }
 
 .site-header__toggle span {
-  display: block;
-  height: 1.5px;
-  background: #f4f4f5;
-  border-radius: 1px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 2px;
+  margin-left: -11px;
+  margin-top: -1px;
+  /* Same electric blue as "LIGHT" in the wordmark (.site-header__brand-light). */
+  background-color: #168cff;
+  border-radius: 999px;
+  opacity: 1;
+  visibility: visible;
+  transform-origin: center;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+.site-header__toggle span:nth-child(1) {
+  transform: translateY(-7px);
+}
+
+.site-header__toggle span:nth-child(2) {
+  transform: translateY(0);
+}
+
+.site-header__toggle span:nth-child(3) {
+  transform: translateY(7px);
+}
+
+/* Same three translateY offsets as the closed state above, each with a
+   45°/-45° rotation layered on so the morph is a pure rotation from its own
+   resting spot, not a reposition-then-rotate. */
 .site-header__toggle--open span:nth-child(1) {
-  transform: translateY(6.5px) rotate(45deg);
+  transform: translateY(0) rotate(45deg);
 }
 
 .site-header__toggle--open span:nth-child(2) {
@@ -1130,7 +1186,7 @@ mask-image: url('/brand/pirilight-logo.png');
 }
 
 .site-header__toggle--open span:nth-child(3) {
-  transform: translateY(-6.5px) rotate(-45deg);
+  transform: translateY(0) rotate(-45deg);
 }
 
 .mobile-menu {
@@ -1140,6 +1196,8 @@ mask-image: url('/brand/pirilight-logo.png');
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
+  padding: 6rem 1.5rem 3rem;
   background: rgba(4, 8, 18, 0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1159,6 +1217,9 @@ mask-image: url('/brand/pirilight-logo.png');
   flex-direction: column;
   align-items: center;
   gap: 1.75rem;
+  width: 100%;
+  max-width: 22rem;
+  margin: auto;
 }
 
 .mobile-menu__link {
@@ -1202,6 +1263,55 @@ mask-image: url('/brand/pirilight-logo.png');
     transition: none;
   }
 }
+
+/* ============================================================================
+   PIRI FLYBY MOMENT (components/sections/PiriFlybyMoment.tsx,
+   components/hero/PiriFlybyScene.tsx)
+   ============================================================================
+   The one-shot cinematic pass between Mission and Services. Zero LAYOUT
+   footprint, same convention as .piri-services-anchor below: the outer
+   anchor is height:0. `.piri-flyby-box` itself is always mounted (needed so
+   IntersectionObserver has real geometry to compute an accurate 25-35%
+   visibility ratio against — see PiriFlybyMoment.tsx) but stays absolutely
+   positioned, so it never adds to document height either.
+
+   Box height is deliberately small — half of it (60-85px) stays under each
+   section's own minimum vertical padding (5rem = 80px, see `.section`),
+   so even at the smallest viewport the box can only ever reach into empty
+   padding, never actual text. overflow:hidden on the box is a hard clip on
+   top of that, not just a size choice. */
+.piri-flyby-anchor {
+  position: relative;
+  height: 0;
+}
+
+.piri-flyby-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: clamp(120px, 18vw, 170px);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.piri-flyby-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  will-change: transform, opacity;
+}
+
+/* The old .piri-flyby-glow rule (a full left:0/right:0-width, inset:-40%/-10%
+   radial-gradient bar blurred at 28px) is removed: since it spanned the
+   ENTIRE box regardless of where Piri actually was, it read as a solid
+   illuminated tube/band crossing the screen rather than a wake attached to
+   Piri — exactly the artifact described as needing removal. The only glow
+   now comes from PiriFlybyScene's own 3D sprites (abdomen/atmosphere glow +
+   the short tapered trail), which are anchored to Piri's real position and
+   move/fade with it. */
 
 /* ============================================================================
    SERVICES SECTION
@@ -1374,7 +1484,7 @@ mask-image: url('/brand/pirilight-logo.png');
 .portfolio-grid {
   margin-top: 3rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.75rem;
 }
 
@@ -1386,7 +1496,17 @@ mask-image: url('/brand/pirilight-logo.png');
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
   background: rgba(10, 16, 30, 0.35);
+  /* The card is a single <a> (Link) — the whole thing is the click target,
+     no nested anchor for "Ver projeto". */
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
   transition: border-color 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.portfolio-card:focus-visible {
+  outline: 2px solid #8fe0ff;
+  outline-offset: 3px;
 }
 
 .portfolio-card--featured {
@@ -1397,11 +1517,30 @@ mask-image: url('/brand/pirilight-logo.png');
   aspect-ratio: 21 / 9;
 }
 
+/* Consistent visual height across every card regardless of image source
+   dimensions — object-fit: cover fills the box without distortion, the
+   aspect-ratio reserves the space up front so there's no layout shift while
+   the image loads. */
 .portfolio-card__image {
   position: relative;
+  display: block;
   aspect-ratio: 4 / 3;
   background: linear-gradient(135deg, rgba(20, 32, 54, 0.9), rgba(8, 13, 24, 0.95));
   overflow: hidden;
+}
+
+.portfolio-card__image-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-card__image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: block;
 }
 
 .portfolio-card__image-glow {
@@ -1411,6 +1550,7 @@ mask-image: url('/brand/pirilight-logo.png');
   opacity: 0.6;
   transform: scale(1.05);
   transition: opacity 0.6s ease, transform 0.8s ease;
+  pointer-events: none;
 }
 
 .portfolio-card__body {
@@ -1443,7 +1583,6 @@ mask-image: url('/brand/pirilight-logo.png');
   gap: 0.4rem;
   font-size: 0.85rem;
   color: rgba(226, 232, 245, 0.75);
-  text-decoration: none;
   transition: color 0.25s ease;
 }
 
@@ -1467,6 +1606,11 @@ mask-image: url('/brand/pirilight-logo.png');
   transform: scale(1.15);
 }
 
+.portfolio-card:hover .portfolio-card__image-img,
+.portfolio-card:focus-within .portfolio-card__image-img {
+  transform: scale(1.04);
+}
+
 .portfolio-card:hover .portfolio-card__link,
 .portfolio-card:focus-within .portfolio-card__link {
   color: #8fe0ff;
@@ -1475,6 +1619,168 @@ mask-image: url('/brand/pirilight-logo.png');
 .portfolio-card:hover .portfolio-card__link span,
 .portfolio-card:focus-within .portfolio-card__link span {
   transform: translateX(3px);
+}
+
+/* ---- "Luz Viva da PiriLight" hover effect ------------------------------
+   A small blue-white light that ignites near the lower edge and travels up
+   one side of the card, on mouse enter only — restricted to devices that
+   actually support hover so touch users get a clean static card instead of
+   a stuck/broken hover state. `--card-seed` (set inline per card) nudges
+   the ignition point and timing slightly so four cards hovered in sequence
+   don't all light up identically — organic, not synchronized. */
+.portfolio-card__light {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.portfolio-card__light-bloom,
+.portfolio-card__light-trail,
+.portfolio-card__light-spark {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Wide, soft atmospheric bloom — the "active state" ambient glow. */
+.portfolio-card__light-bloom {
+  left: calc(38% + var(--card-seed, 0) * 4%);
+  bottom: -10%;
+  width: 75%;
+  height: 55%;
+  transform: translate(-50%, 0) scale(0.9);
+  background: radial-gradient(ellipse, rgba(120, 195, 255, 0.4) 0%, rgba(90, 170, 255, 0.14) 45%, transparent 75%);
+  filter: blur(26px);
+}
+
+/* The luminous trail left behind the travelling spark. */
+.portfolio-card__light-trail {
+  left: calc(30% + var(--card-seed, 0) * 5%);
+  bottom: 6%;
+  width: 46%;
+  height: 34%;
+  transform-origin: bottom center;
+  transform: translate(-50%, 0) rotate(-14deg) scaleY(0.6);
+  background: linear-gradient(to top, rgba(210, 236, 255, 0.5), rgba(120, 195, 255, 0.12) 60%, transparent 100%);
+  border-radius: 50% 50% 40% 40%;
+  filter: blur(9px);
+}
+
+/* The ignition point itself — a small, slightly asymmetric point of light. */
+.portfolio-card__light-spark {
+  left: calc(32% + var(--card-seed, 0) * 6%);
+  bottom: 8%;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #ffffff 0%, #d8f2ff 35%, #8fe0ff 62%, rgba(80, 180, 255, 0) 78%);
+  box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.45), 0 0 28px 10px rgba(143, 224, 255, 0.3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-card__light {
+    transition: opacity 0.4s ease;
+  }
+
+  .portfolio-card:hover .portfolio-card__light,
+  .portfolio-card:focus-visible .portfolio-card__light {
+    opacity: 1;
+  }
+
+  .portfolio-card:hover .portfolio-card__light-spark,
+  .portfolio-card:focus-visible .portfolio-card__light-spark {
+    animation: luz-viva-spark 1.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  }
+
+  .portfolio-card:hover .portfolio-card__light-trail,
+  .portfolio-card:focus-visible .portfolio-card__light-trail {
+    animation: luz-viva-trail 1.6s ease-out forwards;
+  }
+
+  .portfolio-card:hover .portfolio-card__light-bloom,
+  .portfolio-card:focus-visible .portfolio-card__light-bloom {
+    animation: luz-viva-bloom 1.6s ease-out forwards;
+  }
+}
+
+/* Ignition -> propagation along the lower edge and up one side -> settled
+   active-state glow near the upper corner. */
+@keyframes luz-viva-spark {
+  0% {
+    transform: translate(-50%, 0) scale(0.4);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  55% {
+    transform: translate(calc(-50% + 30%), -55%) scale(0.85);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(calc(-50% + 46%), -128%) scale(0.6);
+    opacity: 0.55;
+  }
+}
+
+@keyframes luz-viva-trail {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) rotate(-14deg) scaleY(0.4);
+  }
+  15% {
+    opacity: 0.8;
+  }
+  55% {
+    transform: translate(calc(-50% + 26%), -50%) rotate(-32deg) scaleY(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(calc(-50% + 40%), -118%) rotate(-46deg) scaleY(1.1);
+    opacity: 0.32;
+  }
+}
+
+@keyframes luz-viva-bloom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(calc(-50% + 20%), -40%) scale(1.05);
+  }
+}
+
+/* Touch / coarse-pointer devices: no travelling-light hover state at all —
+   a clean static card, the base :hover/:focus-within border+shadow rules
+   above already double as the tap feedback via :focus-within. */
+@media not all and (hover: hover) {
+  .portfolio-card__light {
+    display: none;
+  }
+}
+
+/* Reduced motion: replace the travelling animation with a simple static
+   soft glow instead of removing the effect outright. */
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-card__light {
+    transition: opacity 0.4s ease;
+  }
+
+  .portfolio-card:hover .portfolio-card__light,
+  .portfolio-card:focus-visible .portfolio-card__light {
+    opacity: 1;
+  }
+
+  .portfolio-card__light-spark,
+  .portfolio-card__light-trail,
+  .portfolio-card__light-bloom {
+    animation: none !important;
+  }
 }
 
 /* ============================================================================
@@ -1509,6 +1815,23 @@ mask-image: url('/brand/pirilight-logo.png');
   inset: -30%;
   background: radial-gradient(circle, rgba(var(--section-glow-rgb), 0.42) 0%, transparent 70%);
   filter: blur(30px);
+  transition: opacity 0.6s ease;
+}
+
+/* Once Piri is present, the halo steps back so the 3D model reads clearly
+   as the focal point rather than competing with it. */
+.piri-about-visual__glow--dimmed {
+  opacity: 0.65;
+}
+
+.piri-about-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* Piri's own entrance/hover motion must never hijack page scroll or
+     touch gestures — the circle is decorative, not an interactive control. */
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
 @media (max-width: 860px) {
@@ -1516,10 +1839,15 @@ mask-image: url('/brand/pirilight-logo.png');
     grid-template-columns: 1fr;
   }
 
+  /* Text first, circle below — no `order` override (the visual block
+     already comes second in DOM/JSX order in AboutSection.tsx), matching
+     the brief's explicit mobile sequencing. */
   .about-grid__visual {
-    order: -1;
     max-width: 16rem;
   }
+  .portfolio-grid {
+  grid-template-columns: 1fr;
+}
 }
 
 /* ============================================================================
@@ -1823,4 +2151,668 @@ height: 48px;
 .site-header__link--active::after {
   transform: scaleX(1);
   opacity: 1;
+}
+
+/* ============================================================================
+   PROJECT CASE-STUDY PAGE (src/pages/ProjectDetailPage.tsx)
+   ============================================================================
+   Reuses the same page primitives as the home page (.section, .container,
+   .reveal, .button, the light-progression custom properties) so a project
+   page reads as part of the same site rather than a bolted-on template. */
+.project-page {
+  padding-top: 5.5rem;
+}
+
+.content-flow--project {
+  position: relative;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 19, 36, 0.55) 0%,
+    rgba(11, 19, 36, 0.72) 40%,
+    rgba(11, 19, 36, 0.88) 100%
+  );
+}
+
+.section--project-hero {
+  --section-light-level: 0.55;
+  --section-border-opacity: 0.34;
+  padding-bottom: 3rem;
+}
+
+.section--case-study {
+  --section-light-level: 0.7;
+  --section-border-opacity: 0.4;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.section--project-cta {
+  --section-light-level: 0.9;
+  --section-border-opacity: 0.55;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  font-size: 0.85rem;
+  color: rgba(198, 210, 228, 0.6);
+}
+
+.breadcrumb a {
+  color: rgba(198, 210, 228, 0.75);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  color: #8fe0ff;
+}
+
+.breadcrumb [aria-current='page'] {
+  color: rgba(226, 232, 245, 0.92);
+}
+
+.project-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.project-hero__visual {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+  background: linear-gradient(135deg, rgba(20, 32, 54, 0.9), rgba(8, 13, 24, 0.95));
+  box-shadow: 0 24px 60px rgba(4, 10, 22, 0.45);
+}
+
+.project-hero__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-hero__image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: radial-gradient(circle at 30% 30%, rgba(143, 224, 255, 0.18), transparent 60%);
+}
+
+.project-hero__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.project-hero__name {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #f4f4f5;
+}
+
+.project-hero__summary {
+  margin-bottom: 1.75rem;
+}
+
+.project-hero__no-link {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(180, 195, 220, 0.55);
+  font-style: italic;
+}
+
+@media (max-width: 860px) {
+  .project-hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+.case-study {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.case-study__item {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  column-gap: 1.5rem;
+  row-gap: 0.5rem;
+  padding-top: clamp(2rem, 4vw, 2.75rem);
+  border-top: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+}
+
+.case-study__item:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.case-study__icon {
+  grid-row: 1 / span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid rgba(143, 224, 255, 0.3);
+  color: rgba(143, 224, 255, 0.85);
+  background: rgba(143, 224, 255, 0.06);
+}
+
+.case-study__icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.case-study__title {
+  margin: 0;
+  align-self: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.case-study__body {
+  grid-column: 2;
+  margin: 0;
+  max-width: 40rem;
+  color: rgba(198, 210, 228, 0.75);
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .case-study__item {
+    grid-template-columns: 2.5rem 1fr;
+    column-gap: 1rem;
+  }
+
+  .case-study__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+.project-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, var(--section-border-opacity));
+  background: rgba(143, 224, 255, 0.05);
+}
+
+.project-cta__heading {
+  margin: 0;
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.6rem);
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.project-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-top: 2rem;
+}
+
+/* ============================================================================
+   PROJECT ENQUIRY PAGE (src/pages/ProjectEnquiryPage.tsx,
+   src/components/forms/ProjectEnquiryForm.tsx)
+   ============================================================================
+   Reuses the same page primitives as the case-study page (.section,
+   .container, .reveal, .button, .breadcrumb) plus its own field/form
+   primitives below. */
+.project-enquiry-page {
+  padding-top: 5.5rem;
+}
+
+.project-enquiry-hero {
+  --section-light-level: 0.6;
+  --section-border-opacity: 0.36;
+  padding-bottom: clamp(4rem, 6vw, 6rem);
+}
+
+.project-enquiry-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.project-enquiry-intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-enquiry-intro__heading {
+  margin: 1.5rem 0 1.25rem;
+  font-size: clamp(2.2rem, 1.6rem + 2.6vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #f4f4f5;
+}
+
+.project-enquiry-intro__accent {
+  background: linear-gradient(90deg, #8fe0ff, #4f8ffb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.project-enquiry-benefits {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.project-enquiry-benefits__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.project-enquiry-benefits__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(143, 224, 255, 0.3);
+  color: rgba(143, 224, 255, 0.85);
+  background: rgba(143, 224, 255, 0.06);
+}
+
+.project-enquiry-benefits__icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.project-enquiry-benefits__title {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.project-enquiry-benefits__body {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(198, 210, 228, 0.7);
+}
+
+/* Restrained decorative light — a static curved trail with a gently
+   pulsing spark, distinct from the portfolio cards' hover-triggered "Luz
+   Viva" travelling animation. Purely decorative: no pointer events, no
+   effect on layout/readability. */
+.project-enquiry-trail {
+  position: relative;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  width: 100%;
+  max-width: 340px;
+  height: 0;
+  padding-bottom: 52.9%; /* matches the 340×180 viewBox aspect ratio */
+  pointer-events: none;
+}
+
+.project-enquiry-trail svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(0.4px);
+}
+
+.project-enquiry-trail__spark {
+  position: absolute;
+  left: 88%;
+  top: 16.5%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #ffffff 0%, #d8f2ff 35%, #8fe0ff 62%, rgba(80, 180, 255, 0) 78%);
+  box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.4), 0 0 30px 10px rgba(143, 224, 255, 0.28);
+  animation: project-enquiry-spark-pulse 4s ease-in-out infinite;
+}
+
+@keyframes project-enquiry-spark-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.22);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-enquiry-trail__spark {
+    animation: none;
+  }
+}
+
+.project-enquiry-form-panel {
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+  border-radius: 20px;
+  border: 1px solid rgba(143, 224, 255, 0.22);
+  background: rgba(10, 16, 30, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 30px 70px rgba(4, 10, 22, 0.4);
+}
+
+.project-enquiry-form__heading {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #f4f4f5;
+}
+
+.project-enquiry-form__intro {
+  margin: 0 0 1.75rem;
+}
+
+.project-enquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.project-enquiry-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.project-enquiry-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.project-enquiry-field label,
+.project-enquiry-radios legend {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(226, 232, 245, 0.85);
+}
+
+.project-enquiry-field__optional {
+  font-weight: 400;
+  color: rgba(180, 195, 220, 0.5);
+}
+
+.project-enquiry-field input[type='text'],
+.project-enquiry-field input[type='email'],
+.project-enquiry-field input[type='tel'],
+.project-enquiry-field textarea,
+.project-enquiry-select select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  font-size: 0.92rem;
+  color: #f4f4f5;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, var(--section-border-opacity, 0.16));
+  border-radius: 10px;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.project-enquiry-field textarea {
+  resize: vertical;
+  min-height: 7rem;
+  line-height: 1.55;
+}
+
+.project-enquiry-field input::placeholder,
+.project-enquiry-field textarea::placeholder {
+  color: rgba(180, 195, 220, 0.45);
+}
+
+.project-enquiry-field input:hover,
+.project-enquiry-field textarea:hover,
+.project-enquiry-select select:hover {
+  border-color: rgba(143, 224, 255, 0.35);
+}
+
+.project-enquiry-field input:focus-visible,
+.project-enquiry-field textarea:focus-visible,
+.project-enquiry-select select:focus-visible {
+  outline: none;
+  border-color: #8fe0ff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.project-enquiry-field input[aria-invalid='true'],
+.project-enquiry-field textarea[aria-invalid='true'],
+.project-enquiry-select select[aria-invalid='true'] {
+  border-color: rgba(255, 130, 130, 0.6);
+}
+
+.project-enquiry-field input:disabled,
+.project-enquiry-field textarea:disabled,
+.project-enquiry-select select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.project-enquiry-field__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 150, 150, 0.9);
+}
+
+.project-enquiry-select {
+  position: relative;
+}
+
+.project-enquiry-select select {
+  appearance: none;
+  padding-right: 2.25rem;
+  cursor: pointer;
+}
+
+.project-enquiry-select select option {
+  background: #0b1324;
+  color: #f4f4f5;
+}
+
+.project-enquiry-select__chevron {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(-50%);
+  color: rgba(198, 210, 228, 0.6);
+  pointer-events: none;
+}
+
+.project-enquiry-radios {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.project-enquiry-radios legend {
+  padding: 0;
+  margin-bottom: 0.6rem;
+}
+
+.project-enquiry-radios__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.project-enquiry-radios__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: rgba(210, 220, 236, 0.85);
+  cursor: pointer;
+}
+
+.project-enquiry-radios__option input {
+  accent-color: #4f8ffb;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.project-enquiry-consent__label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: rgba(198, 210, 228, 0.75);
+  cursor: pointer;
+}
+
+.project-enquiry-consent__label input {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+  accent-color: #4f8ffb;
+  width: 1.05rem;
+  height: 1.05rem;
+  cursor: pointer;
+}
+
+.project-enquiry-consent__policy-link {
+  color: rgba(143, 224, 255, 0.75);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: default;
+}
+
+.project-enquiry-submit {
+  position: relative;
+  width: 100%;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.project-enquiry-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+  transform: none;
+  box-shadow: none;
+}
+
+.project-enquiry-submit__spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(4, 16, 31, 0.35);
+  border-top-color: #04101f;
+  animation: project-enquiry-spin 0.7s linear infinite;
+}
+
+@keyframes project-enquiry-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.project-enquiry-submit__check {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+@keyframes project-enquiry-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+.project-enquiry-submit--shake {
+  animation: project-enquiry-shake 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-enquiry-submit--shake {
+    animation: none;
+  }
+
+  .project-enquiry-submit__spinner {
+    animation: project-enquiry-spin-reduced 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes project-enquiry-spin-reduced {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.project-enquiry-status {
+  min-height: 1.2rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(198, 210, 228, 0.8);
+}
+
+.project-enquiry-status a {
+  color: #8fe0ff;
+}
+
+.project-enquiry-status--error {
+  color: rgba(255, 150, 150, 0.9);
+}
+
+@media (max-width: 960px) {
+  .project-enquiry-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .project-enquiry-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .project-enquiry-trail {
+    max-width: 220px;
+  }
 }

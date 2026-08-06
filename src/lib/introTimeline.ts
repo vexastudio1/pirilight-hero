@@ -6,15 +6,15 @@
 // evaluate the same math against the same clock.
 
 export const TIMELINE = {
-  entranceEnd: 3.1, // fly in from the left, decelerating (slowed for a more graceful glide)
-  orbitEnd: 6.1, // + 3.0s one imperfect loop around the hero center (slowed)
-  hoverArriveEnd: 7.3, // + 1.2s settle into the hover position (slower, allows overshoot+settle)
-  hoverIdleEnd: 8.0, // + 0.7s pre-charge beat
-  chargeEnd: 9.0, // + 1.0s abdomen charges
-  revealEnd: 11.3, // + 2.3s beam + logo reveal (icon -> wordmark -> studio)
-  holdEnd: 12.45, // + 1.15s beam/glow fade out, Piri still fully visible (slightly longer)
-  exitEnd: 14.45, // + 2.0s flies up and off-screen (longer, softer acceleration)
-  settleEnd: 15.45, // + 1.0s residual particles fade to final calm state
+  entranceEnd: 2.9, // fly in from the left, decelerating (slightly tightened so entry hands off to orbit sooner)
+  orbitEnd: 5.8, // + 2.9s one imperfect loop around the hero center
+  hoverArriveEnd: 6.9, // + 1.1s settle into the hover position (allows overshoot+settle)
+  hoverIdleEnd: 7.3, // + 0.4s pre-charge beat (trimmed — was a pure idle hold)
+  chargeEnd: 8.2, // + 0.9s abdomen charges
+  revealEnd: 10.5, // + 2.3s beam + logo reveal (icon -> wordmark -> studio) — kept full length, still cinematic
+  holdEnd: 11.35, // + 0.85s beam/glow fade out, Piri still fully visible
+  exitEnd: 13.15, // + 1.8s flies up and off-screen
+  settleEnd: 14.05, // + 0.9s residual particles fade to final calm state
 };
 
 export type IntroPhase =
@@ -59,6 +59,17 @@ export function easeInOutSine(t: number) {
   return -(Math.cos(Math.PI * c) - 1) / 2;
 }
 
+// Perlin's "smootherstep" (quintic, zero first AND second derivative at
+// both ends) — a flatter, longer-feeling "cruise" through the middle than
+// easeInOutSine gives, with a more pronounced ease-in/ease-out at the
+// edges. Used where a pass needs to read as "accelerate -> steady cruise ->
+// decelerate" rather than a single continuous sine curve (see
+// flybyTimeline.ts's own getFlybyProgress).
+export function smootherstep(t: number) {
+  const c = clamp01(t);
+  return c * c * c * (c * (c * 6 - 15) + 10);
+}
+
 // ---- Cubic-bezier easing (CSS-style, Newton-Raphson solve) ---------------
 //
 // Each flight-path segment below gets its own hand-picked curve instead of
@@ -100,7 +111,16 @@ function makeCubicBezier(x1: number, y1: number, x2: number, y2: number) {
 // own bespoke curve (Material Design's "standard" easing shape: quick to
 // get moving, long unhurried deceleration) instead of a smoothstep+power
 // composition.
-const easeEntranceFlight = makeCubicBezier(0.4, 0, 0.2, 1);
+//
+// The tail end is deliberately NOT a full ease-to-zero (that was
+// (0.4, 0, 0.2, 1), whose y2=1 gives exactly zero exit velocity): pairing a
+// curve that dies to a dead stop with easeOrbitFlight's own near-zero
+// starting velocity produced two stalls back to back at the handoff — the
+// entrance visibly freezes, then the orbit visibly crawls awake — which
+// read as one ~1s pause "in the middle of the scene." y2=0.9 leaves a small
+// residual velocity at entranceEnd so the motion is still very much
+// decelerating (still reads as a graceful glide-in) but never fully stops.
+const easeEntranceFlight = makeCubicBezier(0.4, 0, 0.25, 0.9);
 
 export function getEntranceProgress(elapsed: number) {
   const raw = clamp01(elapsed / TIMELINE.entranceEnd);
@@ -111,7 +131,14 @@ export function getEntranceProgress(elapsed: number) {
 // entry/exit from reading as an abrupt heading change, same intent as the
 // previous nested easeInOutSine pass, now a single bespoke curve so it no
 // longer shares its shape with the logo reveal / scroll hold-phase.
-const easeOrbitFlight = makeCubicBezier(0.455, 0.03, 0.515, 0.955);
+//
+// y1 raised from 0.03 (near-zero starting velocity — a slow crawl-awake
+// right where the entrance curve above hands off) to 0.22: the orbit now
+// picks up real speed immediately at orbitEnd's start, continuing the
+// entrance's own momentum instead of restarting from a standstill. The
+// curve's own flat-cruise middle and soft landing into hoverArrive are
+// untouched, so the loop itself still reads exactly as before.
+const easeOrbitFlight = makeCubicBezier(0.3, 0.22, 0.515, 0.955);
 
 export function getOrbitProgress(elapsed: number) {
   const raw = clamp01((elapsed - TIMELINE.entranceEnd) / (TIMELINE.orbitEnd - TIMELINE.entranceEnd));

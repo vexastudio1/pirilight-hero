@@ -33,12 +33,25 @@ import { useEffect, useState } from 'react';
 // reusing that pattern here instead of forcing an observer to do something
 // it isn't suited for. Cost is one getBoundingClientRect() + one comparison
 // per frame, and only calls setState when the boolean actually flips.
-export function useHeroReleased(regionId: string) {
+// `routeKey` (e.g. the current pathname) is an extra effect dependency, not
+// used for anything else here. Header is mounted once at the App root and
+// never unmounts across route changes, so without this the very first
+// lookup of `regionId` "sticks" for the component's whole lifetime — on a
+// route with no hero (any page other than home) `region` is null forever,
+// and the header stays permanently hidden even after navigating back to a
+// page that does have one. Passing the pathname forces the lookup to redo
+// itself on every route change instead.
+export function useHeroReleased(regionId: string, routeKey?: unknown) {
   const [released, setReleased] = useState(false);
 
   useEffect(() => {
     const region = document.getElementById(regionId);
-    if (!region) return;
+    if (!region) {
+      // No hero on this page (project/case-study pages, the enquiry page,
+      // …) — nothing to wait for, so the header should just be visible.
+      setReleased(true);
+      return;
+    }
 
     let raf = 0;
     let last: boolean | null = null;
@@ -54,7 +67,7 @@ export function useHeroReleased(regionId: string) {
     raf = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(raf);
-  }, [regionId]);
+  }, [regionId, routeKey]);
 
   return released;
 }

@@ -1,4 +1,5 @@
 import { Reveal } from '../ui/Reveal';
+import { Link } from '../../lib/router';
 import { PORTFOLIO_PROJECTS } from '../../data/portfolio';
 
 export default function PortfolioSection() {
@@ -26,27 +27,52 @@ export default function PortfolioSection() {
         <div className="portfolio-grid">
           {PORTFOLIO_PROJECTS.map((project, i) => (
             <Reveal
-              as="article"
+              as={Link}
+              to={`/projetos/${project.slug}`}
               key={project.id}
               className={`portfolio-card${project.featured ? ' portfolio-card--featured' : ''}`}
               delay={i * 0.12}
+              style={{ '--card-seed': i } as never}
             >
-              {/* TEMPORARY placeholder in place of a real project screenshot
-                  — swap for a real <img loading="lazy" src=... alt="..."/>
-                  once project imagery exists; role/aria-label stand in for
-                  the future alt text so screen readers aren't left with
-                  nothing. */}
-              <div className="portfolio-card__image" role="img" aria-label={`Pré-visualização do projeto ${project.name}`}>
+              {/* "Luz Viva" hover effect — pure CSS, gated to hover-capable
+                  pointers (see @media(hover:hover) in global.css) and
+                  collapsed to a static glow under prefers-reduced-motion.
+                  --card-seed above staggers each card's ignition point/timing
+                  slightly so the effect doesn't feel synchronized/robotic. */}
+              <span className="portfolio-card__light" aria-hidden="true">
+                <span className="portfolio-card__light-bloom" />
+                <span className="portfolio-card__light-trail" />
+                <span className="portfolio-card__light-spark" />
+              </span>
+
+              <span className="portfolio-card__image">
+                {project.image ? (
+                  <img
+                    src={project.image}
+                    alt={project.imageAlt ?? `Pré-visualização do projeto ${project.name}`}
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
+                    className="portfolio-card__image-img"
+                  />
+                ) : (
+                  <span
+                    className="portfolio-card__image-placeholder"
+                    role="img"
+                    aria-label={`Pré-visualização do projeto ${project.name}`}
+                  />
+                )}
                 <span className="portfolio-card__image-glow" aria-hidden="true" />
-              </div>
-              <div className="portfolio-card__body">
+              </span>
+              <span className="portfolio-card__body">
                 <p className="portfolio-card__category">{project.category}</p>
                 <h3 className="portfolio-card__name">{project.name}</h3>
-                <a href={project.href} className="portfolio-card__link">
+                <span className="portfolio-card__link">
                   Ver projeto
                   <span aria-hidden="true">&rarr;</span>
-                </a>
-              </div>
+                </span>
+              </span>
             </Reveal>
           ))}
         </div>

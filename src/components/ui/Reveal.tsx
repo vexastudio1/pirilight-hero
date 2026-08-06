@@ -7,6 +7,10 @@ interface RevealProps {
   delay?: number;
   threshold?: number;
   children: ReactNode;
+  /** Forwarded as-is to the rendered tag — lets callers turn Reveal into a
+   * clickable/hoverable element (e.g. `as="a"` with `href`/`onMouseEnter`)
+   * without duplicating the reveal-on-scroll wiring. */
+  [key: string]: unknown;
 }
 
 // Thin wrapper around useReveal: renders `as` (default <div>) with the
@@ -14,9 +18,9 @@ interface RevealProps {
 // (in seconds) exposed as `--reveal-delay`, so callers just wrap content
 // instead of wiring up an observer per section. See `.reveal` in
 // global.css for the actual opacity/blur/translate transition.
-export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold, children }: RevealProps) {
+export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold, children, style, ...rest }: RevealProps) {
   const { ref, visible } = useReveal<HTMLElement>(threshold);
-  const style = delay ? ({ '--reveal-delay': `${delay}s` } as CSSProperties) : undefined;
+  const mergedStyle = delay ? ({ ...(style as CSSProperties), '--reveal-delay': `${delay}s` } as CSSProperties) : (style as CSSProperties | undefined);
 
   return (
     <Tag
@@ -25,7 +29,8 @@ export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold, 
       // opacity/transform/observer behavior common to all HTML elements.
       ref={ref as never}
       className={`reveal${visible ? ' reveal--visible' : ''}${className ? ` ${className}` : ''}`}
-      style={style}
+      style={mergedStyle}
+      {...rest}
     >
       {children}
     </Tag>

@@ -20,22 +20,28 @@ import {
 } from '../../lib/introTimeline';
 import { getHoverTargetFrac, getModelScale } from '../../lib/logoLayout';
 
-const MODEL_URL = '/models/piri.optimized.glb';
+// Exported so PiriFlybyScene.tsx (the Mission -> Services flyby moment)
+// loads the exact same GLTF via drei's URL-keyed cache — never a second
+// fetch/parse — rather than re-declaring the path.
+export const MODEL_URL = '/models/piri.optimized.glb';
 
 // Wing-local axes (confirmed by inspecting the GLB: each wing mesh's local
 // X is its span/long axis, local Z stays aligned with the body's front-back
 // axis at rest). Flapping must hinge around Z, not spin around the span (X).
-const WING_FLAP_AXIS = new THREE.Vector3(0, 0, 1);
-const WING_TWIST_AXIS = new THREE.Vector3(1, 0, 0);
-const WING_FLAP_SPEED = 10;
-const WING_FLAP_AMPLITUDE = 0.62;
-const WING_TWIST_AMPLITUDE = 0.09;
+// Exported (alongside rigWingHinge/WING_ROOT_LOCAL/WING_FLAP_SIGN below) so
+// PiriAboutScene.tsx's idle hover flap reuses the exact same rig/axes rather
+// than re-deriving them — same wingbeat, same anatomy.
+export const WING_FLAP_AXIS = new THREE.Vector3(0, 0, 1);
+export const WING_TWIST_AXIS = new THREE.Vector3(1, 0, 0);
+export const WING_FLAP_SPEED = 10;
+export const WING_FLAP_AMPLITUDE = 0.62;
+export const WING_TWIST_AMPLITUDE = 0.09;
 // Adds a second harmonic to the flap's base sine so the down-stroke and
 // up-stroke aren't mirror images of each other (real wingbeats aren't
 // symmetric either) — same "no two motions share a shape" spirit as the
 // eased flight curves below, applied to the wing itself. Kept modest so the
 // beat still reads as the same flap, just less metronomic.
-const WING_ASYMMETRY = 0.15;
+export const WING_ASYMMETRY = 0.15;
 // A small squash on the wing's own chord (local Y) at the down-stroke peak,
 // proportional to how strong that stroke currently is (so it fades out with
 // wingIntensity exactly like the flap angle does) — a subtle stand-in for
@@ -45,7 +51,7 @@ const WING_SQUASH_AMOUNT = 0.08;
 // Wing-root pivot, in each wing mesh's own local (pre-scale) space — measured
 // by sampling the mesh vertices closest to the body on each wing. Used to
 // re-pivot the flap hinge from the wing's geometric center to its root.
-const WING_ROOT_LOCAL: Record<'Wing_Left' | 'Wing_Right', THREE.Vector3> = {
+export const WING_ROOT_LOCAL: Record<'Wing_Left' | 'Wing_Right', THREE.Vector3> = {
   Wing_Left: new THREE.Vector3(-0.9, -0.39, 0.35),
   Wing_Right: new THREE.Vector3(0.9, -0.33, 0.42),
 };
@@ -56,7 +62,7 @@ const WING_ROOT_LOCAL: Record<'Wing_Left' | 'Wing_Right', THREE.Vector3> = {
 // for the other. Rotating both by the same signed angle about local Z (the
 // flap axis) therefore raises one wing while lowering the other. Flipping the
 // sign per wing compensates so the visible flap is synchronized.
-const WING_FLAP_SIGN: Record<'Wing_Left' | 'Wing_Right', number> = {
+export const WING_FLAP_SIGN: Record<'Wing_Left' | 'Wing_Right', number> = {
   Wing_Left: 1,
   Wing_Right: -1,
 };
@@ -64,7 +70,7 @@ const WING_FLAP_SIGN: Record<'Wing_Left' | 'Wing_Right', number> = {
 // Reparents a wing mesh under a new pivot Group placed at its root (instead
 // of its geometric center), preserving the wing's rest transform exactly so
 // this is a no-op visually until the hinge is animated.
-function rigWingHinge(wing: THREE.Object3D | null, rootLocal: THREE.Vector3): THREE.Object3D | null {
+export function rigWingHinge(wing: THREE.Object3D | null, rootLocal: THREE.Vector3): THREE.Object3D | null {
   if (!wing || !wing.parent) return null;
   if (wing.userData.hinged) return wing.parent;
 
@@ -87,8 +93,9 @@ function rigWingHinge(wing: THREE.Object3D | null, rootLocal: THREE.Vector3): TH
 // Local nose direction of the rest-pose mesh (confirmed by inspection: the
 // body's front/head faces +Z). Object3D.lookAt() orients -Z at the target,
 // so we flip 180deg to make +Z (the nose) point along the travel direction.
-const NOSE_CORRECTION = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
-const UP = new THREE.Vector3(0, 1, 0);
+// Exported for reuse by PiriAboutScene.tsx's own tangent-following flight.
+export const NOSE_CORRECTION = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
+export const UP = new THREE.Vector3(0, 1, 0);
 
 // The bioluminescent abdomen's local position (pre-scale, same space as the
 // chest-glow plane's [0, 0.12, 0.8]) — measured directly from the body mesh
@@ -96,7 +103,17 @@ const UP = new THREE.Vector3(0, 1, 0);
 // extend down to about y=-0.58 at their lowest, centered around y=-0.32:
 // this sits a bit below that centroid, toward the lower/glowing tip of the
 // tail, so the beam apex lands on the glow itself rather than mid-body.
-const ABDOMEN_LOCAL = new THREE.Vector3(0, -0.5, -0.9);
+// Exported for reuse by PiriFlybyScene.tsx / PiriAboutScene.tsx — same
+// anchor point, not re-measured.
+export const ABDOMEN_LOCAL = new THREE.Vector3(0, -0.5, -0.9);
+
+// The chest-glow plane's own position/scale (see the <mesh> in the JSX
+// below) — exported so the two newer scenes render the identical overlay
+// instead of omitting it (its absence was a big part of why they read
+// noticeably darker/flatter than the hero: the "clearly visible blue chest
+// light" simply wasn't there).
+export const CHEST_GLOW_POSITION: [number, number, number] = [0, 0.12, 0.8];
+export const CHEST_GLOW_SCALE: [number, number, number] = [0.55, 0.6, 1];
 
 // Entrance: off-screen left, sweeping in and decelerating toward the orbit.
 const ENTRANCE_POINTS: Array<[number, number, number]> = [
@@ -145,15 +162,41 @@ function buildOrbitPoints(): Array<[number, number, number]> {
 // between chest and abdomen. An earlier, much more dramatic pitch/yaw (-40/
 // 345/8) technically put the abdomen below the chest too, but at a strong
 // three-quarter angle that read as "rotated away" rather than front-facing.
-const REST_EULER = new THREE.Euler(THREE.MathUtils.degToRad(-3), 0, 0);
-const REST_QUATERNION = new THREE.Quaternion().setFromEuler(REST_EULER);
+//
+// Exported as the SINGLE source of truth for "front-facing" — reused
+// verbatim (not re-derived/guessed) by PiriAboutScene.tsx as its final
+// settle rotation, since it's the same already-validated pose.
+export const REST_EULER = new THREE.Euler(THREE.MathUtils.degToRad(-3), 0, 0);
+export const REST_QUATERNION = new THREE.Quaternion().setFromEuler(REST_EULER);
 
 const ORIENTATION_SETTLE_WINDOW = 1.0;
 
+// Abdomen is the only intended "light source": the body keeps a low, fixed
+// sheen instead of a charge-driven pulse across wings/head/eyes. Exported
+// (with tunePiriMaterials below) so PiriFlybyScene.tsx and PiriAboutScene.tsx
+// apply the exact same tuning to their own clones — this was previously
+// only ever done here, so both newer scenes rendered at whatever emissive
+// intensity the raw GLTF happened to be authored with (inconsistent with,
+// and generally darker/flatter than, the hero).
+export const PIRI_EMISSIVE_INTENSITY = 0.35;
+
+export function tunePiriMaterials(root: THREE.Object3D) {
+  root.traverse((obj) => {
+    const mesh = obj as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const mat = mesh.material as THREE.MeshStandardMaterial;
+    if (mat && !Array.isArray(mat) && mat.emissiveIntensity !== undefined) {
+      mat.emissiveIntensity = PIRI_EMISSIVE_INTENSITY;
+    }
+  });
+}
+
 // ---- Shared soft-glow sprite texture (abdomen light + trail) --------------
 
+// Exported and reused as-is by PiriFlybyScene.tsx for its trail sprites —
+// the same shared, cached canvas texture, not a second one.
 let glowTextureCache: THREE.CanvasTexture | null = null;
-function getGlowTexture() {
+export function getGlowTexture() {
   if (glowTextureCache) return glowTextureCache;
   const size = 128;
   const canvas = document.createElement('canvas');
@@ -188,13 +231,20 @@ const TRAIL_RISE_FRAC = 0.08;
 // never an independent light: same position, same charge/bodyOpacity gate,
 // only its own (phase-lagged, see getAtmosphereBreath) breath and a lower
 // opacity ceiling distinguish it, so it reads as the core's own halo rather
-// than a second floating orb.
-const ATMOSPHERE_SCALE_BASE = 0.5;
+// than a second floating orb. Exported (with ABDOMEN_GLOW_PEAK_OPACITY/SCALE
+// below) so the two newer scenes can render the same steady peak look
+// without needing the hero's own charge/breath timeline.
+export const ATMOSPHERE_SCALE_BASE = 0.5;
 const ATMOSPHERE_SCALE_CHARGE = 0.35;
 // Slightly stronger than before (0.22) so the halo reads a touch more
 // visibly blue-white without growing its size or turning into its own
 // bloom — intensity, not scale.
-const ATMOSPHERE_PEAK_OPACITY = 0.27;
+export const ATMOSPHERE_PEAK_OPACITY = 0.27;
+// The core abdomen sprite's own peak scale/opacity at full charge (see
+// `glowLevel`/`scale` in the useFrame below: opacity maxes at
+// glowLevel*bodyOpacity*breath ~= 1, scale maxes at 0.22 + 1*0.5 = 0.72).
+export const ABDOMEN_GLOW_PEAK_SCALE = 0.72;
+export const ABDOMEN_GLOW_PEAK_OPACITY = 1;
 
 // After the beam has already fully fired (holdEnd), the tail keeps a small
 // restrained glow instead of hard-cutting to 0 — "after the beam fades, the
@@ -272,12 +322,10 @@ export default function PiriModel({ resetSignal = 0 }: { resetSignal?: number })
         const mat = mesh.material as THREE.MeshStandardMaterial;
         if (mat && !Array.isArray(mat) && mat.emissiveIntensity !== undefined) {
           bodyMaterial.current = mat;
-          // Abdomen is the only light source: the body keeps a low, fixed
-          // sheen instead of a charge-driven pulse across wings/head/eyes.
-          mat.emissiveIntensity = 0.35;
         }
       }
     });
+    tunePiriMaterials(scene);
   }, [scene]);
 
   useEffect(() => {
