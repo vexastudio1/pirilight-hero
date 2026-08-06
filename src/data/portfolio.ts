@@ -79,17 +79,15 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       'O novo website torna a oferta mais fácil de explorar, transmite uma imagem mais atual e profissional e ajuda potenciais clientes a chegar mais rapidamente à solução de que precisam.',
   },
   {
-    id: 'dj-marques',
-    slug: 'dj-marques',
-    name: 'DJ M4rques',
-    category: 'Website de artista',
-    description: 'Website desenvolvido para apresentação, agenda e reservas do artista.',
-    // No card image asset exists yet for this project — the card/detail page
-    // fall back to the same CSS placeholder treatment used before real
-    // screenshots existed, rather than pointing at a file that isn't there.
-    href: '#',
-    company: 'Website desenvolvido para apresentação, agenda e reservas do artista.',
-  },
+  id: "dj-marques",
+  slug: "dj-marques",
+  name: "DJ M4rques",
+  category: "Website de artista",
+  description: "Website desenvolvido para apresentação, agenda e reservas do artista.",
+  image: "/projects/dj-m4rquez.webp",
+  href: "#",
+  company: "Website desenvolvido para apresentação, agenda e reservas do artista.",
+},
 ];
 
 export function getProjectBySlug(slug: string): PortfolioProject | undefined {

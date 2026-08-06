@@ -71,7 +71,8 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             </Reveal>
 
             <div className="project-hero">
-              <Reveal as="div" className="project-hero__visual" delay={0.06}>
+              <div className="project-hero__visual project-enter-left">
+
                 {project.image ? (
                   <img
                     src={project.image}
@@ -89,9 +90,10 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                     aria-label={`Pré-visualização do projeto ${project.name}`}
                   />
                 )}
-              </Reveal>
+              </div>
 
-              <Reveal as="div" className="project-hero__body" delay={0.14}>
+              <div className="project-hero__body project-enter-right">
+
                 <p className="portfolio-card__category">{project.category}</p>
                 <h1 className="project-hero__name">{project.name}</h1>
                 {project.description && <p className="section__body project-hero__summary">{project.description}</p>}
@@ -109,7 +111,7 @@ export default function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                 ) : (
                   <p className="project-hero__no-link">Website ainda não disponível publicamente.</p>
                 )}
-              </Reveal>
+              </div>
             </div>
           </div>
         </section>
