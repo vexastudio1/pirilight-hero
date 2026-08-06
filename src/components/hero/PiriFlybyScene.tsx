@@ -90,11 +90,16 @@ const WING_PHASE_OFFSET = 0.09;
 // instead of a wake. Trimmed pool/fade/scale here so at most a handful of
 // small, quickly-shrinking sprites are ever alive together.
 const TRAIL_POOL_SIZE = 7;
+// Mobile GPUs pay proportionally more for the same overdraw from stacked
+// additive-blended sprites — a smaller pool keeps the wake just as legible
+// (still several overlapping sprites) for noticeably less fill-rate cost.
+const TRAIL_POOL_SIZE_MOBILE = 4;
 const TRAIL_EMIT_INTERVAL = 0.03;
 const TRAIL_FADE_DURATION = 0.13;
 const TRAIL_RISE_FRAC = 0.12;
 
 const SPARK_POOL_SIZE = 5;
+const SPARK_POOL_SIZE_MOBILE = 3;
 const SPARK_EMIT_CHANCE = 0.3;
 const SPARK_FADE_DURATION = 0.22;
 
@@ -106,13 +111,16 @@ const OFFSCREEN_START: [number, number, number] = [-100000, 0, 0];
 
 export interface PiriFlybySceneProps {
   onComplete: () => void;
+  isMobile?: boolean;
 }
 
-export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
+export default function PiriFlybyScene({ onComplete, isMobile = false }: PiriFlybySceneProps) {
   const { scene } = useGLTF(MODEL_URL);
   const chestTexture = useTexture(chestGlowUrl);
   const glowTexture = useMemo(() => getGlowTexture(), []);
   const { viewport, camera, gl, size } = useThree();
+  const trailPoolSize = isMobile ? TRAIL_POOL_SIZE_MOBILE : TRAIL_POOL_SIZE;
+  const sparkPoolSize = isMobile ? SPARK_POOL_SIZE_MOBILE : SPARK_POOL_SIZE;
 
   const clonedScene = useMemo(() => {
     const clone = scene.clone(true);
@@ -169,13 +177,13 @@ export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
   const coreHalo = useRef<THREE.Sprite>(null);
 
   const trailSprites = useRef<THREE.Sprite[]>([]);
-  const trailAges = useRef<number[]>(new Array(TRAIL_POOL_SIZE).fill(Infinity));
+  const trailAges = useRef<number[]>(new Array(trailPoolSize).fill(Infinity));
   const trailNextIndex = useRef(0);
   const trailEmitTimer = useRef(0);
 
   const sparkSprites = useRef<THREE.Sprite[]>([]);
-  const sparkAges = useRef<number[]>(new Array(SPARK_POOL_SIZE).fill(Infinity));
-  const sparkVelocity = useRef<THREE.Vector3[]>(Array.from({ length: SPARK_POOL_SIZE }, () => new THREE.Vector3()));
+  const sparkAges = useRef<number[]>(new Array(sparkPoolSize).fill(Infinity));
+  const sparkVelocity = useRef<THREE.Vector3[]>(Array.from({ length: sparkPoolSize }, () => new THREE.Vector3()));
   const sparkNextIndex = useRef(0);
 
   const abdomenWorldPos = useMemo(() => new THREE.Vector3(), []);
@@ -331,7 +339,7 @@ export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
     trailEmitTimer.current += delta;
     if (intensity > 0.02 && trailEmitTimer.current >= TRAIL_EMIT_INTERVAL) {
       trailEmitTimer.current = 0;
-      const idx = trailNextIndex.current % TRAIL_POOL_SIZE;
+      const idx = trailNextIndex.current % trailPoolSize;
       trailNextIndex.current += 1;
       const sprite = trailSprites.current[idx];
       if (sprite) {
@@ -343,7 +351,7 @@ export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
       // Sparks "peeling away" — spawned alongside the main trail, each with
       // its own small random drift instead of following the ribbon.
       if (Math.random() < SPARK_EMIT_CHANCE) {
-        const sIdx = sparkNextIndex.current % SPARK_POOL_SIZE;
+        const sIdx = sparkNextIndex.current % sparkPoolSize;
         sparkNextIndex.current += 1;
         const spark = sparkSprites.current[sIdx];
         if (spark) {
@@ -359,7 +367,7 @@ export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
       }
     }
 
-    for (let i = 0; i < TRAIL_POOL_SIZE; i++) {
+    for (let i = 0; i < trailPoolSize; i++) {
       const sprite = trailSprites.current[i];
       if (!sprite || !sprite.visible) continue;
       trailAges.current[i] += delta;
@@ -383,7 +391,7 @@ export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
       sprite.scale.setScalar(tailScale * (0.25 + fade * 0.3));
     }
 
-    for (let i = 0; i < SPARK_POOL_SIZE; i++) {
+    for (let i = 0; i < sparkPoolSize; i++) {
       const spark = sparkSprites.current[i];
       if (!spark || !spark.visible) continue;
       sparkAges.current[i] += delta;
@@ -444,7 +452,7 @@ export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
         </group>
       </group>
       <group>
-        {Array.from({ length: TRAIL_POOL_SIZE }, (_, i) => (
+        {Array.from({ length: trailPoolSize }, (_, i) => (
           <sprite
             key={`trail-${i}`}
             visible={false}
@@ -455,7 +463,7 @@ export default function PiriFlybyScene({ onComplete }: PiriFlybySceneProps) {
             <spriteMaterial map={glowTexture} transparent opacity={0} depthWrite={false} toneMapped={false} blending={THREE.AdditiveBlending} />
           </sprite>
         ))}
-        {Array.from({ length: SPARK_POOL_SIZE }, (_, i) => (
+        {Array.from({ length: sparkPoolSize }, (_, i) => (
           <sprite
             key={`spark-${i}`}
             visible={false}

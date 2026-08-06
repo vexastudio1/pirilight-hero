@@ -1,7 +1,12 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const PiriFlybyScene = lazy(() => import('../hero/PiriFlybyScene'));
+
+// Same breakpoint Header.tsx already uses to mean "mobile" — reused rather
+// than inventing a second threshold.
+const MOBILE_BREAKPOINT = '(max-width: 860px)';
 
 // How much of the corridor's own box must be visible before the moment
 // triggers — "approximately 25% to 35%". A literal IntersectionObserver
@@ -45,6 +50,7 @@ export default function PiriFlybyMoment() {
   // off-screen) matches the same "no wasted GPU work while the user can't
   // see it" principle as the About scene's own frameloop gating.
   const [tabVisible, setTabVisible] = useState(() => document.visibilityState === 'visible');
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
 
   useEffect(() => {
     const onVisibilityChange = () => setTabVisible(document.visibilityState === 'visible');
@@ -96,11 +102,11 @@ export default function PiriFlybyMoment() {
               className="piri-flyby-canvas"
               frameloop={tabVisible ? 'always' : 'never'}
               camera={{ position: [0, 0, 9], fov: 32 }}
-              dpr={[1, 1.5]}
-              gl={{ alpha: true, antialias: true, powerPreference: 'low-power', failIfMajorPerformanceCaveat: false }}
+              dpr={isMobile ? 1 : [1, 1.5]}
+              gl={{ alpha: true, antialias: !isMobile, powerPreference: 'low-power', failIfMajorPerformanceCaveat: false }}
               style={{ willChange: 'transform, opacity' }}
             >
-              <PiriFlybyScene onComplete={() => setIsAnimationActive(false)} />
+              <PiriFlybyScene onComplete={() => setIsAnimationActive(false)} isMobile={isMobile} />
             </Canvas>
           </Suspense>
         )}

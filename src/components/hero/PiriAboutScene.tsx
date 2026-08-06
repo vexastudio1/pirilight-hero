@@ -144,6 +144,16 @@ export default function PiriAboutScene({ reducedMotion }: PiriAboutSceneProps) {
   // mesh every frame purely to re-confirm an opacity that never changes
   // again would be wasted work for as long as the section stays in view.
   const settledOpacityAppliedRef = useRef(false);
+  // Same idea for the entrance/reduced-motion fade-in: getAboutOpacity
+  // reaches 1 after OPACITY_RISE_FRAC (~18%) of the entrance and then stays
+  // there, but the flying/reducedMotion branches used to call
+  // setOpacity(clonedScene, ...) — a full scene traversal — on literally
+  // every frame regardless, including the ~80% of the entrance (and all of
+  // reduced-motion's indefinite idle) where opacity was already 1 and
+  // nothing needed touching. Once true, skip the traversal until opacity
+  // drops below 1 again (it never does post-entrance, but this keeps the
+  // logic correct rather than a one-shot flag).
+  const opacityIsOneRef = useRef(false);
 
   const p0 = useMemo(() => new THREE.Vector3(), []);
   const p1 = useMemo(() => new THREE.Vector3(), []);
@@ -197,8 +207,15 @@ export default function PiriAboutScene({ reducedMotion }: PiriAboutSceneProps) {
       flightGroup.current.position.set(...REDUCED_MOTION_START);
       flightGroup.current.quaternion.copy(REST_QUATERNION);
       const opacity = getAboutOpacity(e / 0.8);
-      setOpacity(clonedScene, opacity);
-      if (chestMaterial.current) chestMaterial.current.opacity = opacity;
+      if (opacity < 1) {
+        opacityIsOneRef.current = false;
+        setOpacity(clonedScene, opacity);
+        if (chestMaterial.current) chestMaterial.current.opacity = opacity;
+      } else if (!opacityIsOneRef.current) {
+        opacityIsOneRef.current = true;
+        setOpacity(clonedScene, 1);
+        if (chestMaterial.current) chestMaterial.current.opacity = 1;
+      }
       const flap = Math.sin(e * WING_FLAP_SPEED * 0.35) * WING_FLAP_AMPLITUDE * 0.18;
       if (wingLeft.current) wingLeft.current.rotation.z = flap;
       if (wingRight.current) wingRight.current.rotation.z = -flap;
@@ -227,8 +244,15 @@ export default function PiriAboutScene({ reducedMotion }: PiriAboutSceneProps) {
       flightGroup.current.quaternion.copy(restingQuat);
 
       const bodyOpacity = getAboutOpacity(t);
-      setOpacity(clonedScene, bodyOpacity);
-      if (chestMaterial.current) chestMaterial.current.opacity = bodyOpacity;
+      if (bodyOpacity < 1) {
+        opacityIsOneRef.current = false;
+        setOpacity(clonedScene, bodyOpacity);
+        if (chestMaterial.current) chestMaterial.current.opacity = bodyOpacity;
+      } else if (!opacityIsOneRef.current) {
+        opacityIsOneRef.current = true;
+        setOpacity(clonedScene, 1);
+        if (chestMaterial.current) chestMaterial.current.opacity = 1;
+      }
       wingIntensity = 1;
     } else {
       // Settled: fixed center position, small organic idle drift layered on
@@ -250,6 +274,7 @@ export default function PiriAboutScene({ reducedMotion }: PiriAboutSceneProps) {
 
       if (!settledOpacityAppliedRef.current) {
         settledOpacityAppliedRef.current = true;
+        opacityIsOneRef.current = true;
         setOpacity(clonedScene, 1);
         if (chestMaterial.current) chestMaterial.current.opacity = 1;
       }

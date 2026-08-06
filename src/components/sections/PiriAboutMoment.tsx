@@ -1,7 +1,12 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const PiriAboutScene = lazy(() => import('../hero/PiriAboutScene'));
+
+// Same breakpoint Header.tsx already uses to mean "mobile" — reused rather
+// than inventing a second threshold.
+const MOBILE_BREAKPOINT = '(max-width: 860px)';
 
 // Mounted inside `.piri-about-visual` (see AboutSection.tsx) — the existing
 // circular, clipped (overflow:hidden + border-radius:50%) "stage" that was
@@ -28,6 +33,7 @@ export default function PiriAboutMoment() {
   const [sectionVisible, setSectionVisible] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [tabVisible, setTabVisible] = useState(() => document.visibilityState === 'visible');
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
 
   useEffect(() => {
     setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -80,8 +86,8 @@ export default function PiriAboutMoment() {
             className="piri-about-canvas"
             frameloop={frameloop}
             camera={{ position: [0, 0, 9], fov: 32 }}
-            dpr={[1, 1.5]}
-            gl={{ alpha: true, antialias: true, powerPreference: 'low-power', failIfMajorPerformanceCaveat: false }}
+            dpr={isMobile ? 1 : [1, 1.5]}
+            gl={{ alpha: true, antialias: !isMobile, powerPreference: 'low-power', failIfMajorPerformanceCaveat: false }}
             style={{ willChange: 'transform, opacity' }}
           >
             <PiriAboutScene reducedMotion={reducedMotion} />

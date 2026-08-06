@@ -190,9 +190,9 @@
     "semantic_hash": "97172a049637b379bc848d5eee222382"
   },
   "src/hooks/useReveal.ts": {
-    "mtime": 1785787930.3410645,
-    "ast_hash": "33414e4ac7504021ac257f1a15975873",
-    "semantic_hash": "33414e4ac7504021ac257f1a15975873"
+    "mtime": 1786017876.2855163,
+    "ast_hash": "9dd1ee9e57d8d6b90939805121f6adc5",
+    "semantic_hash": ""
   },
   "src/hooks/useScrollDrift.ts": {
     "mtime": 1785837410.1485019,
@@ -445,13 +445,13 @@
     "semantic_hash": ""
   },
   "src/components/hero/PiriFlybyScene.tsx": {
-    "mtime": 1786015047.019945,
-    "ast_hash": "fda3dbb7577c7b0280960699781cdcfc",
+    "mtime": 1786018021.632478,
+    "ast_hash": "feca6e331901f890b7c23d599952a7bb",
     "semantic_hash": ""
   },
   "src/components/sections/PiriFlybyMoment.tsx": {
-    "mtime": 1786015019.518698,
-    "ast_hash": "3e7258bb23db4c86b6818d74fa0f2d44",
+    "mtime": 1786017950.2647069,
+    "ast_hash": "f02f1f98a6d7a9b05853945ff41810fd",
     "semantic_hash": ""
   },
   "src/lib/flybyState.ts": {
@@ -470,13 +470,13 @@
     "semantic_hash": ""
   },
   "src/components/hero/PiriAboutScene.tsx": {
-    "mtime": 1786012733.132095,
-    "ast_hash": "eec6cfdb6496b540cd56624d96343186",
+    "mtime": 1786017905.5886605,
+    "ast_hash": "5bd1ce396b5f4e24b78a56bb8091c6d5",
     "semantic_hash": ""
   },
   "src/components/sections/PiriAboutMoment.tsx": {
-    "mtime": 1786013390.5136845,
-    "ast_hash": "10293f48c3a38d20cdea58ae49c20cd3",
+    "mtime": 1786017931.2472093,
+    "ast_hash": "631a0370775305862786c1720973df25",
     "semantic_hash": ""
   },
   "src/lib/piriAboutTimeline.ts": {

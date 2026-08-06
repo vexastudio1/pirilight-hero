@@ -1,22 +1,21 @@
 # Graph Report - PiriLight-Hero  (2026-08-06)
 
 ## Corpus Check
-- 82 files · ~455,987 words
+- 82 files · ~456,307 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 604 nodes · 983 edges · 43 communities (32 shown, 11 thin omitted)
+- 604 nodes · 989 edges · 36 communities (25 shown, 11 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `68f4aab2`
+- Built from commit: `267bd982`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - PiriModel.tsx
-- Header.tsx
 - App.tsx
 - vercel.json
 - devDependencies
@@ -49,12 +48,6 @@
 - extraction-spec.md
 - logoLayout.ts
 - NightSky.tsx
-- Reveal.tsx
-- router.tsx
-- ProjectDetailPage.tsx
-- PrinciplesSection.tsx
-- ProcessSection.tsx
-- ServicesSection.tsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `clamp01()` - 29 edges
@@ -75,27 +68,23 @@
   docs/references/luz-viva-system/support.js → package.json
 - `getSubjectOpacity()` --calls--> `clamp01()`  [EXTRACTED]
   src/lib/scrollTimeline.ts → src/lib/introTimeline.ts
-- `AppRoutes()` --calls--> `getProjectBySlug()`  [EXTRACTED]
-  src/App.tsx → src/data/portfolio.ts
 - `BeamLayer()` --calls--> `getAbdomenCharge()`  [EXTRACTED]
   src/components/hero/IntroOverlay.tsx → src/lib/introTimeline.ts
+- `PiriModel()` --calls--> `getHoverTargetFrac()`  [EXTRACTED]
+  src/components/hero/PiriModel.tsx → src/lib/logoLayout.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (43 total, 11 thin omitted)
+## Communities (36 total, 11 thin omitted)
 
 ### Community 0 - "PiriModel.tsx"
 Cohesion: 0.06
 Nodes (83): applyWingFlap(), flapQuat, FLIGHT_POINTS_FRAC, PiriAboutScene(), PiriAboutSceneProps, REDUCED_MOTION_START, setOpacity(), twistQuat (+75 more)
 
-### Community 1 - "Header.tsx"
-Cohesion: 0.23
-Nodes (9): Header(), SECTION_IDS, NAV_CTA_LABEL, NAV_LINKS, NavLink, useActiveSection(), useHeroReleased(), useMediaQuery() (+1 more)
-
-### Community 2 - "App.tsx"
-Cohesion: 0.22
-Nodes (7): App(), AppRoutes(), Footer(), GlobalLightField(), PiriFlybyMoment(), PiriFlybyScene, useRouter()
+### Community 1 - "App.tsx"
+Cohesion: 0.05
+Nodes (50): App(), AppRoutes(), Footer(), GlobalLightField(), Header(), SECTION_IDS, AboutSection(), FinalCTA() (+42 more)
 
 ### Community 4 - "devDependencies"
 Cohesion: 0.09
@@ -177,30 +166,6 @@ Nodes (12): getHoverTargetFrac(), getLogoHeightPx(), getLogoWidthPx(), getModelS
 Cohesion: 0.06
 Nodes (43): AmbientParticles(), buildSprite(), makeParticle(), Particle, Hero(), PiriModel, BeamLayer(), LogoRevealLayer() (+35 more)
 
-### Community 37 - "Reveal.tsx"
-Cohesion: 0.21
-Nodes (8): AboutSection(), MissionSection(), PiriAboutMoment(), PiriAboutScene, ProblemSection(), Reveal(), RevealProps, useReveal()
-
-### Community 38 - "router.tsx"
-Cohesion: 0.20
-Nodes (9): FinalCTA(), Link, LinkProps, RouterContext, RouterContextValue, RouterProvider(), BENEFITS, icons (+1 more)
-
-### Community 39 - "ProjectDetailPage.tsx"
-Cohesion: 0.25
-Nodes (8): PortfolioSection(), getProjectBySlug(), PORTFOLIO_PROJECTS, PortfolioProject, CaseStudySection, icons, ProjectDetailPage(), ProjectDetailPageProps
-
-### Community 40 - "PrinciplesSection.tsx"
-Cohesion: 0.50
-Nodes (3): PrinciplesSection(), Principle, PRINCIPLES
-
-### Community 41 - "ProcessSection.tsx"
-Cohesion: 0.50
-Nodes (3): ProcessSection(), PROCESS_STAGES, ProcessStage
-
-### Community 42 - "ServicesSection.tsx"
-Cohesion: 0.50
-Nodes (3): ServicesSection(), Service, SERVICES
-
 ## Knowledge Gaps
 - **215 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+210 more)
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -217,9 +182,9 @@ _Questions this graph is uniquely positioned to answer:_
   _215 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `PiriModel.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.05542283803153368 - nodes in this community are weakly interconnected._
+- **Should `App.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.05092592592592592 - nodes in this community are weakly interconnected._
 - **Should `devDependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
-- **Should `compilerOptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
