@@ -1848,6 +1848,19 @@ mask-image: url('/brand/pirilight-logo.png');
 .piri-about-visual__glow {
   position: absolute;
   inset: -30%;
+  /* This element's own box (inset:-30% on every side) is a ~1.6x-larger
+     SQUARE than `.piri-about-visual`'s circle, and it was relying entirely
+     on that ancestor's `overflow: hidden` to clip it down to round —
+     nothing else about the gradient itself is round-edged once a `filter`
+     is involved. In practice that clip doesn't reliably hold once `filter:
+     blur()` is added: the blurred result was visibly leaking out to this
+     element's own square bounds (the "square behind Piri" bug), most
+     visible on mobile where the circle is a bigger fraction of the screen.
+     Giving the glow its own `border-radius: 50%` makes ITS OWN painted box
+     round, independent of whatever the ancestor's clip does or doesn't
+     catch — belt-and-suspenders with `.piri-about-visual`'s `overflow:
+     hidden`, not a replacement for it. */
+  border-radius: 50%;
   background: radial-gradient(circle, rgba(var(--section-glow-rgb), 0.42) 0%, transparent 70%);
   filter: blur(30px);
   transition: opacity 0.6s ease;

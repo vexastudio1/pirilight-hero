@@ -1,22 +1,23 @@
 # Graph Report - PiriLight-Hero  (2026-08-07)
 
 ## Corpus Check
-- 82 files · ~456,563 words
+- 81 files · ~456,022 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 604 nodes · 989 edges · 36 communities (25 shown, 11 thin omitted)
+- 596 nodes · 961 edges · 39 communities (28 shown, 11 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `16c168a4`
+- Built from commit: `106d80fc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - PiriModel.tsx
 - App.tsx
+- clamp01
 - vercel.json
 - devDependencies
 - package.json
@@ -46,45 +47,51 @@
 - graphify reference: transcribe video and audio
 - .claude/CLAUDE.md
 - extraction-spec.md
-- logoLayout.ts
+- introTimeline.ts
+- IntroOverlay.tsx
 - NightSky.tsx
+- PiriFlybyScene
 
 ## God Nodes (most connected - your core abstractions)
-1. `clamp01()` - 29 edges
+1. `clamp01()` - 25 edges
 2. `PiriModel()` - 18 edges
 3. `compilerOptions` - 16 edges
 4. `UI/UX Pro Max - Design Intelligence` - 13 edges
 5. `Reveal()` - 12 edges
-6. `easeOutCubic()` - 12 edges
-7. `What You Must Do When Invoked` - 12 edges
-8. `DesignSystemGenerator` - 11 edges
-9. `/graphify` - 11 edges
-10. `PiriAboutScene()` - 10 edges
+6. `What You Must Do When Invoked` - 12 edges
+7. `DesignSystemGenerator` - 11 edges
+8. `/graphify` - 11 edges
+9. `PiriFlybyScene()` - 10 edges
+10. `search()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `boot()` --references--> `react-dom`  [EXTRACTED]
   docs/references/luz-viva-system/support.js → package.json
 - `createComponentFactory()` --references--> `react`  [EXTRACTED]
   docs/references/luz-viva-system/support.js → package.json
-- `getSubjectOpacity()` --calls--> `clamp01()`  [EXTRACTED]
-  src/lib/scrollTimeline.ts → src/lib/introTimeline.ts
 - `BeamLayer()` --calls--> `getAbdomenCharge()`  [EXTRACTED]
   src/components/hero/IntroOverlay.tsx → src/lib/introTimeline.ts
-- `PiriModel()` --calls--> `getHoverTargetFrac()`  [EXTRACTED]
-  src/components/hero/PiriModel.tsx → src/lib/logoLayout.ts
+- `PiriFlybyScene()` --calls--> `getFlybyIntensity()`  [EXTRACTED]
+  src/components/hero/PiriFlybyScene.tsx → src/lib/flybyTimeline.ts
+- `PiriFlybyScene()` --calls--> `getFlybyProgress()`  [EXTRACTED]
+  src/components/hero/PiriFlybyScene.tsx → src/lib/flybyTimeline.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (36 total, 11 thin omitted)
+## Communities (39 total, 11 thin omitted)
 
 ### Community 0 - "PiriModel.tsx"
-Cohesion: 0.06
-Nodes (83): applyWingFlap(), flapQuat, FLIGHT_POINTS_FRAC, PiriAboutScene(), PiriAboutSceneProps, REDUCED_MOTION_START, setOpacity(), twistQuat (+75 more)
+Cohesion: 0.10
+Nodes (36): flapQuat, PiriAboutSceneProps, REDUCED_MOTION_START, twistQuat, wingDelta, flapQuat, FLY_ORIENTATION, FORWARD_LOCAL (+28 more)
 
 ### Community 1 - "App.tsx"
 Cohesion: 0.05
 Nodes (50): App(), AppRoutes(), Footer(), GlobalLightField(), Header(), SECTION_IDS, AboutSection(), FinalCTA() (+42 more)
+
+### Community 2 - "clamp01"
+Cohesion: 0.15
+Nodes (21): FLYBY_DURATION, FLYBY_EDGE_MARGIN, getFlybyIntensity(), getFlybyProgress(), getFlybySpeedFactor(), clamp01(), easeInCubic(), easeInOutSine() (+13 more)
 
 ### Community 4 - "devDependencies"
 Cohesion: 0.09
@@ -158,16 +165,24 @@ Nodes (3): For git commit hook, For native CLAUDE.md integration, graphify refer
 Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
-### Community 35 - "logoLayout.ts"
-Cohesion: 0.18
-Nodes (12): getHoverTargetFrac(), getLogoHeightPx(), getLogoWidthPx(), getModelScale(), LOGO_ASPECT, LOGO_BANDS, LOGO_WIDTH_BASE_PX, LOGO_WIDTH_CEILING_PX (+4 more)
+### Community 35 - "introTimeline.ts"
+Cohesion: 0.14
+Nodes (23): buildOrbitPoints(), PiriModel(), breathHump(), easeEntranceFlight, easeFinalApproach(), easeOrbitFlight, easeOutCubic(), getAbdomenBreath() (+15 more)
 
-### Community 36 - "NightSky.tsx"
-Cohesion: 0.06
-Nodes (43): AmbientParticles(), buildSprite(), makeParticle(), Particle, Hero(), PiriModel, BeamLayer(), LogoRevealLayer() (+35 more)
+### Community 36 - "IntroOverlay.tsx"
+Cohesion: 0.10
+Nodes (29): AmbientParticles(), buildSprite(), makeParticle(), Particle, Hero(), PiriModel, BeamLayer(), LogoRevealLayer() (+21 more)
+
+### Community 37 - "NightSky.tsx"
+Cohesion: 0.16
+Nodes (13): buildSprites(), CENTER_ELLIPSE, inCenterEllipse(), makeStar(), mulberry32(), NightSky(), pickSpriteBucket(), SPRITE_SIZES (+5 more)
+
+### Community 38 - "PiriFlybyScene"
+Cohesion: 0.24
+Nodes (9): applyWingFlap(), PiriAboutScene(), setOpacity(), applyWingFlap(), PiriFlybyScene(), getGlowTexture(), rigWingHinge(), tunePiriMaterials() (+1 more)
 
 ## Knowledge Gaps
-- **215 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+210 more)
+- **212 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+207 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -176,12 +191,12 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `devDependencies` connect `devDependencies` to `package.json`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **Why does `clamp01()` connect `PiriModel.tsx` to `NightSky.tsx`?**
+- **Why does `react-dom` connect `package.json` to `support.js`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _215 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _212 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `PiriModel.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.05542283803153368 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09581646423751687 - nodes in this community are weakly interconnected._
 - **Should `App.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.05092592592592592 - nodes in this community are weakly interconnected._
 - **Should `devDependencies` be split into smaller, more focused modules?**

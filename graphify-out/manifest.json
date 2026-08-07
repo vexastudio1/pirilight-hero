@@ -470,18 +470,13 @@
     "semantic_hash": ""
   },
   "src/components/hero/PiriAboutScene.tsx": {
-    "mtime": 1786017905.5886605,
-    "ast_hash": "5bd1ce396b5f4e24b78a56bb8091c6d5",
+    "mtime": 1786139012.7828486,
+    "ast_hash": "d50e6845f04ef7809bcff2da7ff86374",
     "semantic_hash": ""
   },
   "src/components/sections/PiriAboutMoment.tsx": {
     "mtime": 1786017931.2472093,
     "ast_hash": "631a0370775305862786c1720973df25",
-    "semantic_hash": ""
-  },
-  "src/lib/piriAboutTimeline.ts": {
-    "mtime": 1786011042.5656233,
-    "ast_hash": "bb08e927122a18d9bc82a42ae0e0ddda",
     "semantic_hash": ""
   },
   "public/projects/dj-m4rquez.webp": {

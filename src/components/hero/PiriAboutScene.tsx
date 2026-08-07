@@ -12,9 +12,7 @@ import {
   CHEST_GLOW_POSITION,
   CHEST_GLOW_SCALE,
   MODEL_URL,
-  NOSE_CORRECTION,
   REST_QUATERNION,
-  UP,
   WING_FLAP_AMPLITUDE,
   WING_FLAP_AXIS,
   WING_FLAP_SIGN,
@@ -26,12 +24,6 @@ import {
   rigWingHinge,
   tunePiriMaterials,
 } from './PiriModel';
-import {
-  getAboutEntranceDuration,
-  getAboutFaceRotateT,
-  getAboutFlightProgress,
-  getAboutOpacity,
-} from '../../lib/piriAboutTimeline';
 
 // The "Sobre a PiriLight" moment — reuses the exact same GLTF (drei's
 // URL-keyed cache, see MODEL_URL) as the hero and the Mission -> Services
@@ -49,23 +41,23 @@ import {
 // PiriModel.tsx already validated — not re-derived.
 //
 // Unlike the flyby (one-shot, unmounts when done), this scene never
-// "finishes": after the entrance it settles into an indefinite hover. The
-// wrapper (PiriAboutMoment.tsx) is what pauses/resumes rendering via the
-// Canvas's own `frameloop` prop when the section leaves the viewport or the
-// tab is backgrounded — this component doesn't need to know about that; it
-// just keeps advancing `elapsed` on whatever frames actually fire.
-
-// ---- Flight path (canvas-local world units, scaled by viewport half-extents) ----
-// Right -> left with a gentle S-curve, ending slightly toward the camera
-// (+Z) for depth, dead center (0,0). Deliberately NOT a straight line.
-const FLIGHT_POINTS_FRAC: Array<[number, number, number]> = [
-  [1.2, 0.14, -0.4],
-  [0.58, -0.2, -0.1],
-  [0.2, 0.09, 0.16],
-  [0, 0, 0.3],
-];
-
-const REDUCED_MOTION_START: [number, number, number] = [0, 0, 0.3];
+// "finishes" — it has no entrance phase at all, only the indefinite hover.
+// The wrapper (PiriAboutMoment.tsx) is what pauses/resumes rendering via
+// the Canvas's own `frameloop` prop when the section leaves the viewport or
+// the tab is backgrounded — this component doesn't need to know about
+// that; it just keeps advancing `elapsed` on whatever frames actually fire.
+//
+// There used to be a right-to-left flight-in (a CatmullRomCurve3 through
+// FLIGHT_POINTS_FRAC, tangent-following orientation, an opacity ramp) that
+// played once before settling into this same hover. Removed outright, not
+// just visually hidden: the user should never see Piri fly in from off-
+// circle — by the time this section is visible, Piri must already be in
+// exactly the pose the old entrance used to end on. `REST_Z` is that same
+// final resting depth the old flight path's last waypoint used to land on
+// (`[0, 0, 0.3]`), kept as the one number worth preserving so the hover
+// itself is pixel-identical to before, not re-tuned.
+const REST_Z = 0.3;
+const REDUCED_MOTION_START: [number, number, number] = [0, 0, REST_Z];
 
 // Calm-but-visible hover flap — reuses the hero's own flap formula/axes
 // (imported above) at a lower, steadier intensity than full-power flight,
@@ -139,47 +131,25 @@ export default function PiriAboutScene({ reducedMotion }: PiriAboutSceneProps) {
   const chestMaterial = useRef<THREE.MeshBasicMaterial>(null);
   const abdomenWorldPos = useMemo(() => new THREE.Vector3(), []);
   const elapsed = useRef(0);
-  // Tracks whether setOpacity(1) has already been asserted once for the
-  // settled hover — that phase runs indefinitely, so re-traversing every
-  // mesh every frame purely to re-confirm an opacity that never changes
-  // again would be wasted work for as long as the section stays in view.
+  // Tracks whether setOpacity(1) has already been asserted once — a full
+  // scene-graph traversal, worth doing exactly once rather than on every
+  // frame of the indefinite hover. There is no fade-in left to gate this
+  // on: full opacity is asserted on the very first frame that runs, before
+  // that frame is ever painted, so nothing is visibly transparent even
+  // momentarily.
   const settledOpacityAppliedRef = useRef(false);
-  // Same idea for the entrance/reduced-motion fade-in: getAboutOpacity
-  // reaches 1 after OPACITY_RISE_FRAC (~18%) of the entrance and then stays
-  // there, but the flying/reducedMotion branches used to call
-  // setOpacity(clonedScene, ...) — a full scene traversal — on literally
-  // every frame regardless, including the ~80% of the entrance (and all of
-  // reduced-motion's indefinite idle) where opacity was already 1 and
-  // nothing needed touching. Once true, skip the traversal until opacity
-  // drops below 1 again (it never does post-entrance, but this keeps the
-  // logic correct rather than a one-shot flag).
-  const opacityIsOneRef = useRef(false);
 
-  const p0 = useMemo(() => new THREE.Vector3(), []);
-  const p1 = useMemo(() => new THREE.Vector3(), []);
-  const lookMatrix = useMemo(() => new THREE.Matrix4(), []);
-  const tangentQuat = useMemo(() => new THREE.Quaternion(), []);
-  const restingQuat = useMemo(() => new THREE.Quaternion(), []);
   const idleQuat = useMemo(() => new THREE.Quaternion(), []);
-  const tangent = useMemo(() => new THREE.Vector3(), []);
-
-  const curve = useMemo(() => {
-    const halfW = viewport.width / 2;
-    const halfH = viewport.height / 2;
-    const pts = FLIGHT_POINTS_FRAC.map(([x, y, z]) => new THREE.Vector3(x * halfW, y * halfH, z));
-    return new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
-  }, [viewport.width, viewport.height]);
 
   useFrame((_, rawDelta) => {
     if (!flightGroup.current || !modelGroup.current) return;
     // Clamped so a long pause (frameloop toggled back on after the section
     // was scrolled out of view / tab backgrounded for a while) can't cause
-    // a single-frame jump in flap phase or entrance progress.
+    // a single-frame jump in flap/idle phase.
     const delta = Math.min(0.1, rawDelta);
     elapsed.current += delta;
     const e = elapsed.current;
 
-    const duration = getAboutEntranceDuration(size.width);
     const worldUnitsPerPixel = viewport.width / size.width;
     const targetWorldDiameter = (size.width * TARGET_DIAMETER_FRACTION) * worldUnitsPerPixel;
     const modelScale = targetWorldDiameter / naturalDiameter;
@@ -201,18 +171,13 @@ export default function PiriAboutScene({ reducedMotion }: PiriAboutSceneProps) {
     }
 
     if (reducedMotion) {
-      // No flight, no rotation sweep — a gentle fade into the exact center,
-      // already front-facing, with idle motion suppressed/near-static per
-      // "keep either very slow wing movement or a stable resting pose."
+      // Already in the final resting pose — front-facing, fully opaque,
+      // idle motion suppressed per "keep either very slow wing movement or
+      // a stable resting pose."
       flightGroup.current.position.set(...REDUCED_MOTION_START);
       flightGroup.current.quaternion.copy(REST_QUATERNION);
-      const opacity = getAboutOpacity(e / 0.8);
-      if (opacity < 1) {
-        opacityIsOneRef.current = false;
-        setOpacity(clonedScene, opacity);
-        if (chestMaterial.current) chestMaterial.current.opacity = opacity;
-      } else if (!opacityIsOneRef.current) {
-        opacityIsOneRef.current = true;
+      if (!settledOpacityAppliedRef.current) {
+        settledOpacityAppliedRef.current = true;
         setOpacity(clonedScene, 1);
         if (chestMaterial.current) chestMaterial.current.opacity = 1;
       }
@@ -222,69 +187,35 @@ export default function PiriAboutScene({ reducedMotion }: PiriAboutSceneProps) {
       return;
     }
 
-    const t = e / duration;
-    const flying = t < 1;
+    // No entrance phase: this scene initializes directly in the same
+    // settled hover an old right-to-left flight-in used to lead into —
+    // fixed center position, small organic idle drift layered on top,
+    // never enough to leave the circle. Same "layered incommensurate sine"
+    // technique as the hero's own idle personality, tuned smaller since
+    // this is a stationary portrait pose. A tiny forward/back (Z) breathing
+    // motion is layered in too — "tiny forward-and-back movement" — on top
+    // of the fixed resting Z (REST_Z, the old flight path's own final
+    // depth, kept so the pose itself is unchanged from before).
+    const floatY = Math.sin(e * 0.9 + 0.4) * 0.02 + Math.sin(e * 0.37 + 2.2) * 0.012;
+    const swayX = Math.sin(e * 0.6 + 1.3) * 0.015 + Math.sin(e * 1.4 + 3.1) * 0.006;
+    const driftZ = Math.sin(e * 0.44 + 0.8) * 0.025;
+    const idleRoll = Math.sin(e * 0.5 + 1.8) * 0.03 + Math.sin(e * 0.21 + 4.4) * 0.014;
+    const idlePitch = Math.sin(e * 0.33 + 0.9) * 0.018;
 
-    let wingIntensity: number;
+    flightGroup.current.position.set(swayX, floatY, REST_Z + driftZ);
+    idleQuat.setFromEuler(new THREE.Euler(idlePitch, 0, idleRoll));
+    flightGroup.current.quaternion.copy(REST_QUATERNION).multiply(idleQuat);
 
-    if (flying) {
-      const progress = getAboutFlightProgress(t);
-      curve.getPoint(progress, p0);
-      curve.getPoint(Math.min(1, progress + 0.0015), p1);
-      flightGroup.current.position.copy(p0);
-
-      if (tangent.copy(p1).sub(p0).lengthSq() > 1e-8) {
-        tangent.normalize();
-        lookMatrix.lookAt(p0, p1, UP);
-        tangentQuat.setFromRotationMatrix(lookMatrix).multiply(NOSE_CORRECTION);
-      }
-
-      const faceT = getAboutFaceRotateT(t);
-      restingQuat.copy(tangentQuat).slerp(REST_QUATERNION, faceT * faceT);
-      flightGroup.current.quaternion.copy(restingQuat);
-
-      const bodyOpacity = getAboutOpacity(t);
-      if (bodyOpacity < 1) {
-        opacityIsOneRef.current = false;
-        setOpacity(clonedScene, bodyOpacity);
-        if (chestMaterial.current) chestMaterial.current.opacity = bodyOpacity;
-      } else if (!opacityIsOneRef.current) {
-        opacityIsOneRef.current = true;
-        setOpacity(clonedScene, 1);
-        if (chestMaterial.current) chestMaterial.current.opacity = 1;
-      }
-      wingIntensity = 1;
-    } else {
-      // Settled: fixed center position, small organic idle drift layered on
-      // top — never enough to leave the circle. Same "layered incommensurate
-      // sine" technique as the hero's own idle personality, tuned smaller
-      // since this is a stationary portrait pose, not a hovering pre-charge
-      // beat. A tiny forward/back (Z) breathing motion is layered in too —
-      // "tiny forward-and-back movement" — on top of the fixed resting Z.
-      const floatY = Math.sin(e * 0.9 + 0.4) * 0.02 + Math.sin(e * 0.37 + 2.2) * 0.012;
-      const swayX = Math.sin(e * 0.6 + 1.3) * 0.015 + Math.sin(e * 1.4 + 3.1) * 0.006;
-      const driftZ = Math.sin(e * 0.44 + 0.8) * 0.025;
-      const idleRoll = Math.sin(e * 0.5 + 1.8) * 0.03 + Math.sin(e * 0.21 + 4.4) * 0.014;
-      const idlePitch = Math.sin(e * 0.33 + 0.9) * 0.018;
-
-      const restZ = curve.points[curve.points.length - 1].z;
-      flightGroup.current.position.set(swayX, floatY, restZ + driftZ);
-      idleQuat.setFromEuler(new THREE.Euler(idlePitch, 0, idleRoll));
-      flightGroup.current.quaternion.copy(REST_QUATERNION).multiply(idleQuat);
-
-      if (!settledOpacityAppliedRef.current) {
-        settledOpacityAppliedRef.current = true;
-        opacityIsOneRef.current = true;
-        setOpacity(clonedScene, 1);
-        if (chestMaterial.current) chestMaterial.current.opacity = 1;
-      }
-      wingIntensity = HOVER_WING_INTENSITY;
+    if (!settledOpacityAppliedRef.current) {
+      settledOpacityAppliedRef.current = true;
+      setOpacity(clonedScene, 1);
+      if (chestMaterial.current) chestMaterial.current.opacity = 1;
     }
 
     const flapPhaseLeft = e * WING_FLAP_SPEED;
     const flapPhaseRight = flapPhaseLeft + WING_PHASE_OFFSET;
-    applyWingFlap(wingLeft.current, restLeft.current, flapPhaseLeft, wingIntensity, WING_FLAP_SIGN.Wing_Left);
-    applyWingFlap(wingRight.current, restRight.current, flapPhaseRight, wingIntensity, WING_FLAP_SIGN.Wing_Right);
+    applyWingFlap(wingLeft.current, restLeft.current, flapPhaseLeft, HOVER_WING_INTENSITY, WING_FLAP_SIGN.Wing_Left);
+    applyWingFlap(wingRight.current, restRight.current, flapPhaseRight, HOVER_WING_INTENSITY, WING_FLAP_SIGN.Wing_Right);
   });
 
   return (

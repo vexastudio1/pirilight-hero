@@ -2475,7 +2475,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "ambientparticles.tsx"
     },
     {
@@ -2486,7 +2486,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_particle",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "particle"
     },
     {
@@ -2497,7 +2497,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_makeparticle",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "makeparticle()"
     },
     {
@@ -2508,7 +2508,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_buildsprite",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "buildsprite()"
     },
     {
@@ -2519,7 +2519,7 @@
       "_origin": "ast",
       "id": "src_components_hero_ambientparticles_ambientparticles",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "ambientparticles()"
     },
     {
@@ -2530,7 +2530,7 @@
       "_origin": "ast",
       "id": "src_components_hero_hero",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "hero.tsx"
     },
     {
@@ -2541,7 +2541,7 @@
       "_origin": "ast",
       "id": "src_components_hero_hero_pirimodel",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "pirimodel"
     },
     {
@@ -2552,7 +2552,7 @@
       "_origin": "ast",
       "id": "src_components_hero_hero_hero",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "hero()"
     },
     {
@@ -2563,7 +2563,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "introoverlay.tsx"
     },
     {
@@ -2574,7 +2574,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_reducedmotionquery",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "reducedmotionquery()"
     },
     {
@@ -2585,7 +2585,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_maskgradient",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "maskgradient()"
     },
     {
@@ -2596,7 +2596,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_beamlayer",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "beamlayer()"
     },
     {
@@ -2607,7 +2607,7 @@
       "_origin": "ast",
       "id": "src_components_hero_introoverlay_logoreveallayer",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logoreveallayer()"
     },
     {
@@ -2617,7 +2617,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_hero_nightsky",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "nightsky.tsx"
     },
@@ -2628,7 +2628,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_starlayer",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "starlayer"
     },
@@ -2639,7 +2639,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_star",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "star"
     },
@@ -2650,7 +2650,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_sprite_sizes",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "sprite_sizes"
     },
@@ -2661,7 +2661,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_center_ellipse",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "center_ellipse"
     },
@@ -2672,7 +2672,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_mulberry32",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "mulberry32()"
     },
@@ -2683,7 +2683,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_incenterellipse",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "incenterellipse()"
     },
@@ -2694,7 +2694,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_pickspritebucket",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "pickspritebucket()"
     },
@@ -2705,7 +2705,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_makestar",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "makestar()"
     },
@@ -2716,7 +2716,7 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_starcountsforwidth",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "starcountsforwidth()"
     },
@@ -2727,7 +2727,7 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_twinkle",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "twinkle()"
     },
@@ -2738,7 +2738,7 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_staticalpha",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "staticalpha()"
     },
@@ -2749,7 +2749,7 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_eastereggalpha",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "eastereggalpha()"
     },
@@ -2760,7 +2760,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_buildsprites",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "buildsprites()"
     },
@@ -2771,7 +2771,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "src_components_hero_nightsky_nightsky",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "nightsky()"
     },
@@ -2787,21 +2787,10 @@
       "norm_label": "piriaboutscene.tsx"
     },
     {
-      "label": "FLIGHT_POINTS_FRAC",
-      "file_type": "code",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "src_components_hero_piriaboutscene_flight_points_frac",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "flight_points_frac"
-    },
-    {
       "label": "REDUCED_MOTION_START",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L68",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_reduced_motion_start",
       "community": 0,
@@ -2812,7 +2801,7 @@
       "label": "PiriAboutSceneProps",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L85",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_piriaboutsceneprops",
       "community": 0,
@@ -2823,18 +2812,18 @@
       "label": "PiriAboutScene()",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L89",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_piriaboutscene",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "piriaboutscene()"
     },
     {
       "label": "flapQuat",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L316",
+      "source_location": "L247",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_flapquat",
       "community": 0,
@@ -2845,7 +2834,7 @@
       "label": "twistQuat",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L317",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_twistquat",
       "community": 0,
@@ -2856,7 +2845,7 @@
       "label": "wingDelta",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L318",
+      "source_location": "L249",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_wingdelta",
       "community": 0,
@@ -2867,22 +2856,22 @@
       "label": "applyWingFlap()",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L320",
+      "source_location": "L251",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_applywingflap",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "applywingflap()"
     },
     {
       "label": "setOpacity()",
       "file_type": "code",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L330",
+      "source_location": "L261",
       "_origin": "ast",
       "id": "src_components_hero_piriaboutscene_setopacity",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "setopacity()"
     },
     {
@@ -2947,8 +2936,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "src_components_hero_piriflybyscene_piriflybyscene",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "piriflybyscene()"
     },
     {
@@ -2991,8 +2980,8 @@
       "source_location": "L486",
       "_origin": "ast",
       "id": "src_components_hero_piriflybyscene_applywingflap",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "applywingflap()"
     },
     {
@@ -3112,8 +3101,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "src_components_hero_pirimodel_rigwinghinge",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "rigwinghinge()"
     },
     {
@@ -3211,8 +3200,8 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "src_components_hero_pirimodel_buildorbitpoints",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "buildorbitpoints()"
     },
     {
@@ -3255,8 +3244,8 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "src_components_hero_pirimodel_tunepirimaterials",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "tunepirimaterials()"
     },
     {
@@ -3266,8 +3255,8 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "src_components_hero_pirimodel_getglowtexture",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "getglowtexture()"
     },
     {
@@ -3321,8 +3310,8 @@
       "source_location": "L261",
       "_origin": "ast",
       "id": "src_components_hero_pirimodel_pirimodel",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "pirimodel()"
     },
     {
@@ -3916,7 +3905,7 @@
       "_origin": "ast",
       "id": "src_hooks_useintroframe",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "useintroframe.ts"
     },
     {
@@ -3927,7 +3916,7 @@
       "_origin": "ast",
       "id": "src_hooks_useintroframe_useintroframe",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "useintroframe()"
     },
     {
@@ -4004,7 +3993,7 @@
       "_origin": "ast",
       "id": "src_hooks_usescrolldrift",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "usescrolldrift.ts"
     },
     {
@@ -4015,7 +4004,7 @@
       "_origin": "ast",
       "id": "src_hooks_usescrolldrift_reducedmotionquery",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "reducedmotionquery()"
     },
     {
@@ -4026,7 +4015,7 @@
       "_origin": "ast",
       "id": "src_hooks_usescrolldrift_usescrolldrift",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "usescrolldrift()"
     },
     {
@@ -4036,8 +4025,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_flybysize",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "flybysize.ts"
     },
     {
@@ -4047,8 +4036,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_lib_flybysize_getflybytargetwidthpx",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 38,
+      "community_name": "PiriFlybyScene",
       "norm_label": "getflybytargetwidthpx()"
     },
     {
@@ -4058,7 +4047,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_flybystate",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "flybystate.ts"
     },
@@ -4069,7 +4058,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_lib_flybystate_flybystate",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "flybystate"
     },
@@ -4080,8 +4069,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_flybytimeline",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "flybytimeline.ts"
     },
     {
@@ -4091,8 +4080,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_lib_flybytimeline_flyby_duration",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "flyby_duration"
     },
     {
@@ -4102,8 +4091,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_lib_flybytimeline_flyby_edge_margin",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "flyby_edge_margin"
     },
     {
@@ -4113,8 +4102,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_lib_flybytimeline_getflybyprogress",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getflybyprogress()"
     },
     {
@@ -4124,8 +4113,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_lib_flybytimeline_getflybyspeedfactor",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getflybyspeedfactor()"
     },
     {
@@ -4135,8 +4124,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_lib_flybytimeline_getflybyintensity",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getflybyintensity()"
     },
     {
@@ -4147,7 +4136,7 @@
       "_origin": "ast",
       "id": "src_lib_introstate",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "introstate.ts"
     },
     {
@@ -4158,7 +4147,7 @@
       "_origin": "ast",
       "id": "src_lib_introstate_introstate",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "introstate"
     },
     {
@@ -4168,8 +4157,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_introtimeline",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "introtimeline.ts"
     },
     {
@@ -4179,8 +4168,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_lib_introtimeline_timeline",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "timeline"
     },
     {
@@ -4190,8 +4179,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_lib_introtimeline_introphase",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "introphase"
     },
     {
@@ -4201,8 +4190,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getphase",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getphase()"
     },
     {
@@ -4212,8 +4201,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_lib_introtimeline_clamp01",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "clamp01()"
     },
     {
@@ -4223,8 +4212,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_lib_introtimeline_easeoutcubic",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "easeoutcubic()"
     },
     {
@@ -4234,8 +4223,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "src_lib_introtimeline_easeincubic",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "easeincubic()"
     },
     {
@@ -4245,8 +4234,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "src_lib_introtimeline_easeinoutsine",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "easeinoutsine()"
     },
     {
@@ -4256,8 +4245,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "src_lib_introtimeline_smootherstep",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "smootherstep()"
     },
     {
@@ -4267,8 +4256,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "src_lib_introtimeline_makecubicbezier",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "makecubicbezier()"
     },
     {
@@ -4278,8 +4267,8 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "src_lib_introtimeline_easeentranceflight",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "easeentranceflight"
     },
     {
@@ -4289,8 +4278,8 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getentranceprogress",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getentranceprogress()"
     },
     {
@@ -4300,8 +4289,8 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "src_lib_introtimeline_easeorbitflight",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "easeorbitflight"
     },
     {
@@ -4311,8 +4300,8 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getorbitprogress",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getorbitprogress()"
     },
     {
@@ -4322,8 +4311,8 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "src_lib_introtimeline_easefinalapproach",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "easefinalapproach()"
     },
     {
@@ -4333,8 +4322,8 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "src_lib_introtimeline_gethoverarriveprogress",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "gethoverarriveprogress()"
     },
     {
@@ -4344,8 +4333,8 @@
       "source_location": "L176",
       "_origin": "ast",
       "id": "src_lib_introtimeline_gethoversettlebounce",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "gethoversettlebounce()"
     },
     {
@@ -4355,8 +4344,8 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getabdomencharge",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getabdomencharge()"
     },
     {
@@ -4367,7 +4356,7 @@
       "_origin": "ast",
       "id": "src_lib_introtimeline_getbeamopacity",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "getbeamopacity()"
     },
     {
@@ -4378,7 +4367,7 @@
       "_origin": "ast",
       "id": "src_lib_introtimeline_getrevealprogress",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "getrevealprogress()"
     },
     {
@@ -4389,7 +4378,7 @@
       "_origin": "ast",
       "id": "src_lib_introtimeline_getlivingflicker",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "getlivingflicker()"
     },
     {
@@ -4399,8 +4388,8 @@
       "source_location": "L253",
       "_origin": "ast",
       "id": "src_lib_introtimeline_breathhump",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "breathhump()"
     },
     {
@@ -4410,8 +4399,8 @@
       "source_location": "L265",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getabdomenbreath",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getabdomenbreath()"
     },
     {
@@ -4421,8 +4410,8 @@
       "source_location": "L273",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getatmospherebreath",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getatmospherebreath()"
     },
     {
@@ -4432,8 +4421,8 @@
       "source_location": "L283",
       "_origin": "ast",
       "id": "src_lib_introtimeline_gettrailemitstrength",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "gettrailemitstrength()"
     },
     {
@@ -4443,8 +4432,8 @@
       "source_location": "L293",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getexitlocalt",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getexitlocalt()"
     },
     {
@@ -4454,8 +4443,8 @@
       "source_location": "L300",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getexitprogress",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getexitprogress()"
     },
     {
@@ -4465,8 +4454,8 @@
       "source_location": "L306",
       "_origin": "ast",
       "id": "src_lib_introtimeline_getexitbodyopacity",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "getexitbodyopacity()"
     },
     {
@@ -4476,8 +4465,8 @@
       "source_location": "L312",
       "_origin": "ast",
       "id": "src_lib_introtimeline_issequencecomplete",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 35,
+      "community_name": "introTimeline.ts",
       "norm_label": "issequencecomplete()"
     },
     {
@@ -4487,8 +4476,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_logolayout",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logolayout.ts"
     },
     {
@@ -4498,8 +4487,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_lib_logolayout_logo_aspect",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logo_aspect"
     },
     {
@@ -4509,8 +4498,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_lib_logolayout_logo_width_floor_px",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logo_width_floor_px"
     },
     {
@@ -4520,8 +4509,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_lib_logolayout_logo_width_vw_coeff",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logo_width_vw_coeff"
     },
     {
@@ -4531,8 +4520,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_lib_logolayout_logo_width_base_px",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logo_width_base_px"
     },
     {
@@ -4542,8 +4531,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_lib_logolayout_logo_width_ceiling_px",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logo_width_ceiling_px"
     },
     {
@@ -4553,8 +4542,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "src_lib_logolayout_getlogowidthpx",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "getlogowidthpx()"
     },
     {
@@ -4564,8 +4553,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_lib_logolayout_getlogoheightpx",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "getlogoheightpx()"
     },
     {
@@ -4575,8 +4564,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "src_lib_logolayout_model_scale_desktop",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "model_scale_desktop"
     },
     {
@@ -4586,8 +4575,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_lib_logolayout_model_scale_mobile",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "model_scale_mobile"
     },
     {
@@ -4598,7 +4587,7 @@
       "_origin": "ast",
       "id": "src_lib_logolayout_getmodelscale",
       "community": 35,
-      "community_name": "logoLayout.ts",
+      "community_name": "introTimeline.ts",
       "norm_label": "getmodelscale()"
     },
     {
@@ -4608,8 +4597,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_lib_logolayout_logo_bands",
-      "community": 35,
-      "community_name": "logoLayout.ts",
+      "community": 36,
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "logo_bands"
     },
     {
@@ -4620,85 +4609,8 @@
       "_origin": "ast",
       "id": "src_lib_logolayout_gethovertargetfrac",
       "community": 35,
-      "community_name": "logoLayout.ts",
+      "community_name": "introTimeline.ts",
       "norm_label": "gethovertargetfrac()"
-    },
-    {
-      "label": "piriAboutTimeline.ts",
-      "file_type": "code",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_lib_piriabouttimeline",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "piriabouttimeline.ts"
-    },
-    {
-      "label": "ABOUT_ENTRANCE_DURATION_DESKTOP",
-      "file_type": "code",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L14",
-      "_origin": "ast",
-      "id": "src_lib_piriabouttimeline_about_entrance_duration_desktop",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "about_entrance_duration_desktop"
-    },
-    {
-      "label": "ABOUT_ENTRANCE_DURATION_MOBILE",
-      "file_type": "code",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L15",
-      "_origin": "ast",
-      "id": "src_lib_piriabouttimeline_about_entrance_duration_mobile",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "about_entrance_duration_mobile"
-    },
-    {
-      "label": "getAboutEntranceDuration()",
-      "file_type": "code",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L18",
-      "_origin": "ast",
-      "id": "src_lib_piriabouttimeline_getaboutentranceduration",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "getaboutentranceduration()"
-    },
-    {
-      "label": "getAboutFlightProgress()",
-      "file_type": "code",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L24",
-      "_origin": "ast",
-      "id": "src_lib_piriabouttimeline_getaboutflightprogress",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "getaboutflightprogress()"
-    },
-    {
-      "label": "getAboutFaceRotateT()",
-      "file_type": "code",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L34",
-      "_origin": "ast",
-      "id": "src_lib_piriabouttimeline_getaboutfacerotatet",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "getaboutfacerotatet()"
-    },
-    {
-      "label": "getAboutOpacity()",
-      "file_type": "code",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L47",
-      "_origin": "ast",
-      "id": "src_lib_piriabouttimeline_getaboutopacity",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
-      "norm_label": "getaboutopacity()"
     },
     {
       "label": "router.tsx",
@@ -4785,7 +4697,7 @@
       "_origin": "ast",
       "id": "src_lib_scrollstate",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "scrollstate.ts"
     },
     {
@@ -4796,7 +4708,7 @@
       "_origin": "ast",
       "id": "src_lib_scrollstate_scrolldriftstate",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "scrolldriftstate"
     },
     {
@@ -4807,7 +4719,7 @@
       "_origin": "ast",
       "id": "src_lib_scrollstate_scrollstate",
       "community": 36,
-      "community_name": "NightSky.tsx",
+      "community_name": "IntroOverlay.tsx",
       "norm_label": "scrollstate"
     },
     {
@@ -4817,8 +4729,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "scrolltimeline.ts"
     },
     {
@@ -4828,8 +4740,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_hold_end",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "hold_end"
     },
     {
@@ -4839,8 +4751,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_develop_end",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "develop_end"
     },
     {
@@ -4850,8 +4762,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_getscrollmastert",
-      "community": 0,
-      "community_name": "PiriModel.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getscrollmastert()"
     },
     {
@@ -4861,8 +4773,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_getsubjectopacity",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getsubjectopacity()"
     },
     {
@@ -4872,8 +4784,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_subject_max_shrink",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "subject_max_shrink"
     },
     {
@@ -4883,8 +4795,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_star_layer_drift",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "star_layer_drift"
     },
     {
@@ -4894,7 +4806,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_starlayername",
-      "community": 36,
+      "community": 37,
       "community_name": "NightSky.tsx",
       "norm_label": "starlayername"
     },
@@ -4905,8 +4817,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_getstarlayerscrollfactor",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getstarlayerscrollfactor()"
     },
     {
@@ -4916,8 +4828,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_getskybrightnessfactor",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getskybrightnessfactor()"
     },
     {
@@ -4927,8 +4839,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_getstardaylightdim",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getstardaylightdim()"
     },
     {
@@ -4938,8 +4850,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_tagline_lag",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "tagline_lag"
     },
     {
@@ -4949,8 +4861,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_ambient_drift",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "ambient_drift"
     },
     {
@@ -4960,8 +4872,8 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "src_lib_scrolltimeline_getambientscrollfactor",
-      "community": 36,
-      "community_name": "NightSky.tsx",
+      "community": 2,
+      "community_name": "clamp01",
       "norm_label": "getambientscrollfactor()"
     },
     {
@@ -11767,7 +11679,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L320",
+      "source_location": "L251",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11778,7 +11690,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L316",
+      "source_location": "L247",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11789,18 +11701,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
-      "target": "src_components_hero_piriaboutscene_flight_points_frac",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L89",
+      "source_location": "L81",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11811,7 +11712,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L85",
+      "source_location": "L77",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11822,7 +11723,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L68",
+      "source_location": "L60",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11833,7 +11734,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L330",
+      "source_location": "L261",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11844,7 +11745,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L317",
+      "source_location": "L248",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11855,7 +11756,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L318",
+      "source_location": "L249",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
@@ -11991,18 +11892,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
-      "target": "src_components_hero_pirimodel_nose_correction",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
       "target": "src_components_hero_pirimodel_rest_quaternion",
       "confidence_score": 1.0
     },
@@ -12028,18 +11917,6 @@
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene",
       "target": "src_components_hero_pirimodel_tunepirimaterials",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
-      "target": "src_components_hero_pirimodel_up",
       "confidence_score": 1.0
     },
     {
@@ -12127,71 +12004,11 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
-      "target": "src_lib_piriabouttimeline",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutentranceduration",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutfacerotatet",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutflightprogress",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutopacity",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L286",
+      "source_location": "L217",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene_piriaboutscene",
@@ -12203,7 +12020,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L212",
+      "source_location": "L181",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene_piriaboutscene",
@@ -12216,7 +12033,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L92",
+      "source_location": "L84",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene_piriaboutscene",
@@ -12228,7 +12045,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L128",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene_piriaboutscene",
@@ -12240,59 +12057,11 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L105",
+      "source_location": "L97",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_hero_piriaboutscene_piriaboutscene",
       "target": "src_components_hero_pirimodel_tunepirimaterials"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L182",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutentranceduration"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L242",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutfacerotatet"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L231",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutflightprogress"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/hero/PiriAboutScene.tsx",
-      "source_location": "L209",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_hero_piriaboutscene_piriaboutscene",
-      "target": "src_lib_piriabouttimeline_getaboutopacity"
     },
     {
       "relation": "contains",
@@ -15498,18 +15267,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_introtimeline",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/lib/scrollTimeline.ts",
       "source_location": "L8",
       "weight": 1.0,
@@ -15678,54 +15435,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_introtimeline_clamp01",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L36",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline_getaboutfacerotatet",
-      "target": "src_lib_introtimeline_clamp01"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L25",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline_getaboutflightprogress",
-      "target": "src_lib_introtimeline_clamp01"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L48",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline_getaboutopacity",
-      "target": "src_lib_introtimeline_clamp01"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/lib/scrollTimeline.ts",
       "source_location": "L8",
       "weight": 1.0,
@@ -15846,42 +15555,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_introtimeline_easeoutcubic",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L38",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline_getaboutfacerotatet",
-      "target": "src_lib_introtimeline_easeoutcubic"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L50",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline_getaboutopacity",
-      "target": "src_lib_introtimeline_easeoutcubic"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/lib/scrollTimeline.ts",
       "source_location": "L8",
       "weight": 1.0,
@@ -15913,30 +15586,6 @@
       "source": "src_lib_introtimeline_getrevealprogress",
       "target": "src_lib_introtimeline_easeinoutsine",
       "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_introtimeline_easeinoutsine",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L25",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline_getaboutflightprogress",
-      "target": "src_lib_introtimeline_easeinoutsine"
     },
     {
       "relation": "imports",
@@ -16200,72 +15849,6 @@
       "_origin": "ast",
       "source": "src_lib_logolayout_gethovertargetfrac",
       "target": "src_lib_logolayout_getlogoheightpx",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_piriabouttimeline_about_entrance_duration_desktop",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_piriabouttimeline_about_entrance_duration_mobile",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L18",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_piriabouttimeline_getaboutentranceduration",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L34",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_piriabouttimeline_getaboutfacerotatet",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_piriabouttimeline_getaboutflightprogress",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/piriAboutTimeline.ts",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_lib_piriabouttimeline",
-      "target": "src_lib_piriabouttimeline_getaboutopacity",
       "confidence_score": 1.0
     },
     {
@@ -18016,5 +17599,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "16c168a4f260cfde8ff998762512081087848644"
+  "built_at_commit": "106d80fc04e50f4e44feb80b4dedf77f0692b297"
 }
