@@ -75,6 +75,25 @@ html {
   scroll-behavior: smooth;
   /* Keeps anchor-jumped content from hiding under the fixed header. */
   scroll-padding-top: 5rem;
+  /* The actual root-level horizontal clip. Per the CSS overflow-propagation
+     rule, when only BODY declares a non-visible `overflow`, the UA hoists
+     that value to govern the VIEWPORT's own scrolling and resets BODY's
+     *used* value back to `visible` — so `body { overflow-x: hidden }` alone
+     never actually clips anything; it only suppresses body's own (already
+     nonexistent) scrollbar. That gap is exactly why decorative elements
+     positioned/sized past the viewport edge (see `.global-light__blob`
+     below) could still be dragged into view and why mobile browsers' touch
+     rubber-banding could still pan the whole page sideways. `clip` (not
+     `hidden`) so this never also perturbs `overflow-y`, which stays the
+     page's normal auto-scrolling — `clip`, unlike `hidden`/`auto`, doesn't
+     trigger the "other axis becomes auto" coupling the box below already
+     warns about. `hidden` declared first as a fallback for engines that
+     don't support `clip` — an unsupported value is dropped entirely, which
+     leaves the prior valid declaration (`hidden`) in effect, not `visible`.
+     Where `clip` IS supported, it wins (cascade: later same-property
+     declaration overrides). */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -84,7 +103,12 @@ html {
 }
 
 body {
+  /* Kept alongside the `html` rule above (belt-and-suspenders, not a
+     duplicate): whichever of the two ends up governing the viewport per
+     the propagation rule, both now agree. Same `hidden`-then-`clip`
+     fallback pair as `html`. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -728,6 +752,17 @@ mask-image: url('/brand/pirilight-logo.png');
 .content-flow {
   position: relative;
   z-index: 10;
+  /* X-axis only. On narrow viewports GlobalLightField's blobs (see below)
+     are centered off-axis (e.g. `left: 20%`/`74%`) with a width up to 78vw
+     — `left ± half-width` runs past 0%/100% for several of them, and since
+     this element intentionally has no `overflow: hidden` (see the comment
+     below on why), that horizontal excess was reaching all the way out to
+     `html`/`body`'s own clipping and was a direct contributor to the mobile
+     page becoming horizontally draggable. `overflow-x: clip` (not `hidden`)
+     clips only this axis — `overflow-y` is left at its default `visible`,
+     so the vertical bleed into neighbouring sections this whole layer
+     exists for is completely unaffected. */
+  overflow-x: clip;
   /* Same stop positions as before (only the alpha ceiling at each one was
      retuned) — eased down from a 0.88 ceiling to 0.6 so the brightened sky
      and GlobalLightField's blobs (both retuned alongside this) can actually

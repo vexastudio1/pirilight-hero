@@ -155,8 +155,8 @@
     "semantic_hash": "b6a6228c5314e02d30d7ca44290f64ce"
   },
   "src/data/portfolio.ts": {
-    "mtime": 1786056581.652176,
-    "ast_hash": "890ab676efce868404089735d66b8c53",
+    "mtime": 1785967098.7544086,
+    "ast_hash": "3f93b11040e1e5e107385e30819206ef",
     "semantic_hash": ""
   },
   "src/data/principles.ts": {
@@ -395,13 +395,13 @@
     "semantic_hash": ""
   },
   "src/lib/router.tsx": {
-    "mtime": 1786136231.3647509,
-    "ast_hash": "aef5ebf33ab6b58ce785d3ad8d5a4335",
+    "mtime": 1785967151.836774,
+    "ast_hash": "a505ee0a996b433f979aaaf90f5f618b",
     "semantic_hash": ""
   },
   "src/pages/ProjectDetailPage.tsx": {
-    "mtime": 1786050009.83959,
-    "ast_hash": "4be4ef175fb0a082a209827896bc01d4",
+    "mtime": 1785968476.089702,
+    "ast_hash": "7ebfecbcd84f3709a18bf06da408c7c8",
     "semantic_hash": ""
   },
   "vercel.json": {
@@ -410,18 +410,18 @@
     "semantic_hash": ""
   },
   "public/projects/autoformigal-project-card.webp": {
-    "mtime": 1786056206.9585433,
-    "ast_hash": "03bd38ebe11eec0d22274e42f5a954e0",
+    "mtime": 1785966502.116979,
+    "ast_hash": "2209c8268950696f58c8ea70f303f6e2",
     "semantic_hash": ""
   },
   "public/projects/beat-wave-project-card.webp": {
-    "mtime": 1786056219.7534404,
-    "ast_hash": "325e1a0ca639a0790735f02d9629af68",
+    "mtime": 1785966505.2119205,
+    "ast_hash": "f6ebfe3faaa57268006108976c34c7f6",
     "semantic_hash": ""
   },
   "public/projects/novo-usado-project-card.webp": {
-    "mtime": 1786055667.3780088,
-    "ast_hash": "d301f6d276106163f02e55261c321198",
+    "mtime": 1785966510.8173954,
+    "ast_hash": "4862f2862665e6aa2b15099dd8377c74",
     "semantic_hash": ""
   },
   "src/components/forms/ProjectEnquiryForm.tsx": {
@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "src/hooks/useMobileHeaderVisible.ts": {
-    "mtime": 1786135764.5614955,
-    "ast_hash": "8b4442a299f50c96d4fe37b6009dc1d0",
+    "mtime": 1785972684.1741288,
+    "ast_hash": "d81d57cca774aa70e2421f6c452077a4",
     "semantic_hash": ""
   },
   "src/components/hero/PiriFlybyScene.tsx": {
@@ -482,11 +482,6 @@
   "src/lib/piriAboutTimeline.ts": {
     "mtime": 1786011042.5656233,
     "ast_hash": "bb08e927122a18d9bc82a42ae0e0ddda",
-    "semantic_hash": ""
-  },
-  "public/projects/dj-m4rquez.webp": {
-    "mtime": 1786055577.9106412,
-    "ast_hash": "17273e30259269b592ff59fab3ecdefb",
     "semantic_hash": ""
   }
 }

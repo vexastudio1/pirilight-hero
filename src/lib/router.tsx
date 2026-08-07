@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useState,
   type AnchorHTMLAttributes,
   type ReactNode,
@@ -32,6 +33,48 @@ export function RouterProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
+  // Browsers restore the previous scroll offset on `popstate` by default
+  // (`history.scrollRestoration === 'auto'`) — fine for the pages it was
+  // designed for, but here it fights the "every route always starts at the
+  // top" rule below: Back could re-open a project page part-scrolled, or
+  // race the reset effect. `'manual'` hands scroll position fully to this
+  // router, which is exactly what the effect below then provides,
+  // consistently, for every navigation including Back/Forward.
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      const previous = window.history.scrollRestoration;
+      window.history.scrollRestoration = 'manual';
+      return () => {
+        window.history.scrollRestoration = previous;
+      };
+    }
+  }, []);
+
+  // The single, centralized "new route starts at the top" reset — covers
+  // every pathname change regardless of HOW it happened (a `<Link>` click
+  // below, the browser's own Back/Forward, or any future navigation path),
+  // so individual pages never need their own `window.scrollTo(0, 0)`.
+  //
+  // `useLayoutEffect`, not `useEffect`: it runs synchronously right after
+  // the new page's DOM has been committed but before the browser paints,
+  // so the reset lands before anything is visible — no bottom-of-page frame
+  // flashing before snapping to the top.
+  //
+  // The extra `requestAnimationFrame` follow-up guards against mobile
+  // Safari/Chrome's touch-momentum scrolling: tapping a `<Link>` while the
+  // previous flick-scroll is still decelerating can leave an inertial
+  // scroll animation running that keeps moving `scrollY` for a few more
+  // frames — including AFTER this effect's own synchronous reset — and
+  // since the new page is typically much shorter than the one the user was
+  // just on, that leftover momentum can drag the new page most of the way
+  // to ITS bottom. Re-asserting one frame later reliably wins that race
+  // without adding a visible delay.
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    const raf = requestAnimationFrame(() => window.scrollTo(0, 0));
+    return () => cancelAnimationFrame(raf);
+  }, [pathname]);
+
   const navigate = useCallback((to: string) => {
     const [path] = to.split('#');
     if (path && path !== window.location.pathname) {
@@ -43,6 +86,10 @@ export function RouterProvider({ children }: { children: ReactNode }) {
       window.location.hash = to;
       return;
     }
+    // Handles the one case the effect above can't: navigating to the SAME
+    // pathname (e.g. the header brand link while already on "/"). No
+    // pathname change means the effect's dependency never fires, so this
+    // stays as the direct reset for that specific case.
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
 

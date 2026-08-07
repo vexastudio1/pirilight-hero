@@ -1,0 +1,439 @@
+{
+  "communities": {
+    "0": [
+      "src_components_hero_pirimodel",
+      "src_components_hero_pirimodel_abdomen_local",
+      "src_components_hero_pirimodel_buildorbitpoints",
+      "src_components_hero_pirimodel_entrance_points",
+      "src_components_hero_pirimodel_getglowtexture",
+      "src_components_hero_pirimodel_nose_correction",
+      "src_components_hero_pirimodel_orbit_center",
+      "src_components_hero_pirimodel_orbit_radius",
+      "src_components_hero_pirimodel_pirimodel",
+      "src_components_hero_pirimodel_rest_euler",
+      "src_components_hero_pirimodel_rest_quaternion",
+      "src_components_hero_pirimodel_rigwinghinge",
+      "src_components_hero_pirimodel_up",
+      "src_components_hero_pirimodel_wing_flap_axis",
+      "src_components_hero_pirimodel_wing_flap_sign",
+      "src_components_hero_pirimodel_wing_root_local",
+      "src_components_hero_pirimodel_wing_twist_axis",
+      "src_lib_introtimeline",
+      "src_lib_introtimeline_clamp01",
+      "src_lib_introtimeline_easeincubic",
+      "src_lib_introtimeline_easeinoutsine",
+      "src_lib_introtimeline_easeoutcubic",
+      "src_lib_introtimeline_getabdomencharge",
+      "src_lib_introtimeline_getentranceprogress",
+      "src_lib_introtimeline_getexitbodyopacity",
+      "src_lib_introtimeline_getexitlocalt",
+      "src_lib_introtimeline_getexitprogress",
+      "src_lib_introtimeline_gethoverarriveprogress",
+      "src_lib_introtimeline_gethoversettlebounce",
+      "src_lib_introtimeline_getorbitprogress",
+      "src_lib_introtimeline_getphase",
+      "src_lib_introtimeline_gettrailemitstrength",
+      "src_lib_introtimeline_introphase",
+      "src_lib_introtimeline_issequencecomplete",
+      "src_lib_introtimeline_smoothstep",
+      "src_lib_introtimeline_timeline",
+      "src_lib_scrolltimeline_getscrollmastert"
+    ],
+    "1": [
+      "src_app",
+      "src_app_app",
+      "src_components_sections_aboutsection",
+      "src_components_sections_aboutsection_aboutsection",
+      "src_components_sections_finalcta",
+      "src_components_sections_finalcta_finalcta",
+      "src_components_sections_missionsection",
+      "src_components_sections_missionsection_missionsection",
+      "src_components_sections_portfoliosection",
+      "src_components_sections_portfoliosection_portfoliosection",
+      "src_components_sections_principlessection",
+      "src_components_sections_principlessection_principlessection",
+      "src_components_sections_problemsection",
+      "src_components_sections_problemsection_problemsection",
+      "src_components_sections_processsection",
+      "src_components_sections_processsection_processsection",
+      "src_components_sections_servicessection",
+      "src_components_sections_servicessection_servicessection",
+      "src_components_ui_reveal",
+      "src_components_ui_reveal_reveal",
+      "src_components_ui_reveal_revealprops",
+      "src_data_portfolio",
+      "src_data_portfolio_portfolio_projects",
+      "src_data_portfolio_portfolioproject",
+      "src_data_principles",
+      "src_data_principles_principle",
+      "src_data_principles_principles",
+      "src_data_process",
+      "src_data_process_process_stages",
+      "src_data_process_processstage",
+      "src_data_services",
+      "src_data_services_service",
+      "src_data_services_services",
+      "src_hooks_usereveal",
+      "src_hooks_usereveal_usereveal",
+      "src_main"
+    ],
+    "2": [
+      "src_components_hero_ambientparticles",
+      "src_components_hero_ambientparticles_ambientparticles",
+      "src_components_hero_ambientparticles_buildsprite",
+      "src_components_hero_ambientparticles_makeparticle",
+      "src_components_hero_ambientparticles_particle",
+      "src_components_hero_hero",
+      "src_components_hero_hero_hero",
+      "src_components_hero_hero_pirimodel",
+      "src_components_hero_introoverlay",
+      "src_components_hero_introoverlay_beamlayer",
+      "src_components_hero_introoverlay_logoreveallayer",
+      "src_components_hero_introoverlay_maskgradient",
+      "src_components_hero_introoverlay_reducedmotionquery",
+      "src_hooks_useintroframe",
+      "src_hooks_useintroframe_useintroframe",
+      "src_hooks_usescrolldrift",
+      "src_hooks_usescrolldrift_reducedmotionquery",
+      "src_hooks_usescrolldrift_usescrolldrift",
+      "src_lib_introstate",
+      "src_lib_introstate_introstate",
+      "src_lib_introtimeline_getbeamopacity",
+      "src_lib_introtimeline_getlivingflicker",
+      "src_lib_introtimeline_getrevealprogress",
+      "src_lib_scrollstate",
+      "src_lib_scrollstate_scrolldriftstate",
+      "src_lib_scrollstate_scrollstate",
+      "src_lib_scrolltimeline_getambientscrollfactor"
+    ],
+    "3": [
+      "src_components_hero_nightsky",
+      "src_components_hero_nightsky_buildsprites",
+      "src_components_hero_nightsky_center_ellipse",
+      "src_components_hero_nightsky_eastereggalpha",
+      "src_components_hero_nightsky_incenterellipse",
+      "src_components_hero_nightsky_makestar",
+      "src_components_hero_nightsky_mulberry32",
+      "src_components_hero_nightsky_nightsky",
+      "src_components_hero_nightsky_pickspritebucket",
+      "src_components_hero_nightsky_sprite_sizes",
+      "src_components_hero_nightsky_star",
+      "src_components_hero_nightsky_starcountsforwidth",
+      "src_components_hero_nightsky_starlayer",
+      "src_components_hero_nightsky_twinkle",
+      "src_lib_scrolltimeline",
+      "src_lib_scrolltimeline_ambient_drift",
+      "src_lib_scrolltimeline_develop_end",
+      "src_lib_scrolltimeline_getskybrightnessfactor",
+      "src_lib_scrolltimeline_getstarlayerscrollfactor",
+      "src_lib_scrolltimeline_getsubjectopacity",
+      "src_lib_scrolltimeline_hold_end",
+      "src_lib_scrolltimeline_star_layer_drift",
+      "src_lib_scrolltimeline_starlayername",
+      "src_lib_scrolltimeline_subject_max_shrink",
+      "src_lib_scrolltimeline_tagline_lag"
+    ],
+    "4": [
+      "gltf_transform_cli",
+      "gltf_transform_core",
+      "gltf_transform_extensions",
+      "gltf_transform_functions",
+      "package_devdependencies",
+      "package_devdependencies_gltf_transform_cli",
+      "package_devdependencies_gltf_transform_core",
+      "package_devdependencies_gltf_transform_extensions",
+      "package_devdependencies_gltf_transform_functions",
+      "package_devdependencies_sharp",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_types_three",
+      "package_devdependencies_typescript",
+      "package_devdependencies_vite",
+      "package_devdependencies_vitejs_plugin_react",
+      "sharp",
+      "types_react",
+      "types_react_dom",
+      "types_three",
+      "typescript",
+      "vite",
+      "vitejs_plugin_react"
+    ],
+    "5": [
+      "package",
+      "package_dependencies",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_three_drei",
+      "package_dependencies_react_three_fiber",
+      "package_dependencies_three",
+      "package_name",
+      "package_overrides",
+      "package_overrides_sharp",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_preview",
+      "package_type",
+      "package_version",
+      "react",
+      "react_dom",
+      "react_three_drei",
+      "react_three_fiber",
+      "three"
+    ],
+    "6": [
+      "ref_dom",
+      "ref_dom_iterable",
+      "ref_es2020",
+      "ref_src",
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowimportingtsextensions",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_nofallthroughcasesinswitch",
+      "tsconfig_compileroptions_nounusedlocals",
+      "tsconfig_compileroptions_nounusedparameters",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_compileroptions_usedefineforclassfields",
+      "tsconfig_include"
+    ],
+    "7": [
+      "src_components_layout_footer",
+      "src_components_layout_footer_footer",
+      "src_components_layout_header",
+      "src_components_layout_header_header",
+      "src_components_layout_header_section_ids",
+      "src_data_navigation",
+      "src_data_navigation_nav_cta_label",
+      "src_data_navigation_nav_links",
+      "src_data_navigation_navlink",
+      "src_hooks_useactivesection",
+      "src_hooks_useactivesection_useactivesection",
+      "src_hooks_useheroreleased",
+      "src_hooks_useheroreleased_useheroreleased"
+    ],
+    "8": [
+      "src_lib_logolayout",
+      "src_lib_logolayout_gethovertargetfrac",
+      "src_lib_logolayout_getlogoheightpx",
+      "src_lib_logolayout_getlogowidthpx",
+      "src_lib_logolayout_getmodelscale",
+      "src_lib_logolayout_logo_aspect",
+      "src_lib_logolayout_logo_bands",
+      "src_lib_logolayout_logo_width_base_px",
+      "src_lib_logolayout_logo_width_ceiling_px",
+      "src_lib_logolayout_logo_width_floor_px",
+      "src_lib_logolayout_logo_width_vw_coeff",
+      "src_lib_logolayout_model_scale_desktop",
+      "src_lib_logolayout_model_scale_mobile"
+    ],
+    "9": [
+      "scripts_measure_logo_layout",
+      "scripts_measure_logo_layout_at",
+      "scripts_measure_logo_layout_bands",
+      "scripts_measure_logo_layout_bg",
+      "scripts_measure_logo_layout_img",
+      "scripts_measure_logo_layout_iscontent",
+      "scripts_measure_logo_layout_rowdensity"
+    ],
+    "10": [
+      "scripts_measure_abdomen",
+      "scripts_measure_abdomen_bodymesh",
+      "scripts_measure_abdomen_count",
+      "scripts_measure_abdomen_io",
+      "scripts_measure_abdomen_pos",
+      "scripts_measure_abdomen_root"
+    ],
+    "11": [
+      "scripts_recolor_glow",
+      "scripts_recolor_glow_deep",
+      "scripts_recolor_glow_hot",
+      "scripts_recolor_glow_lerp",
+      "scripts_recolor_glow_main",
+      "scripts_recolor_glow_smoothstep"
+    ],
+    "12": [
+      "scripts_measure_band_widths",
+      "scripts_measure_band_widths_bands",
+      "scripts_measure_band_widths_img",
+      "scripts_measure_band_widths_iscontent"
+    ],
+    "13": [
+      "scripts_strip_cube_node",
+      "scripts_strip_cube_node_cubenode",
+      "scripts_strip_cube_node_io",
+      "scripts_strip_cube_node_root"
+    ],
+    "14": [
+      "scripts_analyze_logo",
+      "scripts_analyze_logo_bg",
+      "scripts_analyze_logo_img"
+    ],
+    "15": [
+      "scripts_decode_b64",
+      "scripts_decode_b64_b64"
+    ],
+    "16": [
+      "scripts_extract_textures",
+      "scripts_extract_textures_buf"
+    ],
+    "17": [
+      "scripts_find_bright_region",
+      "scripts_find_bright_region_img"
+    ],
+    "18": [
+      "scripts_make_chest_p"
+    ],
+    "19": [
+      "src_vite_env_d"
+    ],
+    "20": [
+      "vite_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.11411411411411411,
+    "1": 0.10317460317460317,
+    "2": 0.150997150997151,
+    "3": 0.11,
+    "4": 0.08695652173913043,
+    "5": 0.09090909090909091,
+    "6": 0.09090909090909091,
+    "7": 0.24358974358974358,
+    "8": 0.1794871794871795,
+    "9": 0.2857142857142857,
+    "10": 0.3333333333333333,
+    "11": 0.4666666666666667,
+    "12": 0.5,
+    "13": 0.5,
+    "14": 0.6666666666666666,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_lib_introtimeline_clamp01",
+      "label": "clamp01()",
+      "degree": 16
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "src_components_hero_pirimodel_pirimodel",
+      "label": "PiriModel()",
+      "degree": 15
+    },
+    {
+      "id": "src_components_ui_reveal_reveal",
+      "label": "Reveal()",
+      "degree": 10
+    },
+    {
+      "id": "src_lib_introtimeline_easeoutcubic",
+      "label": "easeOutCubic()",
+      "degree": 8
+    },
+    {
+      "id": "src_components_hero_introoverlay_logoreveallayer",
+      "label": "LogoRevealLayer()",
+      "degree": 7
+    },
+    {
+      "id": "src_components_hero_introoverlay_beamlayer",
+      "label": "BeamLayer()",
+      "degree": 6
+    },
+    {
+      "id": "src_components_hero_nightsky_nightsky",
+      "label": "NightSky()",
+      "degree": 6
+    },
+    {
+      "id": "src_lib_introtimeline_easeinoutsine",
+      "label": "easeInOutSine()",
+      "degree": 6
+    },
+    {
+      "id": "src_lib_introtimeline_getbeamopacity",
+      "label": "getBeamOpacity()",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "getSubjectOpacity()",
+      "target": "clamp01()",
+      "source_files": [
+        "src/lib/scrollTimeline.ts",
+        "src/lib/introTimeline.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `getSubjectOpacity()` unexpectedly reaches hub `clamp01()`"
+    },
+    {
+      "source": "PiriModel()",
+      "target": "getHoverTargetFrac()",
+      "source_files": [
+        "src/components/hero/PiriModel.tsx",
+        "src/lib/logoLayout.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "PiriModel()",
+      "target": "getModelScale()",
+      "source_files": [
+        "src/components/hero/PiriModel.tsx",
+        "src/lib/logoLayout.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "getAmbientScrollFactor()",
+      "target": "clamp01()",
+      "source_files": [
+        "src/lib/scrollTimeline.ts",
+        "src/lib/introTimeline.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "getSkyBrightnessFactor()",
+      "target": "clamp01()",
+      "source_files": [
+        "src/lib/scrollTimeline.ts",
+        "src/lib/introTimeline.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}
